@@ -1,7 +1,10 @@
 package com.wzdsqyy.applibDemo.main;
 
+import com.wzdsqyy.applibDemo.ImageSelector.ImageSelectorActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
+import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
+import com.wzdsqyy.applibDemo.shapview.RoundAngleActivity;
 import com.wzdsqyy.applibDemo.text.TextLineHelperActivity;
 import com.wzdsqyy.applibDemo.updata.UpdataActivity;
 
@@ -19,6 +22,9 @@ public class MainHelper {
         list.add(new Bean("Banner",BannerActivity.class));
         list.add(new Bean("文字的展开与收缩",TextLineHelperActivity.class));
         list.add(new Bean("升级",UpdataActivity.class));
+        list.add(new Bean("图片选择",ImageSelectorActivity.class));
+        list.add(new Bean("任意View圆角",RoundAngleActivity.class));
+        list.add(new Bean("创建Activity",ReCreateActivity.class));
         return list;
     }
 }

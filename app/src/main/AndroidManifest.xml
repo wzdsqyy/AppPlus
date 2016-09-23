@@ -2,12 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.wzdsqyy.applibDemo">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission-sdk-23 android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission-sdk-23 android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name=".main.App"
         android:allowBackup="true"
@@ -27,7 +33,11 @@
         <activity android:name=".banner.ui.activity.ListViewDemoActivity" />
         <activity android:name=".banner.ui.activity.MainActivity" />
         <activity android:name=".text.TextLineHelperActivity" />
-        <activity android:name=".updata.UpdataActivity"></activity>
+        <activity android:name=".updata.UpdataActivity" />
+        <activity android:name=".ImageSelector.ImageSelectorActivity" />
+        <activity android:name=".shapview.RoundAngleActivity" />
+        <activity android:name=".recreate.ReCreateActivity" />
+        <activity android:name=".jsbridge.JsBridgeActivity"></activity>
     </application>
 
 </manifest>

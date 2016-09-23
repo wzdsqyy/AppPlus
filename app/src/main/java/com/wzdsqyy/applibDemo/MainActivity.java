@@ -2,6 +2,7 @@ package com.wzdsqyy.applibDemo;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.wzdsqyy.applibDemo.main.AppAdapter;

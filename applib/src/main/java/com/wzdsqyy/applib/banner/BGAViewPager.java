@@ -33,41 +33,23 @@ public class BGAViewPager extends ViewPager {
     private static Method setChildrenDrawingOrderEnabledCompatMethod;
     static {
         try {
-            if (mScrollField == null) {
-                mScrollField = ViewPager.class.getDeclaredField("mScroller");
-                mScrollField.setAccessible(true);
-            }
-            if (pageTransformerField == null) {
-                pageTransformerField = ViewPager.class.getDeclaredField("mPageTransformer");
-                pageTransformerField.setAccessible(true);
-            }
-            if (setCurrentItemInternalMethod == null) {
-                setCurrentItemInternalMethod = ViewPager.class.getDeclaredMethod("setCurrentItemInternal", int.class, boolean.class, boolean.class);
-                setCurrentItemInternalMethod.setAccessible(true);
-            }
-            if (mVelocityTrackerField == null) {
-                mVelocityTrackerField = ViewPager.class.getDeclaredField("mVelocityTracker");
-                mVelocityTrackerField.setAccessible(true);
-            }
-            if (activePointerIdField == null) {
-                activePointerIdField = ViewPager.class.getDeclaredField("mActivePointerId");
-                activePointerIdField.setAccessible(true);
-            }
-            if (maximumVelocityField == null) {
-                maximumVelocityField = ViewPager.class.getDeclaredField("mMaximumVelocity");
-                maximumVelocityField.setAccessible(true);
-            }
-            if (populateMethod == null) {
-                populateMethod = ViewPager.class.getDeclaredMethod("populate");
-            }
-            if (setChildrenDrawingOrderEnabledCompatMethod == null) {
-                setChildrenDrawingOrderEnabledCompatMethod = ViewPager.class.getDeclaredMethod("setChildrenDrawingOrderEnabledCompat", boolean.class);
-                setChildrenDrawingOrderEnabledCompatMethod.setAccessible(true);
-            }
-            if (drawingOrderField == null) {
-                drawingOrderField = ViewPager.class.getDeclaredField("mDrawingOrder");
-                drawingOrderField.setAccessible(true);
-            }
+            mScrollField = ViewPager.class.getDeclaredField("mScroller");
+            mScrollField.setAccessible(true);
+            pageTransformerField = ViewPager.class.getDeclaredField("mPageTransformer");
+            pageTransformerField.setAccessible(true);
+            setCurrentItemInternalMethod = ViewPager.class.getDeclaredMethod("setCurrentItemInternal", int.class, boolean.class, boolean.class);
+            setCurrentItemInternalMethod.setAccessible(true);
+            mVelocityTrackerField = ViewPager.class.getDeclaredField("mVelocityTracker");
+            mVelocityTrackerField.setAccessible(true);
+            activePointerIdField = ViewPager.class.getDeclaredField("mActivePointerId");
+            activePointerIdField.setAccessible(true);
+            maximumVelocityField = ViewPager.class.getDeclaredField("mMaximumVelocity");
+            maximumVelocityField.setAccessible(true);
+            populateMethod = ViewPager.class.getDeclaredMethod("populate");
+            setChildrenDrawingOrderEnabledCompatMethod = ViewPager.class.getDeclaredMethod("setChildrenDrawingOrderEnabledCompat", boolean.class);
+            setChildrenDrawingOrderEnabledCompatMethod.setAccessible(true);
+            drawingOrderField = ViewPager.class.getDeclaredField("mDrawingOrder");
+            drawingOrderField.setAccessible(true);
         }catch (Exception e) {
 
         }
