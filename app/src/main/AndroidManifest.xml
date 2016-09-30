@@ -37,7 +37,9 @@
         <activity android:name=".ImageSelector.ImageSelectorActivity" />
         <activity android:name=".shapview.RoundAngleActivity" />
         <activity android:name=".recreate.ReCreateActivity" />
-        <activity android:name=".jsbridge.JsBridgeActivity"></activity>
+        <activity android:name=".jsbridge.JsBridgeActivity" />
+        <activity android:name=".sticky.StickyActivity" />
+        <activity android:name=".blur.BlurActivity"></activity>
     </application>
 
 </manifest>

@@ -35,7 +35,9 @@ public abstract class TabbarFragment extends BaseFragment implements Tabbar,Tabb
 
     @Override
     public void hidePage(BaseFragment page) {
-        beginTransaction().hide(page).commit();
+        if(isVisible()){
+            beginTransaction().hide(page).commit();
+        }
     }
 
     @Override

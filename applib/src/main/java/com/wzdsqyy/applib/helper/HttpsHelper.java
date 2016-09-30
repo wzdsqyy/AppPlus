@@ -1,7 +1,5 @@
 package com.wzdsqyy.applib.helper;
 
-import android.os.Build;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.compat.BuildConfig;
 import android.util.Log;

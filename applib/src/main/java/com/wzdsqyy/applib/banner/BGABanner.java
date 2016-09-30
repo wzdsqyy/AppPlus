@@ -85,7 +85,6 @@ public class BGABanner extends RelativeLayout implements BGAViewPager.AutoPlayDe
 
     private void initDefaultAttrs(Context context) {
         mAutoPlayTask = new AutoPlayTask(this);
-
         mPointLeftRightMargin = BGABannerUtil.dp2px(context, 3);
         mPointTopBottomMargin = BGABannerUtil.dp2px(context, 6);
         mPointContainerLeftRightPadding = BGABannerUtil.dp2px(context, 10);
