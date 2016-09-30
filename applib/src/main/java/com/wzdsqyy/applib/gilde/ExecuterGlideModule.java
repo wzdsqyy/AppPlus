@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.helper;
+package com.wzdsqyy.applib.gilde;
 
 import android.content.Context;
 
@@ -6,6 +6,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.GlideBuilder;
 import com.bumptech.glide.load.DecodeFormat;
 import com.bumptech.glide.module.GlideModule;
+import com.wzdsqyy.applib.helper.AsyncTaskFixedHelper;
 
 /**
  * Created by Administrator on 2016/9/30.
