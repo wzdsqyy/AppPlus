@@ -1,12 +1,11 @@
 package com.wzdsqyy.applibDemo.blur;
 
 import android.graphics.Color;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.wzdsqyy.applib.drawable.BlurDrawable;
+import com.wzdsqyy.applib.ui.drawable.BlurDrawable;
 import com.wzdsqyy.applibDemo.R;
 
 public class BlurActivity extends AppCompatActivity {
@@ -27,13 +26,5 @@ public class BlurActivity extends AppCompatActivity {
 //所以相对位置偏移为0
         drawable.setDrawOffset(0, 0);
         findViewById(R.id.bulrview).setBackgroundDrawable(drawable);
-
-
-        AsyncTask.THREAD_POOL_EXECUTOR
-
-
-
-
-
     }
 }

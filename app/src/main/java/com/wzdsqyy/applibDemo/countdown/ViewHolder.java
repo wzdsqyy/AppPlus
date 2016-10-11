@@ -2,9 +2,9 @@ package com.wzdsqyy.applibDemo.countdown;
 
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.countdown.CountDownHelper;
 import com.wzdsqyy.applib.countdown.CountDownListener;
-import com.wzdsqyy.applib.countdown.ListTimerSupport;
+import com.wzdsqyy.applib.countdown.CountDownTask;
+import com.wzdsqyy.applib.countdown.TimerSupport;
 
 /**
  * Created by Administrator on 2016/9/21.
@@ -12,16 +12,19 @@ import com.wzdsqyy.applib.countdown.ListTimerSupport;
 
 public class ViewHolder implements CountDownListener{
     TextView text;
-    private ListTimerSupport timerSupport;
-    private CountDownHelper helper;
-    int possion;
+    private CountDownTask task;
+    private volatile boolean isCancel=false;
 
-    public void setTimerSupport(ListTimerSupport timerSupport) {
-        this.timerSupport = timerSupport;
+    private CountDownTask getTask() {
+        if(task==null){
+//            task=new CountDownTask(this);
+        }
+        return task;
     }
 
-    public ListTimerSupport getTimerSupport() {
-        return timerSupport;
+    public ViewHolder setTimerSupport(TimerSupport timerSupport) {
+        getTask().start(timerSupport);
+        return this;
     }
 
     public ViewHolder(TextView text) {
@@ -38,6 +41,6 @@ public class ViewHolder implements CountDownListener{
 
     @Override
     public boolean isCancel() {
-        return false;
+        return isCancel;
     }
 }

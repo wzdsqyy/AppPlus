@@ -1,7 +1,6 @@
 package com.wzdsqyy.applibDemo.banner.ui.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,16 +8,11 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.wzdsqyy.applib.adapter.BGAAdapterViewAdapter;
-import com.wzdsqyy.applib.adapter.BGAViewHolderHelper;
-import com.wzdsqyy.applib.banner.BGABanner;
+import com.wzdsqyy.applib.ui.banner.BGABanner;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.banner.engine.Engine;
 import com.wzdsqyy.applibDemo.banner.model.BannerModel;
-import com.wzdsqyy.applibDemo.banner.model.RefreshModel;
 import com.wzdsqyy.applibDemo.main.App;
-
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,7 +27,6 @@ import retrofit2.Response;
 public class ListViewDemoActivity extends Activity {
     private ListView mContentLv;
     private BGABanner mBanner;
-    private ContentAdapter mContentAdapter;
 
     private Engine mEngine;
 
@@ -49,7 +42,7 @@ public class ListViewDemoActivity extends Activity {
 
 
         loadBannerData();
-        loadContentData();
+
     }
 
     /**
@@ -68,8 +61,7 @@ public class ListViewDemoActivity extends Activity {
 
         // 初始化ListView
         mContentLv.addHeaderView(headerView);
-        mContentAdapter = new ContentAdapter();
-        mContentLv.setAdapter(mContentAdapter);
+//        mContentLv.setAdapter(mContentAdapter);
     }
 
     /**
@@ -88,35 +80,5 @@ public class ListViewDemoActivity extends Activity {
                 Toast.makeText(App.getInstance(), "加载广告条数据失败", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    /**
-     * 加载内容列表数据
-     */
-    private void loadContentData() {
-        mEngine.loadContentData("http://7xk9dj.com1.z0.glb.clouddn.com/refreshlayout/api/defaultdata.json").enqueue(new Callback<List<RefreshModel>>() {
-            @Override
-            public void onResponse(Call<List<RefreshModel>> call, Response<List<RefreshModel>> response) {
-                mContentAdapter.setData(response.body());
-            }
-
-            @Override
-            public void onFailure(Call<List<RefreshModel>> call, Throwable t) {
-                Toast.makeText(App.getInstance(), "加载内容数据失败", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-
-    private class ContentAdapter extends BGAAdapterViewAdapter<RefreshModel> {
-
-        public ContentAdapter() {
-            super(R.layout.item_normal);
-        }
-
-        @Override
-        protected void fillData(BGAViewHolderHelper helper, int position, RefreshModel model) {
-            helper.setText(R.id.tv_item_normal_title, model.title).setText(R.id.tv_item_normal_detail, model.detail);
-        }
     }
 }

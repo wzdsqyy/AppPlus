@@ -4,6 +4,7 @@ import com.wzdsqyy.applibDemo.ImageSelector.ImageSelectorActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
+import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
 import com.wzdsqyy.applibDemo.shapview.RoundAngleActivity;
 import com.wzdsqyy.applibDemo.sticky.StickyActivity;
@@ -28,6 +29,7 @@ public class MainHelper {
         list.add(new Bean("任意View圆角",RoundAngleActivity.class));
         list.add(new Bean("创建Activity",ReCreateActivity.class));
         list.add(new Bean("Blur",BlurActivity.class));
+        list.add(new Bean("LruList",LruListActivity.class));
         return list;
     }
 }

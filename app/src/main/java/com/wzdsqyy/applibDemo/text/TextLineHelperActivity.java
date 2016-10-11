@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.helper.TextLineHelper;
+import com.wzdsqyy.applib.utils.helper.TextLineHelper;
 import com.wzdsqyy.applibDemo.R;
 
 public class TextLineHelperActivity extends AppCompatActivity implements View.OnClickListener,TextLineHelper.OnLineFinishListener, ViewTreeObserver.OnPreDrawListener {

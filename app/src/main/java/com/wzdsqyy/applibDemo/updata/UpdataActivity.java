@@ -8,9 +8,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.wzdsqyy.applib.dialog.LoadingDialogController;
-import com.wzdsqyy.applib.progress.ProgressListener;
-import com.wzdsqyy.applib.updata.UpDateManager;
+import com.wzdsqyy.applib.ui.dialog.LoadingDialogController;
+import com.wzdsqyy.applib.utils.okhttp.progress.ProgressListener;
+import com.wzdsqyy.applib.utils.updata.UpDateManager;
 import com.wzdsqyy.applibDemo.R;
 
 import okhttp3.OkHttpClient;

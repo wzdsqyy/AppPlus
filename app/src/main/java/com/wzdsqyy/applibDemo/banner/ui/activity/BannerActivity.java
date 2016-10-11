@@ -10,8 +10,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.banner.BGABanner;
-import com.wzdsqyy.applib.banner.BGABannerUtil;
+import com.wzdsqyy.applib.ui.banner.BGABanner;
+import com.wzdsqyy.applib.ui.banner.BGABannerUtil;
 import com.wzdsqyy.applibDemo.R;
 
 import java.util.ArrayList;

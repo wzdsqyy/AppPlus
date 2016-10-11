@@ -1,7 +1,5 @@
 package com.wzdsqyy.applibDemo.countdown;
 
-import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +7,8 @@ import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.countdown.CountDownHelper;
-import com.wzdsqyy.applib.countdown.CountDownListener;
-import com.wzdsqyy.applib.countdown.ListTimerSupport;
+import com.wzdsqyy.applib.countdown.CountDownTask;
+import com.wzdsqyy.applib.countdown.TimerSupport;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.utils.CommonAdapter;
 
@@ -21,15 +18,10 @@ import java.util.Random;
  * Created by Administrator on 2016/9/20.
  */
 
-public class AppAdapter extends CommonAdapter implements AbsListView.RecyclerListener{
+public class AppAdapter extends CommonAdapter{
 
-    private CountDownHelper helper;
     private Random random=new Random();
-    private SparseArray<CountDownListener> listeners=new SparseArray<>();
-
-    public AppAdapter(@NonNull CountDownHelper helper) {
-        this.helper = helper;
-    }
+    private SparseArray<TimerSupport> tasks=new SparseArray<>();
 
     @Override
     public int getCount() {
@@ -37,23 +29,24 @@ public class AppAdapter extends CommonAdapter implements AbsListView.RecyclerLis
     }
 
     @Override
-    public Object getItem(final int position) {
-        return new ListTimerSupport() {
-            @Override
-            public int getTimerSupportPossion() {
-                return position;
-            }
+    public Object getItem(int position) {
+        TimerSupport task = tasks.get(position);
+        if(task==null){
+            task=new TimerSupport() {
 
-            @Override
-            public int countDownInterval() {
-                return 1;
-            }
+                @Override
+                public long countDownInterval() {
+                    return 1000;
+                }
 
-            @Override
-            public int getTotalTime() {
-                return random.nextInt(20)+5;
-            }
-        };
+                @Override
+                public long getEndTime() {
+                    return System.currentTimeMillis()+(10+random.nextInt(10))*1000;
+                }
+            };
+            tasks.put(position,task);
+        }
+        return task;
     }
 
     @Override
@@ -67,17 +60,8 @@ public class AppAdapter extends CommonAdapter implements AbsListView.RecyclerLis
         }else {
             holder= (ViewHolder) item.getTag();
         }
-        ListTimerSupport listTimerSupport = (ListTimerSupport) getItem(position);
-        holder.setTimerSupport(listTimerSupport);
-        helper.bindListCountDownListener(listTimerSupport,holder);
+        holder.setTimerSupport((TimerSupport) getItem(position));
         convertView=item;
-        Log.d("555", "getView: "+listeners.toString());
         return convertView;
-    }
-
-    @Override
-    public void onMovedToScrapHeap(View view) {
-        ViewHolder holder= (ViewHolder) view.getTag();
-        helper.clearListener(holder.getTimerSupport());
     }
 }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchMatch">
 
-    <com.wzdsqyy.applib.banner.BGABanner
+    <com.wzdsqyy.applib.ui.banner.BGABanner
         android:id="@+id/banner_guide_content"
         style="@style/MatchMatch"
         app:banner_pageChangeDuration="1000"

@@ -109,7 +109,7 @@
                 android:text="Alpha等" />
         </LinearLayout>
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_default"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|right"
@@ -121,7 +121,7 @@
             app:banner_pointContainerBackground="@android:color/transparent"
             app:banner_transitionEffect="defaultEffect" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_cube"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|right"
@@ -130,65 +130,65 @@
             app:banner_numberIndicatorTextSize="10sp"
             app:banner_transitionEffect="cube" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_accordion"
             style="@style/BannerDefaultStyle"
             app:banner_pointDrawable="@drawable/bga_banner_selector_point_hollow"
             app:banner_transitionEffect="accordion" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_flip"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|left"
             app:banner_pointDrawable="@drawable/bga_banner_selector_point_solid"
             app:banner_transitionEffect="flip" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_rotate"
             style="@style/BannerDefaultStyle"
             app:banner_pointDrawable="@drawable/selector_banner_point"
             app:banner_transitionEffect="rotate" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_alpha"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|right"
             app:banner_transitionEffect="alpha" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_zoomFade"
             style="@style/BannerDefaultStyle"
             app:banner_transitionEffect="zoomFade" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_fade"
             style="@style/BannerDefaultStyle"
             app:banner_transitionEffect="fade" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_zoomCenter"
             style="@style/BannerDefaultStyle"
             app:banner_pointDrawable="@drawable/selector_banner_point"
             app:banner_transitionEffect="zoomCenter" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_zoom"
             style="@style/BannerDefaultStyle"
             app:banner_transitionEffect="zoom" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_stack"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|right"
             app:banner_transitionEffect="stack" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_zoomStack"
             style="@style/BannerDefaultStyle"
             app:banner_indicatorGravity="bottom|left"
             app:banner_transitionEffect="zoomStack" />
 
-        <com.wzdsqyy.applib.banner.BGABanner
+        <com.wzdsqyy.applib.ui.banner.BGABanner
             android:id="@+id/banner_main_depth"
             style="@style/BannerDefaultStyle"
             app:banner_transitionEffect="depth" />

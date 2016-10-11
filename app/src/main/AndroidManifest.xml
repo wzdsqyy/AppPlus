@@ -39,7 +39,9 @@
         <activity android:name=".recreate.ReCreateActivity" />
         <activity android:name=".jsbridge.JsBridgeActivity" />
         <activity android:name=".sticky.StickyActivity" />
-        <activity android:name=".blur.BlurActivity"></activity>
+        <activity android:name=".blur.BlurActivity" />
+        <activity android:name=".lrulist.LruListActivity" />
+        <activity android:name=".swapadapter.SwapAdapterActivity"></activity>
     </application>
 
 </manifest>

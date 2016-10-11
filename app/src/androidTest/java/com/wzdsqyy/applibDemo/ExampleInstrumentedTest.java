@@ -5,8 +5,8 @@ import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
-import com.wzdsqyy.applib.dialog.LoadingDialogController;
-import com.wzdsqyy.applib.updata.UpDateManager;
+import com.wzdsqyy.applib.ui.dialog.LoadingDialogController;
+import com.wzdsqyy.applib.utils.updata.UpDateManager;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
