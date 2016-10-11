@@ -5,6 +5,5 @@ package com.wzdsqyy.applib.countdown;
  */
 public interface CountDownListener {
     void onCountDownTick(int haveTime,boolean isFinish);
-
     boolean isCancel();
 }

@@ -1,10 +1,5 @@
 package com.wzdsqyy.applib.utils;
 
-import android.os.SystemClock;
-
-
-import org.json.JSONException;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InterruptedIOException;

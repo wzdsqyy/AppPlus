@@ -7,13 +7,13 @@ package com.wzdsqyy.applib.countdown;
 public interface TimerSupport{
     /**
      *
-     * @return 秒
+     * @return 毫秒
      */
-    int countDownInterval();
+    long countDownInterval();
 
     /**
      *
-     * @return 倒计时的总共时间
+     * @return 结束时间毫秒
      */
-    int getTotalTime();
+    long getEndTime();
 }
