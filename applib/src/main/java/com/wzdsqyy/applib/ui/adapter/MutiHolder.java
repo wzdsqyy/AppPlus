@@ -11,9 +11,9 @@ import android.view.View;
 
 public class MutiHolder<H> extends RecyclerView.ViewHolder {
     private MutiItemBinder itemHolder;
-    private MutiAdapter<H> adapter;
+    private MutiAdapter adapter;
 
-    public MutiHolder(MutiAdapter<H> adapter, @NonNull View itemView, @NonNull MutiItemBinder mutiItemBinder) {
+    MutiHolder(MutiAdapter adapter, @NonNull View itemView, @NonNull MutiItemBinder mutiItemBinder) {
         super(itemView);
         this.itemHolder = mutiItemBinder;
         this.adapter = adapter;
@@ -28,7 +28,7 @@ public class MutiHolder<H> extends RecyclerView.ViewHolder {
         return itemHolder;
     }
 
-    public MutiAdapter<H> getMutiAdapter() {
+    public MutiAdapter getMutiAdapter() {
         return adapter;
     }
 }
