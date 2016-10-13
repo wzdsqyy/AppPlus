@@ -1,8 +1,14 @@
 package com.wzdsqyy.applib.ui.adapter;
 
+import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.List;
+
+import static org.greenrobot.eventbus.util.ErrorDialogManager.factory;
 
 /**
  * Created by Administrator on 2016/10/13.
@@ -10,6 +16,23 @@ import java.util.List;
 
 public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<VH> {
     protected List<M> mData;
+    private ViewHolderIntercepter intercepter;
+
+    public BaseRVAdapter setViewHolderIntercepter(ViewHolderIntercepter intercepter) {
+        this.intercepter = intercepter;
+        return this;
+    }
+
+    @Override
+    public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
+        VH holder = newViewHolder(parent, viewType);
+        if(intercepter!=null){
+            intercepter.afterIntercepter(holder,viewType);
+        }
+        return holder;
+    }
+
+    protected abstract VH newViewHolder(ViewGroup parent,@LayoutRes int viewType);
 
     @Override
     public int getItemCount() {
