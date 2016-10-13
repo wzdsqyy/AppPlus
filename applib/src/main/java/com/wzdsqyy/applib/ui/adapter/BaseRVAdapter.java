@@ -2,13 +2,9 @@ package com.wzdsqyy.applib.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.List;
-
-import static org.greenrobot.eventbus.util.ErrorDialogManager.factory;
 
 /**
  * Created by Administrator on 2016/10/13.
