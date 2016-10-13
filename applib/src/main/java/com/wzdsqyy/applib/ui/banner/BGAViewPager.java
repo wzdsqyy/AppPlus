@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.VelocityTracker;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -59,24 +60,20 @@ public class BGAViewPager extends ViewPager {
 
     public BGAViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
-
     }
 
     public BGABannerScroller getScroller() {
         if(scroller==null){
             scroller= new BGABannerScroller(getContext());
-            try {
-                mScrollField.set(this,scroller);
-            } catch (Exception e) {
-            }
+            set(this,mScrollField,scroller);
         }
         return scroller;
     }
 
     @Override
     public void setPageTransformer(boolean reverseDrawingOrder, PageTransformer transformer) {
-        try {
             boolean hasTransformer = transformer != null;
+        try {
             PageTransformer mPageTransformer = (PageTransformer) pageTransformerField.get(this);
             boolean needsPopulate = hasTransformer != (mPageTransformer != null);
             pageTransformerField.set(this, transformer);
@@ -108,11 +105,7 @@ public class BGAViewPager extends ViewPager {
      * @param position
      */
     public void setBannerCurrentItemInternal(int position) {
-        try {
-            setCurrentItemInternalMethod.invoke(this,position, true, true);
-            ViewCompat.postInvalidateOnAnimation(this);
-        } catch (Exception e) {
-        }
+        invoke(this,setCurrentItemInternalMethod,position,true,true);
     }
 
     /**
@@ -166,5 +159,36 @@ public class BGAViewPager extends ViewPager {
 
     public interface AutoPlayDelegate {
         void handleAutoPlayActionUpOrCancel(float xVelocity);
+    }
+
+    public void invoke(Object obj,Method method,Object... objs){
+        try {
+            if(!method.isAccessible()){
+                method.setAccessible(true);
+            }
+            method.invoke(obj, method,objs);
+        } catch (Exception e) {
+        }
+    }
+
+    public void set(Object obj,Field filed,Object value){
+        try {
+            if(!filed.isAccessible()){
+                filed.setAccessible(true);
+            }
+            filed.set(obj,value);
+        } catch (Exception e) {
+        }
+    }
+
+    public <T> T get(Object obj,Field filed,Class<T> clazz){
+        try {
+            if(!filed.isAccessible()){
+                filed.setAccessible(true);
+            }
+            return (T) filed.get(obj);
+        } catch (Exception e) {
+        }
+        return null;
     }
 }

@@ -5,6 +5,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+import android.view.ViewGroup;
 
 /**
  * Created by Administrator on 2015/11/5.
@@ -33,7 +34,6 @@ public class InnerViewPager extends ViewPager {
 //    		Log.v("XXX1",""+(Math.abs(distanceX) +":"+ Math.abs(distanceY)));
             return (Math.abs(distanceY) < Math.abs(distanceX));
         }
-
     }
 
 
