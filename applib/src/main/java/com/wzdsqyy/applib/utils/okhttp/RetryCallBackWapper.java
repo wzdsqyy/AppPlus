@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.NoRouteToHostException;
 import java.net.PortUnreachableException;
 import java.net.ProtocolException;
-import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
 import okhttp3.Call;
@@ -23,10 +22,15 @@ public class RetryCallBackWapper implements Callback {
     private static final int DEFAULT_RETRY_TIME = 3;
     private Callback callback;
     private int times = 0;
-    private int mMaxTimes = DEFAULT_RETRY_TIME;
+    private int mMaxTimes;
     private boolean retry = true;
 
     public RetryCallBackWapper(@NonNull Callback callback) {
+        this(DEFAULT_RETRY_TIME, callback);
+    }
+
+    public RetryCallBackWapper(int mMaxTimes, Callback callback) {
+        this.mMaxTimes = mMaxTimes;
         this.callback = callback;
     }
 

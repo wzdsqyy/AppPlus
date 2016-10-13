@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.mutiitem;
+package com.wzdsqyy.applib.ui.adapter;
 
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
@@ -10,12 +10,12 @@ import android.view.View;
  */
 
 public class MutiHolder<H> extends RecyclerView.ViewHolder {
-    private MutiItemHolder itemHolder;
+    private MutiItemBinder itemHolder;
     private MutiAdapter<H> adapter;
 
-    public MutiHolder(MutiAdapter<H> adapter, @NonNull View itemView, @NonNull MutiItemHolder mutiItemHolder) {
+    public MutiHolder(MutiAdapter<H> adapter, @NonNull View itemView, @NonNull MutiItemBinder mutiItemBinder) {
         super(itemView);
-        this.itemHolder = mutiItemHolder;
+        this.itemHolder = mutiItemBinder;
         this.adapter = adapter;
         this.itemHolder.init(this);
     }
@@ -24,7 +24,7 @@ public class MutiHolder<H> extends RecyclerView.ViewHolder {
         return itemView.findViewById(id);
     }
 
-    public MutiItemHolder getItemHolder() {
+    public MutiItemBinder getItemHolder() {
         return itemHolder;
     }
 

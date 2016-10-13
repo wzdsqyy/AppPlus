@@ -41,7 +41,16 @@
         <activity android:name=".sticky.StickyActivity" />
         <activity android:name=".blur.BlurActivity" />
         <activity android:name=".lrulist.LruListActivity" />
-        <activity android:name=".swapadapter.SwapAdapterActivity"></activity>
+        <activity android:name=".swapadapter.SwapAdapterActivity" />
+        <activity android:name=".login.NeedLoginActivity" />
+        <activity android:name=".login.LoginActivity" />
+        <activity android:name=".login.TargetLoginActivity" />
+        <activity android:name=".recyclerview.RecyclerViewActivity" />
+        <activity android:name=".MutiItemList.MutiTypeActivity" />
+        <activity android:name=".viewpager.ViewPagerActivity" />
+        <activity android:name=".viewpager.NestedViewPagerActivity" />
+        <activity android:name=".viewpager.NestedListViewActivity" />
+        <activity android:name=".viewpager.ListViewActivity"></activity>
     </application>
 
 </manifest>

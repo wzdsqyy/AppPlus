@@ -41,9 +41,7 @@ public class MainActivity extends Activity implements BGABanner.OnItemClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_banner);
-
         mEngine = App.getInstance().getEngine();
-
         initView();
         setListener();
         loadData();
@@ -106,6 +104,16 @@ public class MainActivity extends Activity implements BGABanner.OnItemClickListe
     @Override
     public void onBannerItemClick(BGABanner banner, View view, Object model, int position) {
         Toast.makeText(App.getInstance(), "点击了第" + (position + 1) + "页", Toast.LENGTH_SHORT).show();
+
+
+
+
+
+
+
+
+
+
     }
 
     @Override

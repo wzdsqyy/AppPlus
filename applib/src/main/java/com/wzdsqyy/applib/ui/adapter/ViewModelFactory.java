@@ -1,9 +1,9 @@
-package com.wzdsqyy.applib.ui.mutiitem;
+package com.wzdsqyy.applib.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 
 public interface ViewModelFactory {
     @NonNull
-    MutiItemHolder getMutiItemHolder(@LayoutRes int layoutRes);
+    MutiItemBinder getMutiItemHolder(@LayoutRes int layoutRes);
 }

@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.mutiitem;
+package com.wzdsqyy.applib.ui.adapter;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -12,12 +12,11 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2016/10/12.
+ * 多种视图适配器
  */
 
-public class MutiAdapter<H> extends RecyclerView.Adapter<MutiHolder> {
+public class MutiAdapter<H,M extends ItemTypeSuport> extends BaseRVAdapter<MutiHolder<H>,M> {
     private ViewModelFactory factory;
-    private ArrayList<ItemTypeSuport> datas = new ArrayList<>();
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
     private WeakReference<H> hostRef;//透传的变量
@@ -48,13 +47,12 @@ public class MutiAdapter<H> extends RecyclerView.Adapter<MutiHolder> {
     }
 
     /**
-     *
-     * @param clazz 实体类型
+     * @param clazz     实体类型
      * @param layoutRes 对应的布局Id
      * @return
      */
     public MutiAdapter register(Class clazz, @LayoutRes int layoutRes) {
-        if(factory==null){
+        if (factory == null) {
             throw new RuntimeException("ViewModelFactory 必须在构造函数中提供且不能为null");
         }
         int index = clazzs.indexOf(clazz);
@@ -68,10 +66,11 @@ public class MutiAdapter<H> extends RecyclerView.Adapter<MutiHolder> {
 
     /**
      * 将会替换你设置的布局管理器
+     *
      * @param recyclerView
      * @param spanSize
      */
-    public void diffSpanSizItem(@NonNull RecyclerView recyclerView,@NonNull SpanSize spanSize) {
+    public void diffSpanSizItem(@NonNull RecyclerView recyclerView, @NonNull SpanSize spanSize) {
         GridLayoutManager manager = new GridLayoutManager(recyclerView.getContext(), spanSize.getSpanCount());
         DiffSpanSize span = new DiffSpanSize(this, spanSize);
         manager.setSpanSizeLookup(span);
@@ -79,27 +78,22 @@ public class MutiAdapter<H> extends RecyclerView.Adapter<MutiHolder> {
         recyclerView.setAdapter(this);
     }
 
-    public MutiAdapter setDatas(ArrayList<ItemTypeSuport> datas) {
-        this.datas = datas;
-        return this;
-    }
-
     @Override
     public MutiHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        MutiItemHolder mutiItemHolder = factory.getMutiItemHolder(viewType);
-        MutiHolder<H> holder = new MutiHolder(this, view, mutiItemHolder);
+        MutiItemBinder mutiItemBinder = factory.getMutiItemHolder(viewType);
+        MutiHolder<H> holder = new MutiHolder(this, view, mutiItemBinder);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(MutiHolder holder, int position) {
-        holder.getItemHolder().onBindViewHolder(holder, datas.get(position), position);
+        holder.getItemHolder().onBindViewHolder(holder, getItem(position), position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        ItemTypeSuport item = datas.get(position);
+        ItemTypeSuport item = getItem(position);
         int type = item.getItemType();
         if (type > 0) {
             return type;
@@ -111,10 +105,5 @@ public class MutiAdapter<H> extends RecyclerView.Adapter<MutiHolder> {
         type = itemTypes.get(index);
         item.setItemType(type);
         return type;
-    }
-
-    @Override
-    public int getItemCount() {
-        return datas == null ? 0 : datas.size();
     }
 }

@@ -2,6 +2,7 @@ package com.wzdsqyy.applibDemo.banner.ui.activity;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Looper;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;

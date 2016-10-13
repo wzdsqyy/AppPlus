@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.mutiitem;
+package com.wzdsqyy.applib.ui.adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
