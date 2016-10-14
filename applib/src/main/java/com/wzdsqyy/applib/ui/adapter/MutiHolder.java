@@ -9,7 +9,7 @@ import android.view.View;
  * Created by Administrator on 2016/10/13.
  */
 
-public class MutiHolder<H> extends RecyclerView.ViewHolder {
+public class MutiHolder extends RecyclerView.ViewHolder {
     private MutiItemBinder itemHolder;
     private MutiAdapter adapter;
 

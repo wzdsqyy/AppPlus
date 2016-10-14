@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * 多种视图适配器
  */
 
-public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<MutiHolder<H>, M> {
+public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<MutiHolder, M> {
     private ViewModelFactory factory;
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
@@ -79,10 +79,10 @@ public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<Muti
     }
 
     @Override
-    protected MutiHolder<H> newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+    protected MutiHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         MutiItemBinder mutiItemBinder = factory.getMutiItemHolder(viewType);
-        MutiHolder<H> holder = new MutiHolder(this, view, mutiItemBinder);
+        MutiHolder holder = new MutiHolder(this, view, mutiItemBinder);
         return holder;
     }
 
