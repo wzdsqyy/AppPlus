@@ -1,1 +1,1 @@
-include ':app', ':applib', ':jsbridge', ':ageratest'
+include ':app', ':applib', ':jsbridge', ':ageratest', ':itemmutitype'

@@ -3,16 +3,15 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wzdsqyy.applib.ui.adapter.ItemTypeSuport;
-import com.wzdsqyy.applib.ui.adapter.MutiAdapter;
-import com.wzdsqyy.applib.ui.adapter.MutiItemBinder;
-import com.wzdsqyy.applib.ui.adapter.SpanSize;
-import com.wzdsqyy.applib.ui.adapter.ViewModelFactory;
+import com.wzdsqyy.mutiitem.ItemTypeSuport;
+import com.wzdsqyy.mutiitem.MutiAdapter;
+import com.wzdsqyy.mutiitem.MutiItemBinder;
+import com.wzdsqyy.mutiitem.SpanSize;
+import com.wzdsqyy.mutiitem.ViewModelFactory;
 import com.wzdsqyy.applibDemo.R;
 
 import java.util.ArrayList;

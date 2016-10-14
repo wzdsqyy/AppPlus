@@ -2,7 +2,7 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 
 import android.support.annotation.LayoutRes;
 
-import com.wzdsqyy.applib.ui.adapter.ItemTypeSuport;
+import com.wzdsqyy.mutiitem.ItemTypeSuport;
 
 /**
  * Created by Administrator on 2016/10/12.

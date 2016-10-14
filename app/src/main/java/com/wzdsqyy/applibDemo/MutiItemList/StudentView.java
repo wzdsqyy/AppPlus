@@ -3,8 +3,8 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wzdsqyy.applib.ui.adapter.MutiHolder;
-import com.wzdsqyy.applib.ui.adapter.MutiItemBinder;
+import com.wzdsqyy.mutiitem.MutiHolder;
+import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 
 /**

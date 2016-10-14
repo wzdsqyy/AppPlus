@@ -1,7 +1,7 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
-import com.wzdsqyy.applib.ui.adapter.MutiHolder;
-import com.wzdsqyy.applib.ui.adapter.MutiItemBinder;
+import com.wzdsqyy.mutiitem.MutiHolder;
+import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 /**
  * Created by Administrator on 2016/10/12.
