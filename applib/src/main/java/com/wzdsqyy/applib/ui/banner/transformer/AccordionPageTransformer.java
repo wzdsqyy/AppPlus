@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.transformer;
+package com.wzdsqyy.applib.ui.banner.transformer;
 
 import android.view.View;
 
@@ -7,7 +7,7 @@ import android.view.View;
  * 创建时间:15/6/19 上午8:41
  * 描述:
  */
-public class StackPageTransformer extends BGAPageTransformer {
+public class AccordionPageTransformer extends BGAPageTransformer {
 
     @Override
     public void handleInvisiblePage(View view, float position) {
@@ -15,11 +15,14 @@ public class StackPageTransformer extends BGAPageTransformer {
 
     @Override
     public void handleLeftPage(View view, float position) {
+        setPivotX(view, view.getWidth());
+        setScaleX(view, 1.0f + position);
     }
 
     @Override
     public void handleRightPage(View view, float position) {
-        setTranslationX(view, -view.getWidth() * position);
+        setPivotX(view, 0);
+        setScaleX(view, 1.0f - position);
+        setAlpha(view, 1);
     }
-
 }

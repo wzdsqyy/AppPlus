@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.transformer;
+package com.wzdsqyy.applib.ui.banner.transformer;
 
 /**
  * 作者:王浩 邮件:bingoogolapple@gmail.com

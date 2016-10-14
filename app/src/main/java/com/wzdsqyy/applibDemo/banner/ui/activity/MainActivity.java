@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.wzdsqyy.applib.ui.banner.BGABanner;
-import com.wzdsqyy.applib.ui.transformer.TransitionEffect;
+import com.wzdsqyy.applib.ui.banner.transformer.TransitionEffect;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.banner.engine.Engine;
 import com.wzdsqyy.applibDemo.banner.model.BannerModel;

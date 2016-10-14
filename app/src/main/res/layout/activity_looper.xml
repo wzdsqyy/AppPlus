@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_looper"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.wzdsqyy.applibDemo.loop.LooperActivity"
+    android:orientation="vertical">
+    <android.support.v4.view.ViewPager
+        android:id="@+id/topViewPager"
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:layout_height="0dp"/>
+    <Button
+        android:text="开始/暂停"
+        android:onClick="onStartOrStop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <Button
+        android:text="左/右"
+        android:onClick="changeOrientation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

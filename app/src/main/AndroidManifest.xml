@@ -50,7 +50,9 @@
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity android:name=".viewpager.NestedViewPagerActivity" />
         <activity android:name=".viewpager.NestedListViewActivity" />
-        <activity android:name=".viewpager.ListViewActivity"></activity>
+        <activity android:name=".viewpager.ListViewActivity" />
+        <activity android:name=".loop.LooperActivity" />
+        <activity android:name=".viewpager.NestedTwoListViewActivity"></activity>
     </application>
 
 </manifest>

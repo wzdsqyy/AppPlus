@@ -5,6 +5,7 @@ import com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
+import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
 import com.wzdsqyy.applibDemo.shapview.RoundAngleActivity;
@@ -12,6 +13,7 @@ import com.wzdsqyy.applibDemo.text.TextLineHelperActivity;
 import com.wzdsqyy.applibDemo.updata.UpdataActivity;
 import com.wzdsqyy.applibDemo.viewpager.ListViewActivity;
 import com.wzdsqyy.applibDemo.viewpager.NestedListViewActivity;
+import com.wzdsqyy.applibDemo.viewpager.NestedTwoListViewActivity;
 import com.wzdsqyy.applibDemo.viewpager.NestedViewPagerActivity;
 import com.wzdsqyy.applibDemo.viewpager.ViewPagerActivity;
 
@@ -36,9 +38,11 @@ public class MainHelper {
         list.add(new Bean("LruList",LruListActivity.class));
         list.add(new Bean("Mutitype",MutiTypeActivity.class));
         list.add(new Bean("ViewPager",ViewPagerActivity.class));
+        list.add(new Bean("LooperViewPager", LooperActivity.class));
         list.add(new Bean("NestedViewpager",NestedViewPagerActivity.class));
         list.add(new Bean("NestedListInPager", NestedListViewActivity.class));
         list.add(new Bean("NestedPagerInList", ListViewActivity.class));
+        list.add(new Bean("NestedTwoListViewActivity", NestedTwoListViewActivity.class));
         return list;
     }
 }

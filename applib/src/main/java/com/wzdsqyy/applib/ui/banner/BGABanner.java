@@ -22,8 +22,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.wzdsqyy.applib.R;
-import com.wzdsqyy.applib.ui.transformer.BGAPageTransformer;
-import com.wzdsqyy.applib.ui.transformer.TransitionEffect;
+import com.wzdsqyy.applib.ui.banner.transformer.BGAPageTransformer;
+import com.wzdsqyy.applib.ui.banner.transformer.TransitionEffect;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

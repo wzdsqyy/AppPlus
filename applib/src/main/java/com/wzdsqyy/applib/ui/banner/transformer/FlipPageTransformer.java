@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.transformer;
+package com.wzdsqyy.applib.ui.banner.transformer;
 
 import android.view.View;
 

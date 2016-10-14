@@ -6,7 +6,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.wzdsqyy.applib.ui.transformer.BGAPageTransformer;
+import com.wzdsqyy.applib.ui.banner.transformer.BGAPageTransformer;
 
 import java.util.List;
 

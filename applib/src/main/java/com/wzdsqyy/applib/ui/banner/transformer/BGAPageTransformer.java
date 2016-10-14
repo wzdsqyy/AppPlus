@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.transformer;
+package com.wzdsqyy.applib.ui.banner.transformer;
 
 import android.os.Build;
 import android.support.v4.view.ViewPager;

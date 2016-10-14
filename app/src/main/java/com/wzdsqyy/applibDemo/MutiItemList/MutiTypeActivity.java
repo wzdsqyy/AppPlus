@@ -3,6 +3,7 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -18,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class MutiTypeActivity extends AppCompatActivity implements ViewModelFactory,SpanSize{
-    MutiAdapter<MutiTypeActivity> adapter = new MutiAdapter(this);
+    MutiAdapter adapter = new MutiAdapter(this);
     RecyclerView recyclerView;
 
     @Override
@@ -42,8 +43,17 @@ public class MutiTypeActivity extends AppCompatActivity implements ViewModelFact
                 datas.add(new Teacher());
             }
         }
-        adapter.setDatas(datas);
+        adapter.setData(datas);
         adapter.notifyDataSetChanged();
+
+
+
+
+
+
+
+
+
     }
 
     @NonNull

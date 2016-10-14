@@ -1,6 +1,5 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
-import com.wzdsqyy.applib.ui.adapter.MutiAdapter;
 import com.wzdsqyy.applib.ui.adapter.MutiHolder;
 import com.wzdsqyy.applib.ui.adapter.MutiItemBinder;
 
@@ -16,7 +15,7 @@ public class TeacherView implements MutiItemBinder<Teacher> {
     }
 
     @Override
-    public void init(MutiAdapter adapter, MutiHolder holder) {
+    public void init(MutiHolder holder) {
 
     }
 }
