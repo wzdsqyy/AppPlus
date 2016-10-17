@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntRange;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -26,7 +27,7 @@ public class SimpleDialog extends Dialog {
         return newInstance(context, DEFAULT_CENTER);
     }
 
-    public static SimpleDialog newInstance(Context context, int type) {
+    public static SimpleDialog newInstance(Context context,@IntRange(from = 1,to = 4) int type) {
         SimpleDialog fragment = new SimpleDialog(context);
         switch (type) {
             case DEFAULT_BOTTOM:
