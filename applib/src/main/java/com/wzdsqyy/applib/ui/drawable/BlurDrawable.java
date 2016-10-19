@@ -47,10 +47,7 @@ public class BlurDrawable extends ColorDrawable {
 
     public BlurDrawable(@NonNull View mBlurredBgView) {
         this.mBlurredBgView = mBlurredBgView;
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            enabled = false;
-        } else {
-            enabled = true;
+        if(isSupport()){
             initializeRenderScript(mBlurredBgView.getContext());
         }
         setOverlayColor(Color.argb(175, 0xff, 0xff, 0xff));
@@ -157,11 +154,21 @@ public class BlurDrawable extends ColorDrawable {
             mBlurringCanvas = new Canvas(mBitmapToBlur);
 
             mBlurringCanvas.scale(1f / mDownsampleFactor, 1f / mDownsampleFactor);
-            mBlurInput = Allocation.createFromBitmap(mRenderScript, mBitmapToBlur,
-                    Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-            mBlurOutput = Allocation.createTyped(mRenderScript, mBlurInput.getType());
+            mBlurInput= getBlurInput(mBitmapToBlur);
+            mBlurOutput = getBlurOutput();
         }
         return true;
+    }
+
+    private Allocation getBlurInput(Bitmap mBitmapToBlur) {
+        mBlurInput = Allocation.createFromBitmap(mRenderScript, mBitmapToBlur,
+                Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        return mBlurInput;
+    }
+
+    private Allocation getBlurOutput() {
+        mBlurOutput = Allocation.createTyped(mRenderScript, mBlurInput.getType());
+        return mBlurOutput;
     }
 
     /**
@@ -174,13 +181,13 @@ public class BlurDrawable extends ColorDrawable {
             return;
         }
         //类似于c中的alloc，这里是栈内存，这样就把bitmap放入了c的栈中
-        mBlurInput.copyFrom(mBitmapToBlur);
+        getBlurInput(mBitmapToBlur).copyFrom(mBitmapToBlur);
         //滤镜加入输入源
         mBlurScript.setInput(mBlurInput);
         //滤镜进行渲染并输出到output，类似于DSP
         mBlurScript.forEach(mBlurOutput);
         //将栈内存复制到bitmap
-        mBlurOutput.copyTo(mBlurredBitmap);
+        getBlurOutput().copyTo(mBlurredBitmap);
     }
 
     /**
@@ -188,10 +195,18 @@ public class BlurDrawable extends ColorDrawable {
      * if your want to support more, use Support RenderScript Pack
      */
     public void setEnabled(boolean enabled) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            enabled = false;
+        if(isSupport()){
+            this.enabled = enabled;
         }
-        this.enabled = enabled;
+    }
+
+    private boolean isSupport() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            enabled=false;
+        }else {
+            enabled=true;
+        }
+        return enabled;
     }
 
     @TargetApi(17)

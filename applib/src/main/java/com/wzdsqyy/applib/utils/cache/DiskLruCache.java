@@ -16,7 +16,7 @@
 
 package com.wzdsqyy.applib.utils.cache;
 
-import com.wzdsqyy.applib.utils.helper.AsyncTaskFixedHelper;
+import com.wzdsqyy.applib.utils.helper.ExecutorHelper;
 
 import java.io.BufferedWriter;
 import java.io.Closeable;
@@ -162,7 +162,7 @@ public final class DiskLruCache implements Closeable {
 
     public synchronized ExecutorService getExecutorService() {
         if (executorService == null) {
-            executorService = AsyncTaskFixedHelper.getHelper().getExecutor();
+            executorService = ExecutorHelper.getHelper().getExecutor();
         }
         return executorService;
     }

@@ -24,15 +24,14 @@ import okhttp3.OkHttpClient;
  * Created by Administrator on 2016/9/30.
  */
 
-public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
-    private static ExecutorHelper helper = new ExecutorHelper();
+public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
+    private static ExecutorHelper helper;
     private ThreadPoolExecutor executor;
     private ThreadPoolExecutor expandExecutor;
     private Executor mainExecutor;
 
     private ExecutorHelper() {
         executor = (ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR;
-        ;
         executor.setRejectedExecutionHandler(this);
         executor.setThreadFactory(this);
         mainExecutor = new MainExecutor();
@@ -85,7 +84,12 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
      * @return
      */
     public static ExecutorHelper getHelper() {
-        return helper;
+        for (; ; ) {
+            if (helper == null) {
+                helper = new ExecutorHelper();
+            }
+            return helper;
+        }
     }
 
     /**
@@ -97,17 +101,30 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         return executor;
     }
 
-    private synchronized ExecutorService getTempExecutor() {
-        if (expandExecutor == null || expandExecutor.isShutdown()) {
-            expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
+    private ExecutorService getTempExecutor() {
+        for (; ; ) {
+            if (expandExecutor == null || expandExecutor.isShutdown()) {
+                expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
+                return expandExecutor;
+            }
         }
-        return executor;
     }
 
-    public void shutdownTemp() {
+    public ExecutorHelper shutdownTemp() {
         if (executor != null || !executor.isShutdown()) {
             executor.shutdown();
         }
+        return this;
+    }
+
+    public void release() {
+        if (executor != null) {
+            executor.shutdown();
+        }
+        if (expandExecutor != null) {
+            expandExecutor.shutdown();
+        }
+        helper = null;
     }
 
     @Override
@@ -123,21 +140,28 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         return thread;
     }
 
+    public ExecutorHelper execute(Runnable command) {
+        if (command instanceof UiMain) {
+            getMainExecutor().execute(command);
+        } else {
+            getExecutor().execute(command);
+        }
+        return this;
+    }
 
     private static class MainExecutor implements Executor {
         private Handler mainHandler;
-        private Object lockHandler = new Object();
 
         public Handler getMainHandler() {
-            if (mainHandler == null) {
-                synchronized (lockHandler) {
-                    if (mainHandler == null || mainHandler.getLooper() != Looper.getMainLooper()) {
-                        mainHandler = new Handler(Looper.getMainLooper());
-                    }
-                    return mainHandler;
+            for (; ; ) {
+                if (mainHandler == null) {
+                    mainHandler = new Handler(Looper.getMainLooper());
                 }
+                if (mainHandler.getLooper() != Looper.getMainLooper()) {
+                    mainHandler = new Handler(Looper.getMainLooper());
+                }
+                return mainHandler;
             }
-            return mainHandler;
         }
 
         @Override

@@ -6,14 +6,7 @@ package com.wzdsqyy.applib.countdown;
 
 public interface TimerSupport{
     /**
-     *
-     * @return 毫秒
+     * 子线程调用
      */
-    long countDownInterval();
-
-    /**
-     *
-     * @return 结束时间毫秒
-     */
-    long getEndTime();
+    boolean isFinish();
 }

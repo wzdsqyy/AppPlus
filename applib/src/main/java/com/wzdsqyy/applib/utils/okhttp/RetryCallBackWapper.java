@@ -29,14 +29,18 @@ public class RetryCallBackWapper implements Callback {
         this(DEFAULT_RETRY_TIME, callback);
     }
 
-    public RetryCallBackWapper(int mMaxTimes, Callback callback) {
+    public RetryCallBackWapper(int mMaxTimes,@NonNull Callback callback) {
         this.mMaxTimes = mMaxTimes;
         this.callback = callback;
     }
 
     @Override
     public void onFailure(Call call, IOException e) {
-        if (times < mMaxTimes && retry) {
+        while (retry) {
+            if(times >= mMaxTimes){
+                retry=false;
+                continue;
+            }
             if (e instanceof MalformedURLException) {
                 retry = false;
             } else if (e instanceof NoRouteToHostException) {
@@ -54,9 +58,7 @@ public class RetryCallBackWapper implements Callback {
                 call.enqueue(this);
             }
         }
-        if (!retry) {
-            callback.onFailure(call, e);
-        }
+        callback.onFailure(call, e);
     }
 
     @Override
