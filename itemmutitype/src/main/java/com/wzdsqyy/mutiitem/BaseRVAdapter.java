@@ -12,9 +12,9 @@ import java.util.List;
 
 public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<VH> {
     protected List<M> mData;
-    private ViewHolderIntercepter intercepter;
+    private MutiItemBinderIntercepter intercepter;
 
-    public BaseRVAdapter setViewHolderIntercepter(ViewHolderIntercepter intercepter) {
+    public BaseRVAdapter setViewHolderIntercepter(MutiItemBinderIntercepter intercepter) {
         this.intercepter = intercepter;
         return this;
     }
@@ -28,7 +28,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
         return holder;
     }
 
-    protected abstract VH newViewHolder(ViewGroup parent,@LayoutRes int viewType);
+    public abstract VH newViewHolder(ViewGroup parent,@LayoutRes int viewType);
 
     @Override
     public int getItemCount() {

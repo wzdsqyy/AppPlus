@@ -8,42 +8,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
  * 多种视图适配器
  */
 
-public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<MutiHolder, M> {
-    private ViewModelFactory factory;
-    private ArrayList<Class> clazzs = new ArrayList<>();
-    private ArrayList<Integer> itemTypes = new ArrayList<>();
-    private WeakReference<H> hostRef;//透传的变量
+public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<MutiItemHolder, M> {
+    MutiItemBinderFactory factory;
+    ArrayList<Class> clazzs;
+    ArrayList<Integer> itemTypes;
 
-    public MutiAdapter(@NonNull ViewModelFactory factory) {
-        this(null, factory);
+    public MutiItemAdapter(MutiItemBinderFactory factory) {
+        this.factory=factory;
+        clazzs = new ArrayList<>();
+        itemTypes = new ArrayList<>();
     }
 
-    /**
-     * @param host    透传的变量，无任何意义，用户可通过 getHost() 获得引用，内部为弱引用
-     * @param factory
-     */
-    public MutiAdapter(H host, ViewModelFactory factory) {
+    public MutiItemAdapter() {
+        this(null);
+    }
+
+    public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
-        setHost(host);
-    }
-
-    public MutiAdapter setHost(H host) {
-        if (host == null) {
-            return this;
-        }
-        this.hostRef = new WeakReference<>(host);
         return this;
-    }
-
-    public H getHost() {
-        return hostRef == null ? null : hostRef.get();
     }
 
     /**
@@ -51,10 +39,7 @@ public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<Muti
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiAdapter register(Class clazz, @LayoutRes int layoutRes) {
-        if (factory == null) {
-            throw new RuntimeException("ViewModelFactory 必须在构造函数中提供且不能为null");
-        }
+    public MutiItemAdapter register(Class<? extends MutiItemSuport> clazz, @LayoutRes int layoutRes) {
         int index = clazzs.indexOf(clazz);
         if (index == -1) {
             clazzs.add(clazz);
@@ -79,22 +64,25 @@ public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<Muti
     }
 
     @Override
-    protected MutiHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+    public MutiItemHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+        if(factory==null){
+            throw new RuntimeException("必须提前设置 MutiItemBinderFactory");
+        }
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
         MutiItemBinder mutiItemBinder = factory.getMutiItemHolder(viewType);
-        MutiHolder holder = new MutiHolder(this, view, mutiItemBinder);
+        MutiItemHolder holder = new MutiItemHolder(this, view, mutiItemBinder);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MutiHolder holder, int position) {
+    public void onBindViewHolder(MutiItemHolder holder, int position) {
         holder.getItemHolder().onBindViewHolder(holder, getItem(position), position);
     }
 
     @Override
     public int getItemViewType(int position) {
-        ItemTypeSuport item = getItem(position);
-        int type = item.getItemType();
+        MutiItemSuport item = getItem(position);
+        int type = item.getMutiItemBinderLayout();
         if (type > 0) {
             return type;
         }
@@ -103,7 +91,7 @@ public class MutiAdapter<H, M extends ItemTypeSuport> extends BaseRVAdapter<Muti
             return super.getItemViewType(position);
         }
         type = itemTypes.get(index);
-        item.setItemType(type);
+        item.setMutiItemBinderLayout(type);
         return type;
     }
 }

@@ -8,10 +8,10 @@ import android.support.v7.widget.GridLayoutManager;
  */
 
 class DiffSpanSize extends GridLayoutManager.SpanSizeLookup {
-    private MutiAdapter adapter;
-    private SpanSize spanSize;
+    MutiItemAdapter adapter;
+    SpanSize spanSize;
 
-    public DiffSpanSize(@NonNull MutiAdapter adapter,@NonNull SpanSize spanSize) {
+    public DiffSpanSize(@NonNull MutiItemAdapter adapter, @NonNull SpanSize spanSize) {
         this.adapter = adapter;
         this.spanSize = spanSize;
         setSpanIndexCacheEnabled(true);

@@ -9,14 +9,17 @@ import android.view.View;
  * Created by Administrator on 2016/10/13.
  */
 
-public class MutiHolder extends RecyclerView.ViewHolder {
-    private MutiItemBinder itemHolder;
-    private MutiAdapter adapter;
+public class MutiItemHolder extends RecyclerView.ViewHolder {
+    MutiItemBinder itemHolder;
+    MutiItemAdapter adapter;
 
-    MutiHolder(MutiAdapter adapter, @NonNull View itemView, @NonNull MutiItemBinder mutiItemBinder) {
+    MutiItemHolder(MutiItemAdapter adapter, @NonNull View itemView, @NonNull MutiItemBinder mutiItemBinder) {
         super(itemView);
         this.itemHolder = mutiItemBinder;
         this.adapter = adapter;
+        if (this.itemHolder == null) {
+            return;
+        }
         this.itemHolder.init(this);
     }
 
@@ -28,7 +31,7 @@ public class MutiHolder extends RecyclerView.ViewHolder {
         return itemHolder;
     }
 
-    public MutiAdapter getMutiAdapter() {
+    public MutiItemAdapter getMutiAdapter() {
         return adapter;
     }
 }
