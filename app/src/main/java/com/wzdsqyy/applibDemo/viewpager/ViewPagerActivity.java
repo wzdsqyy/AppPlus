@@ -4,9 +4,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.wzdsqyy.applib.ui.weiget.VerticalViewPager;
+
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.viewpager.fragment.MyAdapter;
+import com.wzdsqyy.commonview.VerticalViewPager;
 
 public class ViewPagerActivity extends AppCompatActivity {
 

@@ -5,11 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.countdown.CountDownListener;
-import com.wzdsqyy.applib.countdown.TimerSupport;
 import com.wzdsqyy.applibDemo.R;
 
-public class CountDownActivity extends AppCompatActivity implements TimerSupport,CountDownListener {
+public class CountDownActivity extends AppCompatActivity{
     private TextView text;
     private ListView listView;
     @Override
@@ -20,29 +18,5 @@ public class CountDownActivity extends AppCompatActivity implements TimerSupport
         listView= (ListView) findViewById(R.id.list_item);
         AppAdapter adapter = new AppAdapter();
         listView.setAdapter(adapter);
-    }
-
-    @Override
-    public void onCountDownTick(int totalTime, boolean isFinish) {
-        if(!isFinish){
-            text.setText(totalTime+"s");
-        }else{
-            text.setText("结书");
-        }
-    }
-
-    @Override
-    public boolean isCancel() {
-        return false;
-    }
-
-    @Override
-    public long countDownInterval() {
-        return 1000;
-    }
-
-    @Override
-    public long getEndTime() {
-        return System.currentTimeMillis()+15*1000;
     }
 }

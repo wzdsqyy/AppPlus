@@ -2,7 +2,6 @@ package com.wzdsqyy.applib.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.ViewDragHelper;

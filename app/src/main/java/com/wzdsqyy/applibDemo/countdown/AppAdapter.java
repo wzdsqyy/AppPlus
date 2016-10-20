@@ -4,13 +4,12 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.TextView;
 
-import com.wzdsqyy.applib.countdown.CountDownTask;
-import com.wzdsqyy.applib.countdown.TimerSupport;
+
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.utils.CommonAdapter;
+import com.wzdsqyy.utils.countdown.TimerSupport;
 
 import java.util.Random;
 
@@ -35,13 +34,8 @@ public class AppAdapter extends CommonAdapter{
             task=new TimerSupport() {
 
                 @Override
-                public long countDownInterval() {
-                    return 1000;
-                }
-
-                @Override
-                public long getEndTime() {
-                    return System.currentTimeMillis()+(10+random.nextInt(10))*1000;
+                public boolean isFinish() {
+                    return false;
                 }
             };
             tasks.put(position,task);
@@ -60,7 +54,6 @@ public class AppAdapter extends CommonAdapter{
         }else {
             holder= (ViewHolder) item.getTag();
         }
-        holder.setTimerSupport((TimerSupport) getItem(position));
         convertView=item;
         return convertView;
     }

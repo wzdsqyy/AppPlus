@@ -3,7 +3,7 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wzdsqyy.mutiitem.MutiHolder;
+import com.wzdsqyy.mutiitem.MutiItemHolder;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 
@@ -28,13 +28,13 @@ public class StudentView implements MutiItemBinder<StudentModel>, View.OnClickLi
     }
 
     @Override
-    public void onBindViewHolder(MutiHolder holder, StudentModel bean, int possion) {
+    public void onBindViewHolder(MutiItemHolder holder, StudentModel bean, int possion) {
         this.bean= (StudentModel) bean;
         holder.itemView.setOnClickListener(this);
     }
 
     @Override
-    public void init(MutiHolder holder) {
+    public void init(MutiItemHolder holder) {
 
     }
 }

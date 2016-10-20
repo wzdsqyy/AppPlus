@@ -1,1 +1,1 @@
-include ':app', ':applib', ':jsbridge', ':ageratest', ':itemmutitype'
+include ':app', ':applib', ':jsbridge', ':ageratest', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils'

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_dialog"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wzdsqyy.applibDemo.dialog.DialogActivity">
+
+    <Button
+        android:layout_width="match_parent"
+        android:onClick="dialogButtom"
+        android:layout_height="wrap_content"
+        android:text="底部对话框" />
+
+    <Button
+        android:onClick="dialogCenter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="中间对话框" />
+
+    <Button
+        android:onClick="dialogTop"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="顶部对话框" />
+
+    <Button
+        android:onClick="dialogLoading"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Loading" />
+
+    <Button
+        android:onClick="dialogBlur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Blur对话框" />
+</LinearLayout>

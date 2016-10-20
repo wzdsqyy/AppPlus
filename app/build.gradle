@@ -37,4 +37,8 @@ dependencies {
     compile project(':applib')
     compile project(':jsbridge')
     compile project(':itemmutitype')
+    compile project(':stickyheader')
+    compile project(':commonview')
+    compile project(':fragment')
+    compile project(':utils')
 }

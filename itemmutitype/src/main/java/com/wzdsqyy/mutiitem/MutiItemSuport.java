@@ -13,12 +13,12 @@ public interface MutiItemSuport {
      * @return
      */
     @LayoutRes
-    int getMutiItemBinderLayout();
+    int getMutiItemViewType();
 
     /**
      * 缓存
      *
      * @param viewType
      */
-    void setMutiItemBinderLayout(@LayoutRes int viewType);
+    void setMutiItemViewType(@LayoutRes int viewType);
 }

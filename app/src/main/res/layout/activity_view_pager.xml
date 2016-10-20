@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.wzdsqyy.applibDemo.viewpager.ViewPagerActivity">
-    <com.wzdsqyy.applib.ui.weiget.VerticalViewPager
+    <com.wzdsqyy.commonview.VerticalViewPager
         android:id="@+id/main_viewpager"
         android:layout_width="match_parent"
         android:layout_weight="1"

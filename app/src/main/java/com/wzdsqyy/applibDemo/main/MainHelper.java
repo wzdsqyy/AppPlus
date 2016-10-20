@@ -5,6 +5,7 @@ import com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
+import com.wzdsqyy.applibDemo.dialog.DialogActivity;
 import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
@@ -33,6 +34,7 @@ public class MainHelper {
         list.add(new Bean("升级",UpdataActivity.class));
         list.add(new Bean("图片选择",ImageSelectorActivity.class));
         list.add(new Bean("任意View圆角",RoundAngleActivity.class));
+        list.add(new Bean("Dialog",DialogActivity.class));
         list.add(new Bean("创建Activity",ReCreateActivity.class));
         list.add(new Bean("Blur",BlurActivity.class));
         list.add(new Bean("LruList",LruListActivity.class));

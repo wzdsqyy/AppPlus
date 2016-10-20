@@ -82,7 +82,7 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Mut
     @Override
     public int getItemViewType(int position) {
         MutiItemSuport item = getItem(position);
-        int type = item.getMutiItemBinderLayout();
+        int type = item.getMutiItemViewType();
         if (type > 0) {
             return type;
         }
@@ -91,7 +91,7 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Mut
             return super.getItemViewType(position);
         }
         type = itemTypes.get(index);
-        item.setMutiItemBinderLayout(type);
+        item.setMutiItemViewType(type);
         return type;
     }
 }

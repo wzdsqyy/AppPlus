@@ -7,18 +7,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.wzdsqyy.mutiitem.ItemTypeSuport;
-import com.wzdsqyy.mutiitem.MutiAdapter;
+import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.MutiItemAdapter;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.SpanSize;
-import com.wzdsqyy.mutiitem.ViewModelFactory;
+import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.applibDemo.R;
+import com.wzdsqyy.stickyheader.StickyLayout;
 
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MutiTypeActivity extends AppCompatActivity implements ViewModelFactory,SpanSize{
-    MutiAdapter adapter = new MutiAdapter(this);
+public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinderFactory, SpanSize {
+    MutiItemAdapter adapter = new MutiItemAdapter(this);
     RecyclerView recyclerView;
 
     @Override
@@ -26,17 +27,22 @@ public class MutiTypeActivity extends AppCompatActivity implements ViewModelFact
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_muti_type);
         recyclerView = (RecyclerView) findViewById(R.id.list_item);
-        adapter.diffSpanSizItem(recyclerView,this);
-        adapter.register(Teacher.class,R.layout.item_teacher);
-        adapter.register(StudentModel.class,R.layout.item_student);
+        adapter.diffSpanSizItem(recyclerView, this);
+        adapter.register(Teacher.class, R.layout.item_teacher);
+        adapter.register(StudentModel.class, R.layout.item_student);
+        adapter.register(StickyModel.class, R.layout.item_sticky);
+        StickyLayout.newInstance(this, R.layout.item_sticky)
+                .setTarget(recyclerView);
     }
 
     public void randomData(View view) {
         Random random = new Random();
-        int count = random.nextInt(20) + 30;
-        ArrayList<ItemTypeSuport> datas = new ArrayList<>();
+        int count = random.nextInt(20) + 200;
+        ArrayList<MutiItemSuport> datas = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            if (i % 3 == 0) {
+            if (i % 5 == 0) {
+                datas.add(new StickyModel("StickyModel_"));
+            } else if (i % 5 == 2) {
                 datas.add(new StudentModel());
             } else {
                 datas.add(new Teacher());
@@ -44,42 +50,30 @@ public class MutiTypeActivity extends AppCompatActivity implements ViewModelFact
         }
         adapter.setData(datas);
         adapter.notifyDataSetChanged();
-
-
-
-
-
-
-
-
-
     }
 
     @NonNull
     @Override
     public MutiItemBinder getMutiItemHolder(@LayoutRes int viewtype) {
-        switch (viewtype){
+        switch (viewtype) {
             case R.layout.item_teacher:
                 return new TeacherView();
             case R.layout.item_student:
                 return new StudentView();
+            case R.layout.item_sticky:
+                return new StickyView();
+            default:
+                return new StudentView();
         }
-        return null;
     }
 
     @Override
     public int getSpanCount() {
-        return 3;
+        return 1;
     }
 
     @Override
     public int getSpanSize(@LayoutRes int type) {
-        switch (type){
-            case R.layout.item_teacher:
-                return 2;
-            case R.layout.item_student:
-                return 1;
-        }
         return getSpanCount();
     }
 }

@@ -1,6 +1,6 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
-import com.wzdsqyy.mutiitem.MutiHolder;
+import com.wzdsqyy.mutiitem.MutiItemHolder;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 /**
@@ -10,12 +10,12 @@ import com.wzdsqyy.mutiitem.MutiItemBinder;
 public class TeacherView implements MutiItemBinder<Teacher> {
 
     @Override
-    public void onBindViewHolder(MutiHolder holder, Teacher bean, int possion) {
+    public void onBindViewHolder(MutiItemHolder holder, Teacher bean, int possion) {
 
     }
 
     @Override
-    public void init(MutiHolder holder) {
+    public void init(MutiItemHolder holder) {
 
     }
 }

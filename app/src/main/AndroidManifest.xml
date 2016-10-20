@@ -52,7 +52,8 @@
         <activity android:name=".viewpager.NestedListViewActivity" />
         <activity android:name=".viewpager.ListViewActivity" />
         <activity android:name=".loop.LooperActivity" />
-        <activity android:name=".viewpager.NestedTwoListViewActivity"></activity>
+        <activity android:name=".viewpager.NestedTwoListViewActivity" />
+        <activity android:name=".dialog.DialogActivity"></activity>
     </application>
 
 </manifest>
