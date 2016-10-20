@@ -1,10 +1,9 @@
-package com.wzdsqyy.applib.ui.sticky;
+package com.wzdsqyy.stickyheader;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 
 /**
@@ -49,6 +48,9 @@ class StickyItemListener extends RecyclerView.OnScrollListener {
         if (scrollListener == null) {
             return;
         }
+        if (!scrollListener.hasStickyItem()) {
+            return;
+        }
         int targetPosition = manager.findFirstVisibleItemPosition();
         int end = manager.findLastVisibleItemPosition();
         targetPosition = getStickyPosition(targetPosition, end);
@@ -60,20 +62,20 @@ class StickyItemListener extends RecyclerView.OnScrollListener {
         int distance = view.getTop() - scrollListener.getStickyHolder(type).itemView.getHeight();
         if (distance > 0) {
             if (isScroll()) {
-                distance=0;
+                distance = 0;
             }
             showPrePosition(targetPosition);
         } else {
             if (view.getTop() < 0) {
-                if(isScroll()){
-                    distance=0;
+                if (isScroll()) {
+                    distance = 0;
                 }
                 showPosition(targetPosition);
             } else {
                 showPrePosition(targetPosition);
             }
         }
-        scrollListener.setStickyTranslationY(type,distance);
+        scrollListener.setStickyTranslationY(type, distance);
     }
 
     /**
@@ -89,32 +91,22 @@ class StickyItemListener extends RecyclerView.OnScrollListener {
     }
 
     /**
-     * 初始化黏性头部的位置
-     *
-     * @param position
-     * @return
-     */
-    private void initStickyViewHolder(int position) {
-        int type = adapter.getItemViewType(position);
-        if (!scrollListener.isStickyItem(type)) {//不是sticky类型直接返回
-            return;
-        }
-        showPosition(position);//显示数据
-    }
-
-    /**
      * 显示当前黏性头部数据的位置
      *
      * @param position
      * @return
      */
     private void showPosition(int position) {
-        if (position < 0 || position > adapter.getItemCount()) {
+        if (position > adapter.getItemCount()) {
             return;
         }
-        int type = adapter.getItemViewType(position);
-        scrollListener.getStickyHolder(type).itemView.setVisibility(View.VISIBLE);
-        adapter.onBindViewHolder(scrollListener.getStickyHolder(type), position);
+        if (position < 0) {
+            scrollListener.showStickyHolder(-1, false);
+        } else {
+            int type = adapter.getItemViewType(position);
+            scrollListener.showStickyHolder(type, true);
+            adapter.onBindViewHolder(scrollListener.getStickyHolder(type), position);
+        }
     }
 
 

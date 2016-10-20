@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.sticky;
+package com.wzdsqyy.stickyheader;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -14,5 +14,9 @@ interface OnScrollHandler {
 
     boolean isStickyItem(int type);
 
-    void setStickyTranslationY(@LayoutRes int viewType,int y);
+    boolean hasStickyItem();
+
+    void showStickyHolder(int type, boolean show);
+
+    void setStickyTranslationY(@LayoutRes int viewType, int y);
 }
