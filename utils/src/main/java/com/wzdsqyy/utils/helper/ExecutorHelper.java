@@ -105,8 +105,8 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
         for (; ; ) {
             if (expandExecutor == null || expandExecutor.isShutdown()) {
                 expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
-                return expandExecutor;
             }
+            return expandExecutor;
         }
     }
 
