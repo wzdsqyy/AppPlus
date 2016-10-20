@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.utils;
+package com.wzdsqyy.commonview;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+
 public class SwipeBackLayout extends FrameLayout {
     private ViewDragHelper viewDragHelper;
     private View rootView;

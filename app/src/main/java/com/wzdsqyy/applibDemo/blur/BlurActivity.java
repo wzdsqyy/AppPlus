@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.wzdsqyy.applib.ui.drawable.BlurDrawable;
+import com.wzdsqyy.commonview.drawable.BlurDrawable;
 import com.wzdsqyy.applibDemo.R;
 
 public class BlurActivity extends AppCompatActivity {

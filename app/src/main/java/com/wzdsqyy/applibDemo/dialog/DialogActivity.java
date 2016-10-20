@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.wzdsqyy.applib.ui.drawable.BlurDrawable;
+import com.wzdsqyy.commonview.drawable.BlurDrawable;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.commonview.SimpleDialog;
 

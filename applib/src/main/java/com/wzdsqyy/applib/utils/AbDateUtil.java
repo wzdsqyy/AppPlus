@@ -620,14 +620,5 @@ public class AbDateUtil {
             return milliseconds+"毫秒";
         }
     }
-	
-	/**
-     * The main method.
-     *
-     * @param args the arguments
-     */
-    public static void main(String[] args) {
-		System.out.println(formatDateStr2Desc("2012-3-2 12:2:20","MM月dd日  HH:mm"));
-	}
 
 }

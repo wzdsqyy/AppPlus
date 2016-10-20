@@ -1,4 +1,4 @@
-package com.wzdsqyy.applib.ui.drawable;
+package com.wzdsqyy.commonview.drawable;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
