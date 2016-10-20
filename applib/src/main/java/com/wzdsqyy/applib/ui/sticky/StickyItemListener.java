@@ -1,116 +1,156 @@
 package com.wzdsqyy.applib.ui.sticky;
 
+import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MotionEvent;
+import android.util.Log;
 import android.view.View;
-
-import java.util.ArrayList;
-
-import static android.view.View.INVISIBLE;
-import static android.view.View.VISIBLE;
 
 /**
  * Created by Administrator on 2016/10/18.
  */
 
-class StickyItemListener extends RecyclerView.OnScrollListener implements View.OnTouchListener {
+class StickyItemListener extends RecyclerView.OnScrollListener {
     OnScrollHandler scrollListener;
     LinearLayoutManager manager;
     RecyclerView.Adapter adapter;
-    boolean scroll=false;
-    int stickyItemViewType = -1;
-    int previousPosition = -1;
+    boolean scroll = true;
 
-    public StickyItemListener(RecyclerView view) {
+    public StickyItemListener(OnScrollHandler scrollListener, @NonNull RecyclerView view) {
+        this.scrollListener = scrollListener;
         this.adapter = view.getAdapter();
         if (view.getLayoutManager() instanceof LinearLayoutManager)
             this.manager = (LinearLayoutManager) view.getLayoutManager();
         view.addOnScrollListener(this);
     }
 
+    boolean isScroll() {
+        return scroll;
+    }
+
+    StickyItemListener setScroll(boolean scroll) {
+        this.scroll = scroll;
+        return this;
+    }
+
+    public StickyItemListener(@NonNull RecyclerView view) {
+        this(null, view);
+    }
+
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-        if (stickyItemViewType == -1) {
-            return;
-        }
         if (manager == null) {
             return;
         }
         if (adapter == null) {
             return;
         }
-        if (scrollListener == null || scrollListener.getStickyHolder() == null) {
+        if (scrollListener == null) {
             return;
         }
-        int position = manager.findFirstVisibleItemPosition();
-        if(stickyItemViewType==adapter.getItemViewType(position+1)){
-            View view = manager.findViewByPosition(position+1);
-            int mydx = view.getTop() - scrollListener.getStickyHolder().itemView.getHeight();
-            if(mydx<0){
-                scrollListener.getStickyHolder().itemView.setTranslationY(mydx);
-            }else {
-
-            }
-            if(Math.abs(mydx)>=scrollListener.getStickyHolder().itemView.getHeight()){
-                scrollListener.getStickyHolder().itemView.setTranslationY(0);
-                stickyNewViewHolder(position+1);
-            }else{
-
-
-            }
+        int targetPosition = manager.findFirstVisibleItemPosition();
+        int end = manager.findLastVisibleItemPosition();
+        targetPosition = getStickyPosition(targetPosition, end);
+        int type = adapter.getItemViewType(targetPosition);
+        if (!isStickyType(type)) {
+            return;//不是stick的类型直接返回
         }
-
-
-
-
-
-
-        if (position + 1 < adapter.getItemCount()) {
-            int type = adapter.getItemViewType(position + 1);
-            View nextTitleView = manager.findViewByPosition(position + 1);
-            if (type == stickyItemViewType) {
-                if (nextTitleView.getTop() <= scrollListener.getStickyHolder().itemView.getHeight()) {
-                    scrollListener.getStickyHolder().itemView.setTranslationY(nextTitleView.getTop() - scrollListener.getStickyHolder().itemView.getHeight());
+        View view = manager.findViewByPosition(targetPosition);//找到对应的View
+        int distance = view.getTop() - scrollListener.getStickyHolder(type).itemView.getHeight();
+        if (distance > 0) {
+            if (isScroll()) {
+                distance=0;
+            }
+            showPrePosition(targetPosition);
+        } else {
+            if (view.getTop() < 0) {
+                if(isScroll()){
+                    distance=0;
                 }
-                // hide -> show
-                stickyNewViewHolder(position + 1);
-            } else if (scrollListener.getStickyHolder().itemView.getTranslationY() != 0) {
-                scrollListener.getStickyHolder().itemView.setTranslationY(0);
+                showPosition(targetPosition);
+            } else {
+                showPrePosition(targetPosition);
             }
         }
+        scrollListener.setStickyTranslationY(type,distance);
+    }
 
-        if (stickyItemViewType == adapter.getItemViewType(position)) {
-            stickyNewViewHolder(position);
-        } else if (dy < 0 && scrollListener.getStickyHolder().itemView.getVisibility() != VISIBLE) {
-            View nextTitleView = manager.findViewByPosition(position);
-            if (nextTitleView.getBottom() >= scrollListener.getStickyHolder().itemView.getHeight()) {
-                stickyNewViewHolder(position);
-            }
+    /**
+     * @param start 起始
+     * @param end   结束
+     * @return 如果有则返回 最靠近 start 的Position，否则直接返回start的值
+     */
+    private int getStickyPosition(int start, int end) {
+        while (start < end && (!isStickyPosition(start))) {
+            start = start + 1;
         }
+        return start;
     }
 
-    private void stickyNewViewHolder(int position) {
-        adapter.onBindViewHolder(scrollListener.getStickyHolder(), position);
-    }
-
-    private void preViewHolder(int position) {
-        while (adapter.getItemViewType(position) != stickyItemViewType && position > 0) {
-            position--;
+    /**
+     * 初始化黏性头部的位置
+     *
+     * @param position
+     * @return
+     */
+    private void initStickyViewHolder(int position) {
+        int type = adapter.getItemViewType(position);
+        if (!scrollListener.isStickyItem(type)) {//不是sticky类型直接返回
+            return;
         }
-        adapter.onBindViewHolder(scrollListener.getStickyHolder(), position);
+        showPosition(position);//显示数据
     }
 
-    private void nextViewHolder(int position) {
-        int viewType = 0;
-        while (adapter.getItemViewType(position) != viewType && position < adapter.getItemCount()) {
-            position++;
+    /**
+     * 显示当前黏性头部数据的位置
+     *
+     * @param position
+     * @return
+     */
+    private void showPosition(int position) {
+        if (position < 0 || position > adapter.getItemCount()) {
+            return;
         }
-        adapter.onBindViewHolder(scrollListener.getStickyHolder(), position);
+        int type = adapter.getItemViewType(position);
+        scrollListener.getStickyHolder(type).itemView.setVisibility(View.VISIBLE);
+        adapter.onBindViewHolder(scrollListener.getStickyHolder(type), position);
     }
 
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        return false;
+
+    /**
+     * 是否是黏性位置的position
+     *
+     * @param position
+     * @return
+     */
+    private boolean isStickyPosition(int position) {
+        return isStickyType(adapter.getItemViewType(position));
+    }
+
+    /**
+     * 是否是黏性位置的position
+     *
+     * @param viewtype
+     * @return
+     */
+    private boolean isStickyType(@LayoutRes int viewtype) {
+        return scrollListener.isStickyItem(viewtype);
+    }
+
+    /**
+     * 显示当前黏性头部数据的位置
+     *
+     * @param position
+     * @return
+     */
+    private void showPrePosition(int position) {
+        int prePosition = position - 1;
+        while (prePosition >= 0 && (!isStickyPosition(prePosition))) {
+            prePosition--;
+        }
+        if (prePosition < position - 1) {
+            showPosition(prePosition);
+        }
     }
 }

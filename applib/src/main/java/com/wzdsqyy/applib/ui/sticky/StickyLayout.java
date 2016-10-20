@@ -4,10 +4,13 @@ import android.content.Context;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.wzdsqyy.applib.utils.ViewUtils;
+
+import java.util.ArrayList;
 
 
 /**
@@ -18,6 +21,8 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler{
     RecyclerView.ViewHolder holder;
     RecyclerView target;
     final int stickyItem;
+    ArrayList<Integer> stickyItems;
+    private boolean scroll;
 
     public StickyLayout(Context context, @LayoutRes int stickyItem) {
         super(context);
@@ -36,36 +41,36 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler{
     public StickyLayout setTarget(@NonNull RecyclerView target, ViewGroup parent) {
         StickyItemListener listener = new StickyItemListener(target);
         this.target = target;
-        listener.stickyItemViewType=stickyItem;
-        listener.previousPosition=0;
         listener.scrollListener=this;
+        listener.setScroll(true);
         if (parent == null) {
             parent = (ViewGroup) target.getParent();
         } else {
             parent = (ViewGroup) parent.getParent();
         }
+        target.getAdapter().onCreateViewHolder(target, stickyItem);
         ViewUtils.toViewParent(this, parent);
         return this;
     }
 
     @Override
-    public RecyclerView.ViewHolder getStickyHolder() {
-        return holder;
-    }
-
-    @Override
-    public void setStickyHolder(RecyclerView.ViewHolder holder) {
+    public RecyclerView.ViewHolder getStickyHolder(int viewType) {
         if(holder==null){
-            return;
+            holder = target.getAdapter().onCreateViewHolder(this, stickyItem);
+            addView(this.holder.itemView,new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            holder.itemView.bringToFront();
         }
-        addView(holder.itemView);
-        holder.itemView.bringToFront();
-//        holder.itemView.setVisibility(GONE);
-        this.holder=holder;
+        return holder;
     }
 
     @Override
     public boolean isStickyItem(int type) {
         return type==stickyItem;
+    }
+
+    @Override
+    public void setStickyTranslationY(@LayoutRes int viewType,int distance) {
+        getStickyHolder(viewType).itemView.setTranslationY(distance);
+//        scrollListener.getStickyHolder(type).itemView.setTranslationY(distance);
     }
 }
