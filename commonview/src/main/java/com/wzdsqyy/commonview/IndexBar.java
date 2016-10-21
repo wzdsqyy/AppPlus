@@ -75,22 +75,6 @@ public class IndexBar extends View {
         return this;
     }
 
-    public void init(Drawable barBg, @ColorInt int color, @ColorInt int focusColor, float size, int focusSize, float textSpace) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(barBg);
-        } else {
-            setBackgroundDrawable(barBg);
-        }
-        this.color = color;
-        this.focusColor = focusColor;
-        this.size = sp2px(size);
-        this.focusSize = sp2px(focusSize);
-        this.textSpace = dp2px(textSpace);
-        mPaint.setColor(color);
-        mPaint.setTextAlign(Paint.Align.CENTER);
-        mPaint.setTextSize(size);
-    }
-
     private int dp2px(float value) {
         return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value + 0.5f, getResources().getDisplayMetrics());
     }
@@ -153,7 +137,7 @@ public class IndexBar extends View {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (listener != null) {
-                    listener.onIndexTouch(this, true,touchPos);
+                    listener.onIndexTouch(this, true, touchPos);
                 }
             case MotionEvent.ACTION_MOVE:
                 if (touchPos == getSelect()) {
@@ -167,7 +151,7 @@ public class IndexBar extends View {
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
                 if (listener != null) {
-                    listener.onIndexTouch(this, false,touchPos);
+                    listener.onIndexTouch(this, false, touchPos);
                 }
                 break;
         }
