@@ -52,12 +52,11 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler {
         this.target = target;
         listener.scrollListener = this;
         listener.setScroll(scroll);
-        if (parent == null) {
-            parent = (ViewGroup) target.getParent();
-        } else {
-            parent = (ViewGroup) parent.getParent();
+        if(parent!=null){
+            toViewParent(this, parent);
+        }else {
+            toViewParent(this, target);
         }
-        toViewParent(this, parent);
         return this;
     }
 
@@ -65,8 +64,8 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler {
     public RecyclerView.ViewHolder getStickyHolder(@LayoutRes int viewType) {
         if (holder == null) {
             holder = target.getAdapter().onCreateViewHolder(this, viewType);
-            addView(this.holder.itemView, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            holder.itemView.bringToFront();
+            int width = target.getWidth();
+            addView(this.holder.itemView,new ViewGroup.LayoutParams(width,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
         return holder;
     }
@@ -94,18 +93,18 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler {
         getStickyHolder(viewType).itemView.setTranslationY(distance);
     }
 
-    private static boolean toViewParent(@Nullable ViewGroup container, @Nullable View target) {
-        if (container != null && target != null && target.getParent() != null) {
-            ViewGroup parent = (ViewGroup) target.getParent();
-            int groupIndex = parent.indexOfChild(target);
-            parent.removeView(target);
-            if (target.getLayoutParams() != null) {
-                container.setLayoutParams(target.getLayoutParams());
-            }
-            parent.addView(container, groupIndex);
-            container.addView(target, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            return true;
+    private static boolean toViewParent(@Nullable ViewGroup newParent, @Nullable View target) {
+        if(newParent==null||target==null||target.getParent() == null){
+            return false;
         }
-        return false;
+        ViewGroup parent = (ViewGroup) target.getParent();
+        int mIndex = parent.indexOfChild(target);
+        parent.removeView(target);
+        if (target.getLayoutParams() != null) {
+            newParent.setLayoutParams(target.getLayoutParams());
+        }
+        newParent.addView(target, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        parent.addView(newParent,mIndex);
+        return true;
     }
 }
