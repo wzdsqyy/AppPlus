@@ -3,34 +3,45 @@ package com.wzdsqyy.utils.countdown;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.widget.AbsListView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by Administrator on 2016/10/11.
  */
 
 public class CountDownHelper implements Runnable{
-    private ArrayList<CountDownListener> listeners = new ArrayList<>();
+    private CopyOnWriteArrayList<CountDownListener> listeners;
     private final int interval;
     private Handler handler;
+    private volatile boolean start=false;
 
-    public CountDownHelper(@NonNull int interval) {
+    public CountDownHelper(@NonNull int interval, Handler handler) {
         this.interval = interval;
-        if(handler==null){
-            handler=new Handler(Looper.getMainLooper());
+        if (handler == null) {
+            handler = new Handler(Looper.getMainLooper());
         }
+        this.handler = handler;
     }
 
-    private void addCountDownListener(CountDownListener listener) {
+    public CountDownHelper(@NonNull int interval) {
+        this(interval, null);
+    }
+
+    public void addCountDownListener(CountDownListener listener) {
         if (!getCountDownListeners().contains(listener)) {
             getCountDownListeners().add(listener);
+        }
+        if(getCountDownListeners().size()>0){
+            start();
         }
     }
 
     private boolean notifyListeners() {
-        if(getCountDownListeners().size()==0){
+        if (getCountDownListeners().size() == 0) {
             return false;
         }
         Iterator<CountDownListener> iterator = getCountDownListeners().iterator();
@@ -41,14 +52,14 @@ public class CountDownHelper implements Runnable{
                 continue;
             }
             TimerSupport support = listener.getTimerSupport();
-            if(support ==null){
+            if (support == null) {
                 continue;
             }
-            boolean finish = support.isFinish();
-            if(finish){
+            long time = support.endTime() - System.currentTimeMillis();
+            listener.onCountDownTick(time,time<0);
+            if (time < 0) {
                 removeCountDownListener(listener);
             }
-            listener.onCountDownTick(finish);
         }
         return true;
     }
@@ -57,18 +68,34 @@ public class CountDownHelper implements Runnable{
         getCountDownListeners().remove(listener);
     }
 
-    private ArrayList<CountDownListener> getCountDownListeners() {
+    private CopyOnWriteArrayList<CountDownListener> getCountDownListeners() {
         if (listeners == null) {
-            listeners = new ArrayList<>();
+            listeners = new CopyOnWriteArrayList<>();
         }
         return listeners;
+    }
+
+    public void start() {
+        if(start){
+            return;
+        }
+        handler.post(this);
+        start=true;
+    }
+
+    public void stop() {
+        if(!start){
+            return;
+        }
+        handler.removeCallbacks(this);
+        start=false;
     }
 
     @Override
     public void run() {
         boolean notify = notifyListeners();
-        if(notify){
-            handler.postDelayed(this,interval);
+        if (notify) {
+            handler.postDelayed(this, interval);
         }
     }
 }

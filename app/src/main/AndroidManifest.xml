@@ -53,7 +53,12 @@
         <activity android:name=".viewpager.ListViewActivity" />
         <activity android:name=".loop.LooperActivity" />
         <activity android:name=".viewpager.NestedTwoListViewActivity" />
-        <activity android:name=".dialog.DialogActivity"></activity>
+        <activity android:name=".dialog.DialogActivity" />
+
+        <service
+            android:name=".BigBangService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

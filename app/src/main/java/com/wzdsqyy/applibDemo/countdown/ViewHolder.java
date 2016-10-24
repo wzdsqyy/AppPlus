@@ -13,23 +13,25 @@ import com.wzdsqyy.utils.countdown.TimerSupport;
 public class ViewHolder implements CountDownListener {
     TextView text;
     private volatile boolean isCancel=false;
+    private TimerSupport support;
 
 
     public ViewHolder(TextView text) {
         this.text = text;
     }
 
-    public void onCountDownTick(int totalTime, boolean isFinish) {
-
-    }
-
     @Override
-    public void onCountDownTick(boolean isFinish) {
+    public void onCountDownTick(long time, boolean isFinish) {
         if(!isFinish){
-
+            text.setText(""+time/1000);
         }else{
             text.setText("结书");
         }
+    }
+
+    public ViewHolder setSupport(TimerSupport support) {
+        this.support = support;
+        return this;
     }
 
     @Override
@@ -39,6 +41,6 @@ public class ViewHolder implements CountDownListener {
 
     @Override
     public TimerSupport getTimerSupport() {
-        return null;
+        return support;
     }
 }

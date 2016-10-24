@@ -6,11 +6,57 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity">
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/list_item"
+
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <android.support.design.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.wzdsqyy.applibDemo.MutiItemList.RecyclerView
+                android:id="@+id/list_item"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </android.support.design.widget.CoordinatorLayout>
+
+
+
+        <com.wzdsqyy.commonview.IndexBar
+            android:id="@+id/indexview"
+            android:layout_width="15dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="#af0f0f0f" />
+
+        <TextView
+            android:id="@+id/index_notice"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:visibility="gone"
+            tools:visibility="visible"
+            tools:text="N"
+            android:textSize="30sp"
+            android:textColor="#fff"
+            android:background="#af0f0f0f"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+    </FrameLayout>
+    <TextView
+        android:id="@+id/dragview"
+        android:layout_gravity="center"
+        android:gravity="center"
+        tools:visibility="visible"
+        android:text="N"
+        android:textSize="30sp"
+        android:textColor="#fff"
+        android:background="#af0f0f0f"
+        android:layout_width="50dp"
+        android:layout_height="50dp" />
 
     <Button
         android:layout_width="match_parent"

@@ -5,8 +5,6 @@ package com.wzdsqyy.utils.countdown;
  */
 
 public interface TimerSupport{
-    /**
-     * 子线程调用
-     */
     boolean isFinish();
+    long endTime();
 }

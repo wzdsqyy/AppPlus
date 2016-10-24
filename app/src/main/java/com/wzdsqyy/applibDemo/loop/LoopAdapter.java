@@ -1,9 +1,8 @@
-package com.wzdsqyy.applib.ui.banner;
+package com.wzdsqyy.applibDemo.loop;
 
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -101,17 +100,16 @@ public abstract class LoopAdapter extends PagerAdapter implements ViewPager.OnPa
     }
 
     @Override
-    public final void startUpdate(ViewGroup container) {
-        if(mPager!=null){
-            int position = mPager.getCurrentItem();
-            if (isVirtualPosition(position)) {
-                mPager.setCurrentItem(getRealPosition(position), false);
-            }
-        }
-    }
-
-    @Override
     public final void finishUpdate(ViewGroup container) {
+        if(mPager==null){
+            return;
+        }
+        int position = mPager.getCurrentItem();
+        if(position==0){
+            mPager.setCurrentItem(getCount()-2,false);
+        }else if(position==getCount()-1){
+            mPager.setCurrentItem(1,false);
+        }
     }
 
     private boolean isVirtualPosition(int position) {

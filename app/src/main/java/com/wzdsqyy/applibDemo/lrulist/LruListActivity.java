@@ -3,6 +3,7 @@ package com.wzdsqyy.applibDemo.lrulist;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -35,6 +36,20 @@ public class LruListActivity extends AppCompatActivity {
         flipper.setAdapter(view);
         flipper.setOnTouchListener(view);
         test(this);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     public void reSetNum(View view) {

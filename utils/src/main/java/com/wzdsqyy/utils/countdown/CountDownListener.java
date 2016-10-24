@@ -5,7 +5,11 @@ package com.wzdsqyy.utils.countdown;
  */
 public interface CountDownListener {
 
-    void onCountDownTick(boolean isFinish);
+    /**
+     * @param time
+     * @param isFinish
+     */
+    void onCountDownTick(long time, boolean isFinish);
 
     boolean isCancel();
 

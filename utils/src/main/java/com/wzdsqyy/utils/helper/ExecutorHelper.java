@@ -24,7 +24,7 @@ import okhttp3.OkHttpClient;
  * Created by Administrator on 2016/9/30.
  */
 
-public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
+public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     private static ExecutorHelper helper;
     private ThreadPoolExecutor executor;
     private ThreadPoolExecutor expandExecutor;
@@ -83,13 +83,11 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
      *
      * @return
      */
-    public static ExecutorHelper getHelper() {
-        for (; ; ) {
-            if (helper == null) {
-                helper = new ExecutorHelper();
-            }
-            return helper;
+    public static synchronized ExecutorHelper getHelper() {
+        if (helper == null) {
+            helper = new ExecutorHelper();
         }
+        return helper;
     }
 
     /**
@@ -101,13 +99,11 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
         return executor;
     }
 
-    private ExecutorService getTempExecutor() {
-        for (; ; ) {
-            if (expandExecutor == null || expandExecutor.isShutdown()) {
-                expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
-            }
-            return expandExecutor;
+    private synchronized ExecutorService getTempExecutor() {
+        if (expandExecutor == null || expandExecutor.isShutdown()) {
+            expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
         }
+        return expandExecutor;
     }
 
     public ExecutorHelper shutdownTemp() {
@@ -143,16 +139,14 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory{
     private static class MainExecutor implements Executor {
         private Handler mainHandler;
 
-        public Handler getMainHandler() {
-            for (; ; ) {
-                if (mainHandler == null) {
-                    mainHandler = new Handler(Looper.getMainLooper());
-                }
-                if (mainHandler.getLooper() != Looper.getMainLooper()) {
-                    mainHandler = new Handler(Looper.getMainLooper());
-                }
-                return mainHandler;
+        public synchronized Handler getMainHandler() {
+            if (mainHandler == null) {
+                mainHandler = new Handler(Looper.getMainLooper());
             }
+            if (mainHandler.getLooper() != Looper.getMainLooper()) {
+                mainHandler = new Handler(Looper.getMainLooper());
+            }
+            return mainHandler;
         }
 
         @Override
