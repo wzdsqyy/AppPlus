@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.IntRange;
+import android.view.Gravity;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -19,18 +20,20 @@ public class SimpleDialog extends Dialog {
     public final static int DEFAULT_TOP = 3;
     public final static int DEFAULT_LOADING = 4;
     private float dimAmount = DEFAULT_DIM;
-    private int gravity;
-    private int height = WindowManager.LayoutParams.WRAP_CONTENT, width = WindowManager.LayoutParams.MATCH_PARENT;
+    private int gravity = Gravity.CENTER;
+    private int height = WindowManager.LayoutParams.WRAP_CONTENT;
+    private int width = WindowManager.LayoutParams.MATCH_PARENT;
     private Drawable backgroundDrawable;
 
     public static SimpleDialog newInstance(Context context) {
         return newInstance(context, DEFAULT_CENTER);
     }
 
-    public static SimpleDialog newInstance(Context context,@IntRange(from = 1,to = 4) int type) {
+    public static SimpleDialog newInstance(Context context, @IntRange(from = 1, to = 4) int type) {
         SimpleDialog fragment = new SimpleDialog(context);
         switch (type) {
             case DEFAULT_BOTTOM:
+                fragment.setGravity(Gravity.BOTTOM);
                 return fragment;
             case DEFAULT_CENTER:
                 fragment.setWidth(WindowManager.LayoutParams.WRAP_CONTENT);
