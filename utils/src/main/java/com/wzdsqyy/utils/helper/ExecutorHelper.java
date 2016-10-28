@@ -94,7 +94,6 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
 
     /**
      * Glide的线程池设置
-     *
      * @param builder
      * @return
      */
