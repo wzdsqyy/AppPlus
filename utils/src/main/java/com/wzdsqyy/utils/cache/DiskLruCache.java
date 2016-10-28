@@ -16,10 +16,6 @@
 
 package com.wzdsqyy.utils.cache;
 
-
-
-import com.wzdsqyy.utils.helper.ExecutorHelper;
-
 import java.io.BufferedWriter;
 import java.io.Closeable;
 import java.io.EOFException;
@@ -39,6 +35,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * A cache that uses a bounded amount of space on a filesystem. Each cache
@@ -164,7 +161,7 @@ public final class DiskLruCache implements Closeable {
 
     public synchronized ExecutorService getExecutorService() {
         if (executorService == null) {
-            executorService = ExecutorHelper.getHelper().getExecutor();
+            executorService = Executors.newCachedThreadPool();
         }
         return executorService;
     }

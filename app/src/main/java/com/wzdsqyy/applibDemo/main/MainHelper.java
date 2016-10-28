@@ -2,6 +2,8 @@ package com.wzdsqyy.applibDemo.main;
 
 import com.wzdsqyy.applibDemo.ImageSelector.ImageSelectorActivity;
 import com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity;
+import com.wzdsqyy.applibDemo.MutiItemList.PullRefershActivity;
+import com.wzdsqyy.applibDemo.MutiItemList.ScrollingActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
@@ -45,6 +47,8 @@ public class MainHelper {
         list.add(new Bean("NestedListInPager", NestedListViewActivity.class));
         list.add(new Bean("NestedPagerInList", ListViewActivity.class));
         list.add(new Bean("NestedTwoListViewActivity", NestedTwoListViewActivity.class));
+        list.add(new Bean("PullRefershActivity", PullRefershActivity.class));
+        list.add(new Bean("ScrollingActivity", ScrollingActivity.class));
         return list;
     }
 }

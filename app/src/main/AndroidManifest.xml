@@ -20,8 +20,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Main">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Main">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -37,15 +39,14 @@
         <activity android:name=".ImageSelector.ImageSelectorActivity" />
         <activity android:name=".shapview.RoundAngleActivity" />
         <activity android:name=".recreate.ReCreateActivity" />
-        <activity android:name=".jsbridge.JsBridgeActivity" />
         <activity android:name=".sticky.StickyActivity" />
         <activity android:name=".blur.BlurActivity" />
-        <activity android:name=".lrulist.LruListActivity" />
+        <activity
+            android:name=".lrulist.LruListActivity"
+            android:theme="@style/AppTheme" />
         <activity android:name=".swapadapter.SwapAdapterActivity" />
         <activity android:name=".login.NeedLoginActivity" />
         <activity android:name=".login.LoginActivity" />
-        <activity android:name=".login.TargetLoginActivity" />
-        <activity android:name=".recyclerview.RecyclerViewActivity" />
         <activity android:name=".MutiItemList.MutiTypeActivity" />
         <activity android:name=".viewpager.ViewPagerActivity" />
         <activity android:name=".viewpager.NestedViewPagerActivity" />
@@ -58,7 +59,16 @@
         <service
             android:name=".BigBangService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
+
+        <activity
+            android:name=".MutiItemList.PullRefershActivity"
+            android:label="@string/title_activity_pull_refersh"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".MutiItemList.ScrollingActivity"
+            android:label="@string/title_activity_scrolling"
+            android:theme="@style/Main"></activity>
     </application>
 
 </manifest>

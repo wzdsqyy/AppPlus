@@ -9,11 +9,11 @@ import okhttp3.Response;
 /**
  * Created by Quinta on 2016/8/19.
  */
-class ProgressCallback implements Callback {
+class ProgressCallbackWapper implements Callback {
     private ProgressListener listener;
     private Callback callback;
 
-    public ProgressCallback(ProgressListener listener, Callback callback) {
+    public ProgressCallbackWapper(ProgressListener listener, Callback callback) {
         this.listener = listener;
         this.callback = callback;
     }

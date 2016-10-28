@@ -47,7 +47,7 @@ public abstract class TabbarFragment extends BaseFragment implements Tabbar,Tabb
 
     @Override
     public void addPage(BaseFragment page) {
-        addPage(page,null);
+        addPage(page,page.getClass().getCanonicalName());
     }
 
     @Override

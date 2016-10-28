@@ -13,16 +13,6 @@ import okhttp3.Response;
  * Created by Quinta on 2016/8/19.
  */
 public class ProgressHelper {
-    static {
-        try {
-            Class<?> clazz = Class.forName("okhttp3.OkHttpClient", false, ProgressHelper.class.getClassLoader());
-            if (clazz == null) {
-                throw new IllegalArgumentException("you must provided okhttp3");
-            }
-        } catch (ClassNotFoundException e) {
-            throw new IllegalArgumentException("you must provided okhttp3");
-        }
-    }
 
     public static RequestBody upload(RequestBody requestBody, ProgressListener listener) {
         return new ProgressRequestBody(requestBody, listener);
@@ -61,7 +51,7 @@ public class ProgressHelper {
 
     public static void download(Call call, ProgressListener listener, Callback callback) {
         if (listener != null) {
-            call.enqueue(new ProgressCallback(listener, callback));
+            call.enqueue(new ProgressCallbackWapper(listener, callback));
         } else {
             call.enqueue(callback);
         }

@@ -1,9 +1,15 @@
 package com.wzdsqyy.applibDemo.lrulist;
 
 import android.app.Activity;
+
+import android.app.ActivityManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityManagerCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,7 +19,11 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.wzdsqyy.applibDemo.R;
+import com.wzdsqyy.commonview.SwipeBackHelper;
+import com.wzdsqyy.commonview.SwipeBackLayout;
 import com.wzdsqyy.utils.LruList;
+
+import java.util.List;
 
 public class LruListActivity extends AppCompatActivity {
 
@@ -23,10 +33,14 @@ public class LruListActivity extends AppCompatActivity {
     ListView listView;
     ArrayAdapter<String> adapter;
     AdapterViewFlipper flipper;
+    private FragmentTransaction mCurTransaction;
+    private FragmentManager mFragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lru_list);
+        SwipeBackHelper.newInstance().attach(this).setDragEdge(SwipeBackLayout.DragEdge.LEFT);
         text= (EditText) findViewById(R.id.input);
         adapter=new ArrayAdapter(this,android.R.layout.simple_list_item_1);
         listView= (ListView) findViewById(R.id.list_item);
@@ -36,25 +50,11 @@ public class LruListActivity extends AppCompatActivity {
         flipper.setAdapter(view);
         flipper.setOnTouchListener(view);
         test(this);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
     public void reSetNum(View view) {
         String string = text.getEditableText().toString();
-        if(!TextUtils.isEmpty(string)&&TextUtils.isDigitsOnly(string)){
+        if(!TextUtils.isEmpty(string)&&TextUtils.isDigitsOnly(string)&&string.length()<5){
             lruList.setMaxCount(Integer.parseInt(string));
         }
         refershList(null);

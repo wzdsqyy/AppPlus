@@ -1,29 +1,19 @@
 package com.wzdsqyy.applibDemo.updata;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 
-import com.wzdsqyy.applib.ui.dialog.LoadingDialogController;
 import com.wzdsqyy.utils.okhttp.progress.ProgressListener;
 
-public class UpdataActivity extends AppCompatActivity implements LoadingDialogController, ProgressListener {
-    @Override
-    public void showLoadingDialog(boolean canCancel) {
-
-    }
-
-    @Override
-    public void closeLoadingDialog(boolean fail) {
-
-    }
-
-    @Override
-    public Context getContext() {
-        return null;
-    }
-
+public class UpdataActivity extends AppCompatActivity implements ProgressListener {
     @Override
     public boolean onProgress(long progress, long total, boolean done) {
+
+
+
+
+
+
+
         return false;
     }
 //    private static final String TAG = "UpdataActivity";

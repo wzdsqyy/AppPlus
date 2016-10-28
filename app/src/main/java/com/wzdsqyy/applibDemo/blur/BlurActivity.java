@@ -1,12 +1,13 @@
 package com.wzdsqyy.applibDemo.blur;
 
 import android.graphics.Color;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.wzdsqyy.commonview.drawable.BlurDrawable;
 import com.wzdsqyy.applibDemo.R;
+import com.wzdsqyy.commonview.drawable.BlurDrawable;
 
 public class BlurActivity extends AppCompatActivity {
 
@@ -26,5 +27,18 @@ public class BlurActivity extends AppCompatActivity {
 //所以相对位置偏移为0
         drawable.setDrawOffset(0, 0);
         findViewById(R.id.bulrview).setBackgroundDrawable(drawable);
+
+
+        Handler.Callback callback;
+
+
+
+
+
+
+
+
+
+
     }
 }

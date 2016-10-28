@@ -20,11 +20,13 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
@@ -50,6 +52,30 @@ public class AppUtils {
         } catch (PackageManager.NameNotFoundException e) {
             return "";
         }
+    }
+
+    /**
+     * 设置本App所有的ListView弹性粒度
+     *
+     * @param ctx
+     * @param size
+     * @return
+     */
+    public static boolean configGlobalMaxOverScrollDistance(Context ctx, int size) {
+        try {
+            final DisplayMetrics metrics = ctx.getResources().getDisplayMetrics();
+            final float density = metrics.density;
+            int value = (int) (density * size);
+            ViewConfiguration config = ViewConfiguration.get(ctx);
+            Field mOverscrollDistance = ViewConfiguration.class.getDeclaredField("mOverscrollDistance");
+            if (!mOverscrollDistance.isAccessible() || !Modifier.isPublic(mOverscrollDistance.getModifiers())) {
+                mOverscrollDistance.setAccessible(true);
+            }
+            mOverscrollDistance.setInt(config, value);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     /**

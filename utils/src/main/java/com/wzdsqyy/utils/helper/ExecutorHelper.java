@@ -2,16 +2,18 @@ package com.wzdsqyy.utils.helper;
 
 import android.os.AsyncTask;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Process;
+import android.support.annotation.NonNull;
 
 import com.bumptech.glide.GlideBuilder;
 
 import org.greenrobot.eventbus.EventBusBuilder;
 
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -28,7 +30,7 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     private static ExecutorHelper helper;
     private ThreadPoolExecutor executor;
     private ThreadPoolExecutor expandExecutor;
-    private Executor mainExecutor;
+    private MainExecutor mainExecutor;
 
     private ExecutorHelper() {
         executor = (ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR;
@@ -37,11 +39,34 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         mainExecutor = new MainExecutor();
     }
 
-    /**
-     * 获取UI线程
-     *
-     * @return
-     */
+    public static void setExecutor(@NonNull ExecutorConsumer consumer) {
+        consumer.setExecutorService(getHelper().getExecutor());
+    }
+
+    public static void setMainExecutor(@NonNull ExecutorConsumer consumer) {
+        consumer.setExecutorService(getHelper().getMainExecutor());
+    }
+
+    public Handler getMainHandler() {
+        return mainExecutor.getMainHandler();
+    }
+
+    public <R> void runOnMainExcutor(@NonNull Callback<R> callback, R result) {
+        getMainExecutor().execute(TaskProxy.newInstance(result, callback));
+    }
+
+    public <R> Future<R> runOnExcutor(@NonNull Callable<R> call) {
+        return getExecutor().submit(call);
+    }
+
+    public <R> void runOnExcutor(@NonNull Future<R> future, @NonNull Callback<R> callback) {
+        getExecutor().execute(FutureProxy.newInstance(future, callback, getMainExecutor()));
+    }
+
+    public <R> void runOnMainExcutor(@NonNull ErrorCallback<R> callback, Throwable ex) {
+        getMainExecutor().execute(TaskProxy.newInstance(ex, callback));
+    }
+
     public Executor getMainExecutor() {
         return mainExecutor;
     }
@@ -77,12 +102,6 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         return builder.setResizeService(getExecutor()).setDiskCacheService(getExecutor());
     }
 
-
-    /**
-     * 获取单例
-     *
-     * @return
-     */
     public static synchronized ExecutorHelper getHelper() {
         if (helper == null) {
             helper = new ExecutorHelper();
@@ -90,11 +109,6 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         return helper;
     }
 
-    /**
-     * 后台任务
-     *
-     * @return
-     */
     public ExecutorService getExecutor() {
         return executor;
     }
@@ -104,13 +118,6 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
             expandExecutor = (ThreadPoolExecutor) Executors.newCachedThreadPool(this);
         }
         return expandExecutor;
-    }
-
-    public ExecutorHelper shutdownTemp() {
-        if (executor != null || !executor.isShutdown()) {
-            executor.shutdown();
-        }
-        return this;
     }
 
     public void release() {
@@ -131,27 +138,8 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     private final AtomicInteger mCount = new AtomicInteger(1);
 
     public Thread newThread(Runnable r) {
-        Thread thread = new Thread(r, "ExecutorPool #" + mCount.getAndIncrement());
+        Thread thread = new Thread(r, "ExecutorHelper #" + mCount.getAndIncrement());
         thread.setPriority(Process.THREAD_PRIORITY_BACKGROUND);
         return thread;
-    }
-
-    private static class MainExecutor implements Executor {
-        private Handler mainHandler;
-
-        public synchronized Handler getMainHandler() {
-            if (mainHandler == null) {
-                mainHandler = new Handler(Looper.getMainLooper());
-            }
-            if (mainHandler.getLooper() != Looper.getMainLooper()) {
-                mainHandler = new Handler(Looper.getMainLooper());
-            }
-            return mainHandler;
-        }
-
-        @Override
-        public void execute(Runnable command) {
-            getMainHandler().post(command);
-        }
     }
 }
