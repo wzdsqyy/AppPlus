@@ -30,13 +30,10 @@ public final class PageManager implements TabbarManager, NavManager {
         this.contentPage = contentPage;
     }
 
-    private static <F extends BaseFragment> PageManager attach(@NonNull F tabbar, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager, boolean isTab) {
-        if (tabbar instanceof ContentPage) {
-            PageManager fragment = new PageManager(isTab, tabbar, (ContentPage) tabbar);
-            manager.beginTransaction().replace(contentId, tabbar, tag).commitNow();
-            return fragment;
-        }
-        throw new RuntimeException("tabbar 必须实现 Page 接口");
+    private static <F extends BaseFragment> PageManager attach(@NonNull F tabbar,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager, boolean isTab) {
+        PageManager fragment = new PageManager(isTab, tabbar, page);
+        manager.beginTransaction().replace(contentId, tabbar, tag).commitNow();
+        return fragment;
     }
 
     /**
@@ -47,8 +44,8 @@ public final class PageManager implements TabbarManager, NavManager {
      * @param <F>
      * @return 管理Tabbar的
      */
-    public static <F extends BaseFragment> TabbarManager attachTabbar(@NonNull F tabbar, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
-        return attach(tabbar, contentId, tag, manager, true);
+    public static <F extends BaseFragment> TabbarManager attachTabbar(@NonNull F tabbar,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
+        return attach(tabbar,page,contentId, tag, manager, true);
     }
 
     /**
@@ -59,8 +56,8 @@ public final class PageManager implements TabbarManager, NavManager {
      * @param <F>
      * @return 管理导航的
      */
-    public static <F extends BaseFragment> NavManager attachNav(@NonNull F nav, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
-        return attach(nav, contentId, tag, manager, false);
+    public static <F extends BaseFragment> NavManager attachNav(@NonNull F nav,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
+        return attach(nav,page,contentId, tag, manager, false);
     }
 
     @Override
