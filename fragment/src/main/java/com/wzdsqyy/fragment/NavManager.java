@@ -15,6 +15,12 @@ public interface NavManager extends Nav, IManager<NavManager> {
      * @param tag
      */
     NavManager pushPage(Fragment page, String tag);
+    /**
+     * 显示一个页面并加入返回栈
+     *
+     * @param page
+     */
+    NavManager pushPage(Fragment page);
 
     /**
      * 顶层页面出栈

@@ -25,13 +25,6 @@ public abstract class NavFragment extends BaseFragment implements Nav, NavManage
         return onBackStackChangedListener;
     }
 
-    public NavManager getNavManager() {
-        if(!isAdded()){
-            throw new RuntimeException("必须在当Fragment关联了Avtivity 才可以调用");
-        }
-        return this;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedState) {
         super.onCreate(savedState);
