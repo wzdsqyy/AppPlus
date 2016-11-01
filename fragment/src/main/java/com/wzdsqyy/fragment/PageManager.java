@@ -30,7 +30,7 @@ public final class PageManager implements TabbarManager, NavManager {
         this.contentPage = contentPage;
     }
 
-    private static <F extends BaseFragment> PageManager attach(@NonNull F tabbar,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager, boolean isTab) {
+    private static <F extends BaseFragment> PageManager attach(@NonNull F tabbar, @NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager, boolean isTab) {
         PageManager fragment = new PageManager(isTab, tabbar, page);
         manager.beginTransaction().replace(contentId, tabbar, tag).commitNow();
         return fragment;
@@ -38,26 +38,28 @@ public final class PageManager implements TabbarManager, NavManager {
 
     /**
      * @param tabbar
+     * @param page      管理Fragment中的那个id的接口
      * @param contentId
      * @param tag
      * @param manager
      * @param <F>
      * @return 管理Tabbar的
      */
-    public static <F extends BaseFragment> TabbarManager attachTabbar(@NonNull F tabbar,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
-        return attach(tabbar,page,contentId, tag, manager, true);
+    public static <F extends BaseFragment> TabbarManager attachTabbar(@NonNull F tabbar, @NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
+        return attach(tabbar, page, contentId, tag, manager, true);
     }
 
     /**
      * @param nav
+     * @param page      管理Fragment中的那个id的接口
      * @param contentId
      * @param tag
      * @param manager
      * @param <F>
      * @return 管理导航的
      */
-    public static <F extends BaseFragment> NavManager attachNav(@NonNull F nav,@NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
-        return attach(nav,page,contentId, tag, manager, false);
+    public static <F extends BaseFragment> NavManager attachNav(@NonNull F nav, @NonNull ContentPage page, @IdRes int contentId, @NonNull String tag, @NonNull FragmentManager manager) {
+        return attach(nav, page, contentId, tag, manager, false);
     }
 
     @Override

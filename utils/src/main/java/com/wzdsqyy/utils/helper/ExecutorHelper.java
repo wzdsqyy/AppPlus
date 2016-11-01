@@ -2,6 +2,7 @@ package com.wzdsqyy.utils.helper;
 
 import android.os.AsyncTask;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Process;
 import android.support.annotation.NonNull;
 
@@ -18,6 +19,8 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import okhttp3.Dispatcher;
 import okhttp3.OkHttpClient;
@@ -30,13 +33,18 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     private static ExecutorHelper helper;
     private ThreadPoolExecutor executor;
     private ThreadPoolExecutor expandExecutor;
-    private MainExecutor mainExecutor;
+    private MainExecutor mainHandler;
 
     private ExecutorHelper() {
         executor = (ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR;
         executor.setRejectedExecutionHandler(this);
         executor.setThreadFactory(this);
-        mainExecutor = new MainExecutor();
+        mainHandler = new MainExecutor();
+    }
+
+    public ExecutorHelper setCallback(Handler.Callback callback) {
+        getMainHandler().setCallback(callback);
+        return this;
     }
 
     public static void setExecutor(@NonNull ExecutorConsumer consumer) {
@@ -46,9 +54,17 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     public static void setMainExecutor(@NonNull ExecutorConsumer consumer) {
         consumer.setExecutorService(getHelper().getMainExecutor());
     }
-
-    public Handler getMainHandler() {
-        return mainExecutor.getMainHandler();
+    ReentrantLock lockHandler=new ReentrantLock();
+    public MainExecutor getMainHandler() {
+        if(mainHandler!=null) {
+            return mainHandler;
+        }
+        lockHandler.lock();
+        if(mainHandler==null||mainHandler.getLooper()!=Looper.getMainLooper()){
+            mainHandler=new MainExecutor();
+        }
+        lockHandler.unlock();
+        return mainHandler;
     }
 
     public <R> void runOnMainExcutor(@NonNull Callback<R> callback, R result) {
@@ -67,8 +83,11 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         getMainExecutor().execute(TaskProxy.newInstance(ex, callback));
     }
 
-    public Executor getMainExecutor() {
-        return mainExecutor;
+    public synchronized Executor getMainExecutor() {
+        if(mainHandler ==null|| mainHandler.getLooper()!=Looper.getMainLooper()){
+            mainHandler =new MainExecutor();
+        }
+        return mainHandler;
     }
 
     /**
