@@ -1,13 +1,14 @@
 package com.wzdsqyy.fragment;
 
 
+import android.support.annotation.AnimRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 
 /**
  * Created by Qiuyy on 2016/8/25.
  */
-public interface NavManager extends Nav, IManager<NavManager> {
+public interface NavManager {
     /**
      * 显示一个页面并加入返回栈
      *
@@ -15,6 +16,7 @@ public interface NavManager extends Nav, IManager<NavManager> {
      * @param tag
      */
     NavManager pushPage(Fragment page, String tag);
+
     /**
      * 显示一个页面并加入返回栈
      *
@@ -61,4 +63,16 @@ public interface NavManager extends Nav, IManager<NavManager> {
     FragmentManager getNavFragmentManager();
 
     NavManager setOnNavBackStackListener(OnNavBackStackListener listener);
+
+    /**
+     * @return Optional identifier of the container this fragment is
+     * to be placed in.  If 0, it will not be placed in a container.
+     */
+    int getNavContentId();
+
+    Fragment getRootFragment();
+
+    NavManager setAnimations(@AnimRes int enter, @AnimRes int exit);
+
+    NavManager setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }

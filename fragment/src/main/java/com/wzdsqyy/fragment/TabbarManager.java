@@ -1,9 +1,13 @@
 package com.wzdsqyy.fragment;
 
+import android.support.annotation.AnimRes;
+import android.support.annotation.IdRes;
+import android.support.v4.app.FragmentManager;
+
 /**
  * Created by Qiuyy on 2016/8/25.
  */
-public interface TabbarManager extends Tabbar,IManager<TabbarManager> {
+public interface TabbarManager{
     /**
      * 显示页面
      *
@@ -34,4 +38,18 @@ public interface TabbarManager extends Tabbar,IManager<TabbarManager> {
      * @return
      */
     boolean onBackPressed();
+
+    /**
+     * @return Optional identifier of the container this fragment is
+     * to be placed in.  If 0, it will not be placed in a container.
+     */
+    @IdRes
+    int getTabContentId();
+
+
+    FragmentManager getTabbarFragmentManager();
+
+    TabbarManager setAnimations(@AnimRes int enter, @AnimRes int exit);
+
+    TabbarManager setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }

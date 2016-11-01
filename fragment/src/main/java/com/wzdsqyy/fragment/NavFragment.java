@@ -11,7 +11,7 @@ import android.view.View;
 /**
  * Created by Qiuyy on 2016/8/26.
  */
-public abstract class NavFragment extends BaseFragment implements Nav, NavManager {
+public abstract class NavFragment extends BaseFragment implements NavManager {
     private int enter = 0;
     private int exit = 0;
     private int popEnter = 0;
