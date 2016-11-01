@@ -1,8 +1,8 @@
 package com.wzdsqyy.fragment;
 
 import android.support.annotation.AnimRes;
-import android.support.annotation.IdRes;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 /**
  * Created by Qiuyy on 2016/8/25.
@@ -13,24 +13,31 @@ public interface TabbarManager{
      *
      * @param page
      */
-    void showPage(BaseFragment page);
+    TabbarManager showPage(BaseFragment page);
 
     /**
      * 隐藏页面
      *
      * @param page
      */
-    void hidePage(BaseFragment page);
+    TabbarManager hidePage(BaseFragment page);
 
     /**
      * 添加页面
      */
-    void addPage(BaseFragment page, String tag);
+    FragmentTransaction addPage(BaseFragment page, String tag);
 
     /**
      * 添加页面
      */
-    void addPage(BaseFragment page);
+    FragmentTransaction addPage(BaseFragment page);
+
+
+    /**
+     * 默认显示第一个add的page
+     * @return
+     */
+    TabbarManager commit();
 
     /**
      * 点击返回按钮
@@ -39,17 +46,10 @@ public interface TabbarManager{
      */
     boolean onBackPressed();
 
-    /**
-     * @return Optional identifier of the container this fragment is
-     * to be placed in.  If 0, it will not be placed in a container.
-     */
-    @IdRes
-    int getTabContentId();
 
+    FragmentManager getPageFragmentManager();
 
-    FragmentManager getTabbarFragmentManager();
+    void setAnimations(@AnimRes int enter, @AnimRes int exit);
 
-    TabbarManager setAnimations(@AnimRes int enter, @AnimRes int exit);
-
-    TabbarManager setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
+    void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }

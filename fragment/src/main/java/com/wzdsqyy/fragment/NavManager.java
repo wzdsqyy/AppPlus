@@ -18,13 +18,6 @@ public interface NavManager {
     NavManager pushPage(Fragment page, String tag);
 
     /**
-     * 显示一个页面并加入返回栈
-     *
-     * @param page
-     */
-    NavManager pushPage(Fragment page);
-
-    /**
      * 顶层页面出栈
      */
     NavManager popPage();
@@ -33,12 +26,6 @@ public interface NavManager {
      * 清空栈
      */
     NavManager clearNav();
-
-
-    /**
-     * 当前是否已经是栈底
-     */
-    boolean isRootPage();
 
     /**
      * 显示一个页面不加入返回栈
@@ -60,19 +47,9 @@ public interface NavManager {
 
     int getBackStackCount();
 
-    FragmentManager getNavFragmentManager();
+    FragmentManager getPageFragmentManager();
 
-    NavManager setOnNavBackStackListener(OnNavBackStackListener listener);
+    void setAnimations(@AnimRes int enter, @AnimRes int exit);
 
-    /**
-     * @return Optional identifier of the container this fragment is
-     * to be placed in.  If 0, it will not be placed in a container.
-     */
-    int getNavContentId();
-
-    Fragment getRootFragment();
-
-    NavManager setAnimations(@AnimRes int enter, @AnimRes int exit);
-
-    NavManager setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
+    void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }
