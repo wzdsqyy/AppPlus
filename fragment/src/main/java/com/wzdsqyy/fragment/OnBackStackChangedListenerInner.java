@@ -8,9 +8,8 @@ import android.support.v4.app.FragmentManager;
 class OnBackStackChangedListenerInner implements FragmentManager.OnBackStackChangedListener {
 
     private OnNavBackStackListener onNavBackStackListener;
-    private NavManager manager;
-
-    public OnBackStackChangedListenerInner(NavManager manager) {
+    private FragmentManager manager;
+    public OnBackStackChangedListenerInner(FragmentManager manager) {
         this.manager = manager;
     }
 

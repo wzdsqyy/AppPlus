@@ -44,10 +44,7 @@ public interface NavManager {
      */
     boolean onBackPressed();
 
-
     int getBackStackCount();
-
-    FragmentManager getPageFragmentManager();
 
     void setAnimations(@AnimRes int enter, @AnimRes int exit);
 

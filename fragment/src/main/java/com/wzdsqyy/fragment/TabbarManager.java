@@ -46,9 +46,6 @@ public interface TabbarManager{
      */
     boolean onBackPressed();
 
-
-    FragmentManager getPageFragmentManager();
-
     void setAnimations(@AnimRes int enter, @AnimRes int exit);
 
     void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);

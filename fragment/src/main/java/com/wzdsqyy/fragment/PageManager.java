@@ -65,7 +65,7 @@ public final class PageManager implements TabbarManager, NavManager {
     @Override
     public TabbarManager showPage(BaseFragment page) {
         FragmentTransaction transaction = beginTransaction();
-        List<Fragment> list = getPageFragmentManager().getFragments();
+        List<Fragment> list = getFragmentManager().getFragments();
         Fragment fragment;
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
@@ -81,7 +81,7 @@ public final class PageManager implements TabbarManager, NavManager {
     }
 
     private FragmentTransaction beginTransaction() {
-        return getPageFragmentManager().beginTransaction().setCustomAnimations(enter, exit, popEnter, popExit);
+        return getFragmentManager().beginTransaction().setCustomAnimations(enter, exit, popEnter, popExit);
     }
 
     @Override
@@ -151,15 +151,15 @@ public final class PageManager implements TabbarManager, NavManager {
     }
 
     public NavManager popPage() {
-        getPageFragmentManager().popBackStack();
+        getFragmentManager().popBackStack();
         return this;
     }
 
     public NavManager clearNav() {
         if (!isTabbar) {
-            if (getPageFragmentManager().getBackStackEntryCount() > 0) {
-                FragmentManager.BackStackEntry entry = getPageFragmentManager().getBackStackEntryAt(0);
-                getPageFragmentManager().popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            if (getFragmentManager().getBackStackEntryCount() > 0) {
+                FragmentManager.BackStackEntry entry = getFragmentManager().getBackStackEntryAt(0);
+                getFragmentManager().popBackStack(entry.getId(), FragmentManager.POP_BACK_STACK_INCLUSIVE);
             }
         }
         return this;
@@ -178,12 +178,11 @@ public final class PageManager implements TabbarManager, NavManager {
 
     @Override
     public int getBackStackCount() {
-        return getPageFragmentManager().getBackStackEntryCount();
+        return getFragmentManager().getBackStackEntryCount();
     }
 
-    @Override
-    public FragmentManager getPageFragmentManager() {
-        return getPageFragmentManager();
+    private FragmentManager getFragmentManager() {
+        return contentPage.getPageFragmentManager();
     }
 
     public int getNavContentId() {
@@ -192,9 +191,9 @@ public final class PageManager implements TabbarManager, NavManager {
 
     private FragmentTransaction beginTransaction(boolean isAnim) {
         if (isAnim) {
-            return getPageFragmentManager().beginTransaction().setCustomAnimations(enter, exit, popEnter, popExit);
+            return getFragmentManager().beginTransaction().setCustomAnimations(enter, exit, popEnter, popExit);
         } else {
-            return getPageFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_NONE);
+            return getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_NONE);
         }
     }
 }
