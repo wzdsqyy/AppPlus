@@ -8,6 +8,7 @@ import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
 import com.wzdsqyy.applibDemo.dialog.DialogActivity;
+import com.wzdsqyy.applibDemo.fragment.OneActivity;
 import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
@@ -39,6 +40,11 @@ public class MainHelper {
         list.add(new Bean("Dialog",DialogActivity.class));
         list.add(new Bean("创建Activity",ReCreateActivity.class));
         list.add(new Bean("Blur",BlurActivity.class));
+
+
+        list.add(new Bean("单Activity应用",OneActivity.class));
+
+
         list.add(new Bean("LruList",LruListActivity.class));
         list.add(new Bean("Mutitype",MutiTypeActivity.class));
         list.add(new Bean("ViewPager",ViewPagerActivity.class));

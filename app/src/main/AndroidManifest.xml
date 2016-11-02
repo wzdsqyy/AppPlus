@@ -68,7 +68,11 @@
         <activity
             android:name=".MutiItemList.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/Main"></activity>
+            android:theme="@style/Main" />
+        <activity android:name=".activity.FristActivity" />
+        <activity android:name=".activity.SecondActivity" />
+        <activity android:name=".fragment.OneActivity" />
+        <activity android:name=".fragment.SecondActivity"></activity>
     </application>
 
 </manifest>
