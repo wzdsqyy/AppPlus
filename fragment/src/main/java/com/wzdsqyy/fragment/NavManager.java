@@ -15,12 +15,15 @@ public interface NavManager {
      * @param page
      * @param tag
      */
-    NavManager pushPage(Fragment page, String tag);
+    NavManager pushPage(BaseFragment page, String tag);
 
     /**
      * 顶层页面出栈
      */
     NavManager popPage();
+
+
+    SaveState getSaveState();
 
     /**
      * 清空栈
@@ -33,9 +36,9 @@ public interface NavManager {
      * @param page
      * @param tag
      */
-    NavManager showPage(Fragment page, String tag);
+    NavManager showPage(BaseFragment page, String tag);
 
-    NavManager showPage(Fragment page, String tag, boolean isAnim);
+    NavManager showPage(BaseFragment page, String tag, boolean isAnim);
 
     /**
      * 点击返回按钮

@@ -1,40 +1,38 @@
 package com.wzdsqyy.fragment;
 
 import android.support.annotation.AnimRes;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+
+import java.util.List;
 
 /**
  * Created by Qiuyy on 2016/8/25.
  */
-public interface TabbarManager{
+public interface TabbarManager {
     /**
      * 显示页面
      *
-     * @param page
+     * @param index 索引，第几个添加的
      */
-    TabbarManager showPage(BaseFragment page);
+    TabbarManager showPage(int index);
 
-    /**
-     * 隐藏页面
-     *
-     * @param page
-     */
-    TabbarManager hidePage(BaseFragment page);
+
+    SaveState getSaveState();
 
     /**
      * 添加页面
      */
-    FragmentTransaction addPage(BaseFragment page, String tag);
+    TabbarManager addPage(BaseFragment page, String tag);
 
     /**
      * 添加页面
      */
-    FragmentTransaction addPage(BaseFragment page);
+    TabbarManager addPage(BaseFragment page);
 
 
     /**
      * 默认显示第一个add的page
+     *
      * @return
      */
     TabbarManager commit();

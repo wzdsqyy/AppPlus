@@ -11,6 +11,7 @@ public class BaseFragment extends Fragment {
 
     public BaseFragment setUserVisibleHintListener(OnUserVisibleHintListener userVisibleHintListener) {
         this.userVisibleHintListener = userVisibleHintListener;
+        onResume();
         return this;
     }
 
