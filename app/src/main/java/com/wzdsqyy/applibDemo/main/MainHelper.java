@@ -41,7 +41,7 @@ public class MainHelper {
         list.add(new Bean("创建Activity",ReCreateActivity.class));
         list.add(new Bean("Blur",BlurActivity.class));
 
-
+        list.add(new Bean("pull",PullRefershActivity.class));
         list.add(new Bean("单Activity应用",OneActivity.class));
 
 

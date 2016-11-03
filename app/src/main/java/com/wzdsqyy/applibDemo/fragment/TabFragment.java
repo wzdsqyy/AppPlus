@@ -2,19 +2,18 @@ package com.wzdsqyy.applibDemo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.wzdsqyy.fragment.BaseFragment;
-
 /**
  * Created by Administrator on 2016/11/2.
  */
 
-public class TabFragment extends BaseFragment {
+public class TabFragment extends Fragment {
     String index;
     private static final String TAG = "TabFragment";
 

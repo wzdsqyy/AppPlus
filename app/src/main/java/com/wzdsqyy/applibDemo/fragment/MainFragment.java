@@ -2,6 +2,7 @@ package com.wzdsqyy.applibDemo.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,17 +11,17 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.wzdsqyy.applibDemo.R;
-import com.wzdsqyy.fragment.BaseFragment;
 import com.wzdsqyy.fragment.ContentPage;
-import com.wzdsqyy.fragment.PageManager;
 import com.wzdsqyy.fragment.TabbarManager;
+import com.wzdsqyy.fragment.internal.ManagerProvider;
 
 /**
  * Created by Administrator on 2016/11/2.
  */
 
-public class MainFragment extends BaseFragment implements ContentPage,View.OnClickListener {
+public class MainFragment extends Fragment implements ContentPage,View.OnClickListener {
     private TabbarManager manager;
+    private ManagerProvider managerProvider;
     private int index=0;
     private static final String TAG = "MainFragment";
 
@@ -29,15 +30,21 @@ public class MainFragment extends BaseFragment implements ContentPage,View.OnCli
         return this;
     }
 
-    public static MainFragment newInstance(int index) {
+    public static MainFragment newInstance(int index,ManagerProvider managerProvider) {
         MainFragment fragment = new MainFragment();
         fragment.index=index;
+        fragment.managerProvider = managerProvider;
         return fragment;
     }
 
     @Override
     public int getContentId() {
         return R.id.main_page_containr;
+    }
+
+    @Override
+    public boolean onUserPressedBack() {
+        return false;
     }
 
     public @Nullable TabbarManager getManager() {
@@ -88,8 +95,8 @@ public class MainFragment extends BaseFragment implements ContentPage,View.OnCli
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        manager= PageManager.attachTabbar(this);
-        manager.addPage(TabFragment.newInstance(0))
+        manager= managerProvider.createTabbarManager(this)
+                .addPage(TabFragment.newInstance(0))
                 .addPage(TabFragment.newInstance(1))
                 .addPage(TabFragment.newInstance(2))
                 .addPage(TabFragment.newInstance(3))

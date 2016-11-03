@@ -4,17 +4,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.text.style.URLSpan;
 import android.view.View;
 
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.fragment.ContentPage;
 import com.wzdsqyy.fragment.NavManager;
-import com.wzdsqyy.fragment.PageManager;
+import com.wzdsqyy.fragment.internal.ManagerProvider;
 
 public class OneActivity extends AppCompatActivity implements ContentPage{
 
-    NavManager manager;
+    ManagerProvider managerProvider=ManagerProvider.newInstance();
+    NavManager navManager;
     int index=0;
     private static final int TEST=2;
 
@@ -22,24 +22,24 @@ public class OneActivity extends AppCompatActivity implements ContentPage{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_one);
-        manager = PageManager.attachNav(this);
+        navManager = managerProvider.createNavManager(this);
         MainFragment fragment= (MainFragment) getPageFragmentManager().findFragmentByTag("MainFragment");
         if(fragment==null){
-            fragment=MainFragment.newInstance(index);
+            fragment=MainFragment.newInstance(index, managerProvider);
             index++;
         }
-        manager.showPage(fragment,"MainFragment");
+        navManager.showPage(fragment,"MainFragment");
     }
 
     public void nextPage(View view){
         index++;
-        MainFragment fragment= MainFragment.newInstance(index);
-        manager.pushPage(fragment,null);
+        MainFragment fragment= MainFragment.newInstance(index, managerProvider);
+        navManager.pushPage(fragment,null);
     }
 
     public void prePage(View view){
-        if(manager.getBackStackCount()>0){
-            manager.popPage();
+        if(navManager.getBackStackCount()>0){
+            navManager.popPage();
             index--;
         }
     }
@@ -52,21 +52,21 @@ public class OneActivity extends AppCompatActivity implements ContentPage{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        manager.getSaveState().onSaveInstanceState();
+        navManager.getSaveState().onSaveInstanceState();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==TEST){
-            manager.pushPage(TestFragment.newInstance(),"TestFragment");
+            navManager.pushPage(TestFragment.newInstance(),"TestFragment");
         }
     }
 
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        manager.getSaveState().onPostResume();
+        managerProvider.getSaveState().onPostResume();
     }
 
     @Override
@@ -82,6 +82,12 @@ public class OneActivity extends AppCompatActivity implements ContentPage{
     @Override
     public int getContentId() {
         return R.id.activity_one;
+    }
+
+    @Override
+    public boolean onUserPressedBack() {
+        onUserPressedBack();
+        return true;
     }
 
     @Override
