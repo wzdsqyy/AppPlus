@@ -1,6 +1,8 @@
-package com.wzdsqyy.fragment;
+package com.wzdsqyy.fragment.internal;
 
 import android.support.v4.app.FragmentTransaction;
+
+import com.wzdsqyy.fragment.SaveState;
 
 import java.util.ArrayList;
 
@@ -41,7 +43,16 @@ class SaveStateImpl implements SaveState {
         if(commit){
             transaction.commit();
         }else {
-            getTasks().add(new StateTask(transaction));
+            getTasks().add(new StateTask(transaction,false));
+        }
+    }
+
+    @Override
+    public void commitNow(FragmentTransaction transaction) {
+        if(commit){
+            transaction.commitNow();
+        }else {
+            getTasks().add(new StateTask(transaction,true));
         }
     }
 }

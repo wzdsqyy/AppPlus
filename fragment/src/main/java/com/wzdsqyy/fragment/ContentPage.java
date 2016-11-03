@@ -15,5 +15,7 @@ public interface ContentPage {
     @IdRes
     int getContentId();
 
+    boolean onUserPressedBack();
+
     FragmentManager getPageFragmentManager();
 }

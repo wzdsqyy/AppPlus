@@ -10,4 +10,5 @@ public interface SaveState {
     void onSaveInstanceState();
     void onPostResume();
     void commit(FragmentTransaction transaction);
+    void commitNow(FragmentTransaction transaction);
 }

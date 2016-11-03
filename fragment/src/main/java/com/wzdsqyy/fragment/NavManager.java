@@ -1,21 +1,19 @@
 package com.wzdsqyy.fragment;
 
 
-import android.support.annotation.AnimRes;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 
 /**
  * Created by Qiuyy on 2016/8/25.
  */
-public interface NavManager {
+public interface NavManager extends Manager {
     /**
      * 显示一个页面并加入返回栈
      *
      * @param page
      * @param tag
      */
-    NavManager pushPage(BaseFragment page, String tag);
+    <F extends Fragment> NavManager pushPage(F page, String tag);
 
     /**
      * 顶层页面出栈
@@ -36,20 +34,9 @@ public interface NavManager {
      * @param page
      * @param tag
      */
-    NavManager showPage(BaseFragment page, String tag);
+    <F extends Fragment> NavManager showPage(F page, String tag);
 
-    NavManager showPage(BaseFragment page, String tag, boolean isAnim);
-
-    /**
-     * 点击返回按钮
-     *
-     * @return
-     */
-    boolean onBackPressed();
+    <F extends Fragment> NavManager showPage(F page, String tag, boolean isAnim);
 
     int getBackStackCount();
-
-    void setAnimations(@AnimRes int enter, @AnimRes int exit);
-
-    void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }

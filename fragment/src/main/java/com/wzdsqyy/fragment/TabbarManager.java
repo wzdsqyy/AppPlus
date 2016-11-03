@@ -1,14 +1,11 @@
 package com.wzdsqyy.fragment;
 
-import android.support.annotation.AnimRes;
-import android.support.v4.app.FragmentTransaction;
-
-import java.util.List;
+import android.support.v4.app.Fragment;
 
 /**
  * Created by Qiuyy on 2016/8/25.
  */
-public interface TabbarManager {
+public interface TabbarManager extends Manager {
     /**
      * 显示页面
      *
@@ -17,17 +14,25 @@ public interface TabbarManager {
     TabbarManager showPage(int index);
 
 
+    /**
+     * 显示页面
+     *
+     * @param index 索引，第几个添加的
+     */
+    TabbarManager showPage(int index,boolean anim);
+
+
     SaveState getSaveState();
 
     /**
      * 添加页面
      */
-    TabbarManager addPage(BaseFragment page, String tag);
+    <F extends Fragment> TabbarManager addPage(F page, String tag);
 
     /**
      * 添加页面
      */
-    TabbarManager addPage(BaseFragment page);
+    <F extends Fragment> TabbarManager addPage(F page);
 
 
     /**
@@ -36,15 +41,4 @@ public interface TabbarManager {
      * @return
      */
     TabbarManager commit();
-
-    /**
-     * 点击返回按钮
-     *
-     * @return
-     */
-    boolean onBackPressed();
-
-    void setAnimations(@AnimRes int enter, @AnimRes int exit);
-
-    void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit);
 }
