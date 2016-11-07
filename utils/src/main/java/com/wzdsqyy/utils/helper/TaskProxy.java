@@ -47,10 +47,13 @@ class TaskProxy<T> implements Runnable{
     }
 
     private void mainTask() {
-        if(result!=null){
+        if(ex!=null||result==null){
+            if(callback instanceof ErrorCallback){
+                ((ErrorCallback) callback).onFailure(ex);
+            }
+            return;
+        }else {
             callback.onSuccess(result);
-        }else if(ex!=null&&callback instanceof ErrorCallback){
-            ((ErrorCallback) callback).onFailure(ex);
         }
         if (callback instanceof FinallyCallback){
             ((FinallyCallback) callback).onFinally();

@@ -22,6 +22,20 @@ public class SpringLayout extends FrameLayout implements NestedScrollingParent {
     NestedScrollingParentHelper mParentHelper;
     int HEADER_MAX_DISTANCE = 350, FOOTER_MAX_DISTANCE = 350;
     int mHeaderDistance = 0, mFooterDistance = 0;
+    private OnRefreshListener refreshListener;
+    private View target;
+    private UIHandler mHeader;
+    private UIHandler mFooter;
+
+    @IntDef({IDLE, PULL_LOAD, PULL_REFRESH})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface Status {
+    }
+    private static final int IDLE = 0;
+    private static final int PULL_LOAD = 1;
+    private static final int PULL_REFRESH = 2;
+    private int status = IDLE;
+
 
     public SpringLayout(Context context) {
         this(context, null);
@@ -67,18 +81,18 @@ public class SpringLayout extends FrameLayout implements NestedScrollingParent {
     public void onNestedScroll(View target, int dxConsumed, int dyConsumed, int dxUnconsumed,
                                int dyUnconsumed) {
         if (!ViewCompat.canScrollVertically(target, -1)) {
-            handleUpBoundary(dyUnconsumed);
+            handleUpBoundary(dyUnconsumed,true);
         } else if (!ViewCompat.canScrollVertically(target, 1)) {
-            handleDowmBoundary(dyUnconsumed);
+            handleDowmBoundary(dyUnconsumed,true);
         }
     }
 
     @Override
     public void onNestedPreScroll(View target, int dx, int dy, int[] consumed) {
         if (!ViewCompat.canScrollVertically(target, -1)) {
-            consumed[1] = handleUpBoundary(dy);
+            consumed[1] = handleUpBoundary(dy,true);
         } else if (!ViewCompat.canScrollVertically(target, 1)) {
-            consumed[1] = handleDowmBoundary(dy);
+            consumed[1] = handleDowmBoundary(dy,true);
         }
     }
 
@@ -87,28 +101,36 @@ public class SpringLayout extends FrameLayout implements NestedScrollingParent {
      *
      * @param dy
      */
-    int handleUpBoundary(int dy) {
-        if(dy>0&&mHeaderDistance>=0){
+    int handleUpBoundary(float dy, boolean isTouch) {
+        if (dy > 0 && mHeaderDistance >= 0) {
             return 0;
         }
-        int consumedY = dy;
-        int distance = mHeaderDistance + dy;
+        float consumedY = dy;
+        float distance = mHeaderDistance + dy;
         if (distance > 0) {
             consumedY = -mHeaderDistance;
-        }else if (distance < -HEADER_MAX_DISTANCE) {
+        } else if (distance < -HEADER_MAX_DISTANCE) {
             distance = -HEADER_MAX_DISTANCE;
         }
-        mHeaderDistance = distance;
-        upBoundary(distance);
-        return consumedY;
+        mHeaderDistance = (int) distance;
+        if (mHeader != null) {
+            if (mHeader.onMove(this, dy, mHeaderDistance, isTouch) && refreshListener != null) {
+                refreshListener.onRefresh();
+            }
+            distance = mHeader.moveView(mHeaderDistance);
+            upBoundary(distance);
+        }else {
+            upBoundary(distance);
+        }
+        return (int) consumedY;
     }
 
-    private void upBoundary(int distance) {
-        scrollTo(0, distance);
+    private void upBoundary(float distance) {
+        scrollTo(0, (int) distance);
     }
 
-    private void downBoundary(int distance) {
-        scrollTo(0, distance);
+    private void downBoundary(float distance) {
+        scrollTo(0, (int) distance);
     }
 
     /**
@@ -116,27 +138,52 @@ public class SpringLayout extends FrameLayout implements NestedScrollingParent {
      *
      * @param dy
      */
-    int handleDowmBoundary(int dy) {
-        if(dy<0&&mFooterDistance<=0){
+    int handleDowmBoundary(float dy, boolean isTouch) {
+        if (dy < 0 && mFooterDistance <= 0) {
             return 0;
         }
-        int consumedY = dy;
-        int distance = mFooterDistance + dy;
-        if(distance<0){
+        float consumedY = dy;
+        float distance = mFooterDistance + dy;
+        if (distance < 0) {
             consumedY = -mFooterDistance;
         }
         if (distance > FOOTER_MAX_DISTANCE) {
             distance = FOOTER_MAX_DISTANCE;
         }
-        mFooterDistance = distance;
-        downBoundary(distance);
-        return consumedY;
+        if (mFooter != null) {
+            if (mFooter.onMove(this, dy, mFooterDistance, isTouch) && refreshListener != null) {
+                refreshListener.onRefresh();
+            }
+            distance = mFooter.moveView(mHeaderDistance);
+            downBoundary(distance);
+        }else {
+            downBoundary(distance);
+        }
+
+        return (int) consumedY;
+    }
+
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
+    }
+
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+        target = getChildAt(0);
     }
 
     @Override
     public void computeScroll() {
         if (mScroller.computeScrollOffset()) {
-            scrollTo(0, mScroller.getCurrY());
+            int dy = mScroller.getCurrY() - mScroller.getCurrY();
+            if(status==PULL_LOAD){
+                handleDowmBoundary(dy,false);
+            }else if(status==PULL_REFRESH){
+                handleUpBoundary(dy,false);
+            }
             invalidate();
         }
     }

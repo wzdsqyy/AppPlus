@@ -33,4 +33,5 @@ dependencies {
     provided 'org.greenrobot:eventbus:3.0.0'
     provided 'com.google.code.gson:gson:2.7'
     compile project(path: ':itemmutitype')
+    compile 'com.android.support:design:25.0.0'
 }

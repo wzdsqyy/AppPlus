@@ -19,7 +19,6 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import okhttp3.Dispatcher;
@@ -47,22 +46,13 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
         return this;
     }
 
-    public static void setExecutor(@NonNull ExecutorConsumer consumer) {
-        consumer.setExecutorService(getHelper().getExecutor());
-    }
-
-    public static void setMainExecutor(@NonNull ExecutorConsumer consumer) {
-        consumer.setExecutorService(getHelper().getMainExecutor());
-    }
     ReentrantLock lockHandler=new ReentrantLock();
     public MainExecutor getMainHandler() {
-        if(mainHandler!=null) {
+        if(mainHandler.getLooper()==Looper.getMainLooper()){
             return mainHandler;
         }
         lockHandler.lock();
-        if(mainHandler==null||mainHandler.getLooper()!=Looper.getMainLooper()){
-            mainHandler=new MainExecutor();
-        }
+        mainHandler=new MainExecutor();
         lockHandler.unlock();
         return mainHandler;
     }

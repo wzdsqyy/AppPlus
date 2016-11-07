@@ -4,11 +4,13 @@ import android.app.Activity;
 
 import android.app.ActivityManager;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityManagerCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
@@ -48,7 +50,6 @@ public class LruListActivity extends AppCompatActivity {
         flipper= (AdapterViewFlipper) findViewById(R.id.view_looper);
         LooperView  view= new LooperView();
         flipper.setAdapter(view);
-        flipper.setOnTouchListener(view);
         test(this);
     }
 

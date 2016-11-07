@@ -12,17 +12,14 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-
-        <android.support.design.widget.CoordinatorLayout
+        <com.wzdsqyy.commonview.refresh.SpringLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
             <com.wzdsqyy.applibDemo.MutiItemList.RecyclerView
                 android:id="@+id/list_item"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
-        </android.support.design.widget.CoordinatorLayout>
-
-
+        </com.wzdsqyy.commonview.refresh.SpringLayout>
 
         <com.wzdsqyy.commonview.IndexBar
             android:id="@+id/indexview"
@@ -35,28 +32,29 @@
 
         <TextView
             android:id="@+id/index_notice"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:visibility="gone"
-            tools:visibility="visible"
-            tools:text="N"
-            android:textSize="30sp"
-            android:textColor="#fff"
-            android:background="#af0f0f0f"
             android:layout_width="50dp"
-            android:layout_height="50dp" />
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:background="#af0f0f0f"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:textSize="30sp"
+            android:visibility="gone"
+            tools:text="N"
+            tools:visibility="visible" />
     </FrameLayout>
+
     <TextView
         android:id="@+id/dragview"
-        android:layout_gravity="center"
-        android:gravity="center"
-        tools:visibility="visible"
-        android:text="N"
-        android:textSize="30sp"
-        android:textColor="#fff"
-        android:background="#af0f0f0f"
         android:layout_width="50dp"
-        android:layout_height="50dp" />
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="#af0f0f0f"
+        android:gravity="center"
+        android:text="N"
+        android:textColor="#fff"
+        android:textSize="30sp"
+        tools:visibility="visible" />
 
     <Button
         android:layout_width="match_parent"
