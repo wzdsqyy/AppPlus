@@ -3,6 +3,7 @@ package com.wzdsqyy.mutiitem;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,6 +60,21 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Mut
         GridLayoutManager manager = new GridLayoutManager(recyclerView.getContext(), spanSize.getSpanCount());
         DiffSpanSize span = new DiffSpanSize(this, spanSize);
         manager.setSpanSizeLookup(span);
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(this);
+    }
+
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView){
+        setViewLayoutManager(recyclerView,true);
+    }
+
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView,boolean isVertical) {
+        LinearLayoutManager manager;
+        if(isVertical){
+            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.VERTICAL,false);
+        }else {
+            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.HORIZONTAL,false);
+        }
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(this);
     }
