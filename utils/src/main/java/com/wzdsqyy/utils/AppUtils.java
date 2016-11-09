@@ -10,8 +10,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
@@ -105,7 +107,7 @@ public class AppUtils {
                     context.getPackageName(), 0);
             return packageInfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
-            return "";
+            return "ErrorName";
         }
     }
 
@@ -115,7 +117,6 @@ public class AppUtils {
             PackageInfo packageInfo = packageManager.getPackageInfo(
                     context.getPackageName(), 0);
             return packageInfo.versionCode;
-
         } catch (PackageManager.NameNotFoundException e) {
             return 0;
         }
@@ -135,21 +136,38 @@ public class AppUtils {
     /**
      * 判断是否是wifi连接
      */
-    public static boolean checkWifiState(Context context) throws Exception {
-        boolean isWifiConnect = true;
+    public static boolean checkWifiState(Context context) {
+        return isNetType(context, ConnectivityManager.TYPE_WIFI);
+    }
+
+    /**
+     * 判断是否是wifi连接
+     */
+    public static boolean isNetType(Context context, int type) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] networkInfos = cm.getAllNetworkInfo();
-        for (int i = 0; i < networkInfos.length; i++) {
-            if (networkInfos[i].getState() == NetworkInfo.State.CONNECTED) {
-                if (networkInfos[i].getType() == ConnectivityManager.TYPE_MOBILE) {
-                    isWifiConnect = false;
-                }
-                if (networkInfos[i].getType() == ConnectivityManager.TYPE_WIFI) {
-                    isWifiConnect = true;
-                }
-            }
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        if (info == null) {
+            return false;
         }
-        return isWifiConnect;
+        if (info.getState() == NetworkInfo.State.CONNECTED && info.getType() == type) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断是否是wifi连接
+     */
+    public static int getNetType(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo info = cm.getActiveNetworkInfo();
+        if (info == null) {
+            return -1;
+        }
+        if (info.getState() == NetworkInfo.State.CONNECTED) {
+            return info.getType();
+        }
+        return -1;
     }
 
     /**
@@ -169,12 +187,13 @@ public class AppUtils {
         }
         PackageManager packageManager = context.getPackageManager();
         List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
-        if (pinfo != null) {
-            for (int i = 0; i < pinfo.size(); i++) {
-                String pn = pinfo.get(i).packageName;
-                if (pn.equals(appPackageName)) {
-                    return true;
-                }
+        if (pinfo == null) {
+            return false;
+        }
+        for (int i = 0; i < pinfo.size(); i++) {
+            String pn = pinfo.get(i).packageName;
+            if (pn.equals(appPackageName)) {
+                return true;
             }
         }
         return false;

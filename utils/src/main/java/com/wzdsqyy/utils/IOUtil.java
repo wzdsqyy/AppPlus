@@ -16,6 +16,8 @@ import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.Writer;
 
+import static android.R.attr.path;
+
 /**
  * Created by Administrator on 2016/10/20.
  */
@@ -116,7 +118,7 @@ public class IOUtil {
         if (!(out instanceof BufferedOutputStream)) {
             out = new BufferedOutputStream(out);
         }
-        int len = 0;
+        int len;
         byte[] buffer = new byte[1024];
         while ((len = in.read(buffer)) != -1) {
             out.write(buffer, 0, len);
@@ -138,5 +140,23 @@ public class IOUtil {
             }
         }
         return path.delete();
+    }
+
+    public static boolean createFile(File file) {
+        if (file != null && !file.exists()) {
+            if(file.isFile()){
+                File parent = file.getParentFile();
+                if (!parent.exists() && parent.mkdirs()) {
+                    try {
+                        return file.createNewFile();
+                    } catch (IOException e) {
+                        return false;
+                    }
+                }
+            }else {
+                return file.mkdirs();
+            }
+        }
+        return false;
     }
 }
