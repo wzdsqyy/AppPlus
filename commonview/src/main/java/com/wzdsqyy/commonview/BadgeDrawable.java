@@ -36,7 +36,7 @@ public class BadgeDrawable extends Drawable {
     private int mTop = 0;
     private float mTextWidth;
     private float mTextHeight;
-    private boolean showStroke=true;
+    private boolean showStroke=false;
 
     public BadgeDrawable(@NonNull Drawable drawable) {
         this.drawable = drawable;
