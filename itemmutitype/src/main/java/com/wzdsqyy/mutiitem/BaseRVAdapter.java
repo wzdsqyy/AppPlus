@@ -1,6 +1,8 @@
 package com.wzdsqyy.mutiitem;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -26,6 +28,21 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
             intercepter.afterIntercepter(holder,viewType);
         }
         return holder;
+    }
+
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView){
+        setViewLayoutManager(recyclerView,true);
+    }
+
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView,boolean isVertical) {
+        LinearLayoutManager manager;
+        if(isVertical){
+            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.VERTICAL,false);
+        }else {
+            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.HORIZONTAL,false);
+        }
+        recyclerView.setLayoutManager(manager);
+        recyclerView.setAdapter(this);
     }
 
     public abstract VH newViewHolder(ViewGroup parent,@LayoutRes int viewType);

@@ -1,1 +1,1 @@
-include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':agerapay'
+include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':test'

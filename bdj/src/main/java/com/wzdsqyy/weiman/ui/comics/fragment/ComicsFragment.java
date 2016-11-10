@@ -21,10 +21,18 @@ public class ComicsFragment extends Fragment {
     private ViewPager pager;
     private ComicsPageAdapter adapter;
 
+    public static ComicsFragment newInstance() {
+        ComicsFragment fragment = new ComicsFragment();
+        return fragment;
+    }
+
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        adapter=new ComicsPageAdapter(getFragmentManager());
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        adapter=new ComicsPageAdapter(getFragmentManager(),getActivity());
+        if(pager!=null){
+            pager.setAdapter(adapter);
+        }
     }
 
     @Nullable
@@ -32,8 +40,11 @@ public class ComicsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comics, container, false);
         categotyTab= (TabLayout) view.findViewById(R.id.comics_category);
+        categotyTab.setTabMode(TabLayout.MODE_SCROLLABLE);
+        categotyTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         pager= (ViewPager) view.findViewById(R.id.comics_page);
         pager.setAdapter(adapter);
+        categotyTab.setupWithViewPager(pager);
         return view;
     }
 }

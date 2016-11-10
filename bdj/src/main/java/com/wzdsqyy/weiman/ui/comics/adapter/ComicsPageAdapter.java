@@ -1,10 +1,13 @@
 package com.wzdsqyy.weiman.ui.comics.adapter;
 
+import android.app.Activity;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.wzdsqyy.weiman.data.model.ComicsModel;
+import com.wzdsqyy.weiman.data.model.ModelManager;
 import com.wzdsqyy.weiman.ui.comics.fragment.ComicsPageFragment;
 
 /**
@@ -12,22 +15,25 @@ import com.wzdsqyy.weiman.ui.comics.fragment.ComicsPageFragment;
  */
 
 public class ComicsPageAdapter extends FragmentPagerAdapter {
-    public ComicsPageAdapter(FragmentManager fm) {
+    private ComicsModel model;
+
+    public ComicsPageAdapter(FragmentManager fm, FragmentActivity activity) {
         super(fm);
+        model = ModelManager.getModel(ComicsModel.class,activity);
     }
 
     @Override
     public Fragment getItem(int position) {
-        return ComicsPageFragment.newInstance(ComicsModel.getNames().get(position));
+        return ComicsPageFragment.newInstance(model.getNames().get(position));
     }
 
     @Override
     public int getCount() {
-        return ComicsModel.getNames().size();
+        return model.getNames().size();
     }
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return ComicsModel.getNames().get(position);
+        return model.getNames().get(position);
     }
 }

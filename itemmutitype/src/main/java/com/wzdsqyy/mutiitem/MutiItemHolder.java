@@ -1,5 +1,6 @@
 package com.wzdsqyy.mutiitem;
 
+import android.content.Context;
 import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +24,12 @@ public class MutiItemHolder extends RecyclerView.ViewHolder {
         this.itemHolder.init(this);
     }
 
-    public View findViewById(@IdRes int id) {
-        return itemView.findViewById(id);
+    public Context getContext(){
+        return itemView.getContext();
+    }
+
+    public <T extends View> T findViewById(@IdRes int id) {
+        return (T)itemView.findViewById(id);
     }
 
     public MutiItemBinder getItemHolder() {

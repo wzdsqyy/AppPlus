@@ -64,21 +64,6 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Mut
         recyclerView.setAdapter(this);
     }
 
-    public void setViewLayoutManager(@NonNull RecyclerView recyclerView){
-        setViewLayoutManager(recyclerView,true);
-    }
-
-    public void setViewLayoutManager(@NonNull RecyclerView recyclerView,boolean isVertical) {
-        LinearLayoutManager manager;
-        if(isVertical){
-            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.VERTICAL,false);
-        }else {
-            manager = new LinearLayoutManager(recyclerView.getContext(),LinearLayoutManager.HORIZONTAL,false);
-        }
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(this);
-    }
-
     @Override
     public MutiItemHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
         if(factory==null){
