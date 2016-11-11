@@ -19,8 +19,8 @@ import java.util.List;
  */
 
 public class ComicsModel extends BaseModel {
-    static ArrayList<String> types = new ArrayList<>(13);
-    static ArrayList<String> names = new ArrayList<>(13);
+    public static ArrayList<String> types = new ArrayList<>(13);
+    public static ArrayList<String> names = new ArrayList<>(13);
 
     static {
         types.add("/category/weimanhua/kbmh");
@@ -56,11 +56,11 @@ public class ComicsModel extends BaseModel {
         return fragment;
     }
 
-    public ArrayList<String> getNames() {
+    public static ArrayList<String> getNames() {
         return names;
     }
 
-    public String getType(String name){
+    public static String getType(String name){
         int index = names.indexOf(name);
         return types.get(index);
     }
@@ -83,12 +83,12 @@ public class ComicsModel extends BaseModel {
                 .compile();
     }
 
-    public Repository<Result<com.wzdsqyy.weiman.bean.Comics>> getComics(ComicsItem item,Observable observable) {
+    public static Repository<Result<com.wzdsqyy.weiman.bean.Comics>> getComics(String id,Observable observable) {
         return Repositories.repositoryWithInitialValue(Result.<com.wzdsqyy.weiman.bean.Comics>absent())
                 .observe(observable)
                 .onUpdatesPerLoop()
                 .goTo(ExecutorHelper.getHelper().getExecutor())
-                .getFrom(Api.get().getApi(Comics.class).getDetail(item.itemid))
+                .getFrom(Api.get().getApi(Comics.class).getDetail(id))
                 .thenTransform(new ComicsFunction())
                 .compile();
     }

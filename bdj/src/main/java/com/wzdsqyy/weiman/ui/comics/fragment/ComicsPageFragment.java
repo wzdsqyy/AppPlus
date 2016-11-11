@@ -1,5 +1,6 @@
 package com.wzdsqyy.weiman.ui.comics.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -10,21 +11,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.agera.ActivationHandler;
-import com.google.android.agera.Observable;
-import com.google.android.agera.Observables;
-import com.google.android.agera.Repository;
-import com.google.android.agera.Result;
-import com.google.android.agera.Updatable;
-import com.google.android.agera.UpdateDispatcher;
+import com.google.android.agera.Receiver;
+import com.google.android.agera.Supplier;
 import com.wzdsqyy.bdj.R;
 import com.wzdsqyy.mutiitem.MutiItemAdapter;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.weiman.bean.ComicsItem;
-import com.wzdsqyy.weiman.data.model.ComicsModel;
-import com.wzdsqyy.weiman.data.model.ModelManager;
 import com.wzdsqyy.weiman.ui.comics.itembinder.ComicsItemBinder;
+import com.wzdsqyy.weiman.ui.comics.viewmodel.ComicsItemPresenter;
 
 import java.util.List;
 
@@ -32,29 +27,49 @@ import java.util.List;
  * Created by Administrator on 2016/11/9.
  */
 
-public class ComicsPageFragment extends Fragment implements Observable, Updatable,ActivationHandler, MutiItemBinderFactory {
-
-    private static final int SUCCESS=1,LOADING=2,EMPTY=3,ERROR=4;
+public class ComicsPageFragment extends Fragment implements Receiver<List<ComicsItem>>, Supplier<String>, MutiItemBinderFactory {
+    private static final int SUCCESS = 1, LOADING = 2, EMPTY = 3, ERROR = 4;
+    private int mStatus = LOADING;
+    public static final String COMICS_TYPE_NAME = "Comics_Type_name";
     private String mName;
-    private Repository<Result<List<ComicsItem>>> repository;
-    private UpdateDispatcher dispatcher;
     private RecyclerView mRvList;
     private MutiItemAdapter<ComicsItem> rcAdapter;
-    private View mLoading,mEmpty,mError;
-    private int mStatus=LOADING;
+    private View mLoading, mEmpty, mError;
+    private ComicsItemPresenter presenter;
 
     public static ComicsPageFragment newInstance(String name) {
         ComicsPageFragment fragment = new ComicsPageFragment();
         fragment.mName = name;
-        fragment.dispatcher = Observables.updateDispatcher(fragment);
         return fragment;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rcAdapter=new MutiItemAdapter<>(this);
-        rcAdapter.register(ComicsItem.class,R.layout.item_comics);
+        setRetainInstance(true);
+        rcAdapter = new MutiItemAdapter<>(this);
+        rcAdapter.register(ComicsItem.class, R.layout.item_comics);
+        if (savedInstanceState != null) {
+            mName = (String) savedInstanceState.getCharSequence(COMICS_TYPE_NAME);
+        }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (presenter != null)
+            presenter.release();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putCharSequence(COMICS_TYPE_NAME, mName);
     }
 
     @Nullable
@@ -62,14 +77,16 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comics_page, container, false);
         mRvList = (RecyclerView) view.findViewById(R.id.comics_list);
-        mLoading=view.findViewById(R.id.common_loading);
-        mEmpty=view.findViewById(R.id.common_empty);
-        mError=view.findViewById(R.id.common_failtrue);
+        mLoading = view.findViewById(R.id.common_loading);
+        mEmpty = view.findViewById(R.id.common_empty);
+        mError = view.findViewById(R.id.common_failtrue);
         mError.findViewById(R.id.common_retry).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dispatcher.update();
-                showLoading();
+                if (presenter != null) {
+                    presenter.startLoading();
+                    showLoading();
+                }
             }
         });
         rcAdapter.setViewLayoutManager(mRvList);
@@ -84,7 +101,7 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
     }
 
     private void showStatus(int mStatus) {
-        switch (mStatus){
+        switch (mStatus) {
             case EMPTY:
                 showEmpety();
                 break;
@@ -100,9 +117,9 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
         }
     }
 
-    private void showLoading(){
-        mStatus=LOADING;
-        if(getView()==null){
+    private void showLoading() {
+        mStatus = LOADING;
+        if (getView() == null) {
             return;
         }
         mEmpty.setVisibility(View.GONE);
@@ -112,9 +129,9 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
         mLoading.bringToFront();
     }
 
-    private void showError(){
-        mStatus=ERROR;
-        if(getView()==null){
+    private void showError() {
+        mStatus = ERROR;
+        if (getView() == null) {
             return;
         }
         mEmpty.setVisibility(View.GONE);
@@ -122,9 +139,9 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
         mLoading.setVisibility(View.GONE);
     }
 
-    private void showEmpety(){
-        mStatus=EMPTY;
-        if(getView()==null){
+    private void showEmpety() {
+        mStatus = EMPTY;
+        if (getView() == null) {
             return;
         }
         mEmpty.setVisibility(View.VISIBLE);
@@ -132,9 +149,9 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
         mLoading.setVisibility(View.GONE);
     }
 
-    private void showSucess(){
-        mStatus=SUCCESS;
-        if(getView()==null){
+    private void showSucess() {
+        mStatus = SUCCESS;
+        if (getView() == null) {
             return;
         }
         mRvList.setVisibility(View.VISIBLE);
@@ -147,59 +164,51 @@ public class ComicsPageFragment extends Fragment implements Observable, Updatabl
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
         if (isVisibleToUser) {
-            if(repository==null){
-                repository = ModelManager.getModel(ComicsModel.class,this).getByNameList("1",mName,this);
-                repository.addUpdatable(this);
-                showLoading();
-            }else {
-                if(repository.get().failed()){
-                    dispatcher.update();
-                    showLoading();
-                }else {
-                    showSucess();
+            startLoadingData();
+        }
+    }
+
+    private void startLoadingData() {
+        if(presenter ==null){
+            presenter = new ComicsItemPresenter(this, new Receiver<Throwable>() {
+                @Override
+                public void accept(@NonNull Throwable value) {
+                    showError();
                 }
+            }, this);
+            if (presenter.startLoading()) {
+                showLoading();
+            }
+        }else {
+            if(!presenter.isSuccessLoad()){
+                presenter.startLoading();
             }
         }
-    }
-
-    @Override
-    public void addUpdatable(@NonNull Updatable updatable) {
-        dispatcher.addUpdatable(updatable);
-    }
-
-    @Override
-    public void removeUpdatable(@NonNull Updatable updatable) {
-        dispatcher.removeUpdatable(updatable);
-    }
-
-    @Override
-    public void update() {
-        Result<List<ComicsItem>> result = repository.get();
-        if (result.succeeded()) {
-            if(result.get().size()==0){
-                showEmpety();
-            }else {
-                showSucess();
-                rcAdapter.setData(result.get());
-            }
-        } else {
-            showError();
-        }
-    }
-
-    @Override
-    public void observableActivated(@NonNull UpdateDispatcher caller) {
-        caller.addUpdatable(this);
-    }
-
-    @Override
-    public void observableDeactivated(@NonNull UpdateDispatcher caller) {
-        caller.removeUpdatable(this);
     }
 
     @NonNull
     @Override
     public MutiItemBinder getMutiItemHolder(@LayoutRes int layoutRes) {
         return new ComicsItemBinder();
+    }
+
+    @Override
+    public void accept(@NonNull List<ComicsItem> value) {
+        if (value.size() == 0) {
+            showEmpety();
+        } else {
+            showSucess();
+            if (presenter.isMorePage()) {
+                rcAdapter.addMoreData(value);
+            } else {
+                rcAdapter.setData(value);
+            }
+        }
+    }
+
+    @NonNull
+    @Override
+    public String get() {
+        return mName;
     }
 }

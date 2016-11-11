@@ -3,8 +3,6 @@ package com.wzdsqyy.weiman.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.Date;
-
 /**
  * 返回的基类
  */
@@ -12,13 +10,13 @@ import java.util.Date;
 public class ComicsResponse extends BaseResponse{
     @Expose
     @SerializedName("showapi_res_body")
-    public Date body;
+    public Data body;
     public static class Data{
         @Expose
         @SerializedName("ret_code")
         public int code;
         @Expose
-        @SerializedName("pagebean")
-        public PageBean page;
+        @SerializedName("item")
+        public Comics item;
     }
 }

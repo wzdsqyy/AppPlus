@@ -16,7 +16,7 @@ import com.wzdsqyy.weiman.ui.comics.adapter.ComicsPageAdapter;
  * Created by Administrator on 2016/11/9.
  */
 
-public class ComicsFragment extends Fragment {
+public class ComicsFragment extends Fragment{
     private TabLayout categotyTab;
     private ViewPager pager;
     private ComicsPageAdapter adapter;
@@ -24,6 +24,12 @@ public class ComicsFragment extends Fragment {
     public static ComicsFragment newInstance() {
         ComicsFragment fragment = new ComicsFragment();
         return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
