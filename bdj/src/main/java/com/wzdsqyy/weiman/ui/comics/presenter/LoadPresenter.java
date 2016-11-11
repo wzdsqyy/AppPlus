@@ -1,5 +1,6 @@
-package com.wzdsqyy.weiman.ui.comics.viewmodel;
+package com.wzdsqyy.weiman.ui.comics.presenter;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.android.agera.Observable;
@@ -15,17 +16,15 @@ import com.google.android.agera.UpdateDispatcher;
  */
 
 public class LoadPresenter<T> implements Observable, Updatable{
-    private final Receiver<Throwable> failReceiver;
-    private final Receiver<T> successReceiver;
+    private CallBack<T> callBack;
     private UpdateDispatcher dispatcher;
     private Repository<Result<T>> compile;
     private boolean loading=false;
     private boolean started =false;
 
-    public LoadPresenter(Receiver<Throwable> failReceiver,Receiver<T> successReceiver) {
+    public LoadPresenter(CallBack<T> callBack) {
         dispatcher= Observables.updateDispatcher();
-        this.failReceiver=failReceiver;
-        this.successReceiver=successReceiver;
+        this.callBack=callBack;
     }
 
     public LoadPresenter setCompile(Repository<Result<T>> compile) {
@@ -87,14 +86,13 @@ public class LoadPresenter<T> implements Observable, Updatable{
     @Override
     public void update() {
         loading=false;
-        if(compile==null){
+        if(compile==null||callBack==null){
             return;
         }
-        if(failReceiver!=null){
-            compile.get().ifFailedSendTo(failReceiver);
-        }
-        if(successReceiver!=null){
-            compile.get().ifSucceededSendTo(successReceiver);
+        if(compile.get().succeeded()){
+            callBack.onSuccess(compile.get().get());
+        }else {
+            callBack.onLoadError(compile.get().getFailure());
         }
     }
 }

@@ -11,35 +11,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.agera.Receiver;
 import com.google.android.agera.Supplier;
 import com.wzdsqyy.bdj.R;
 import com.wzdsqyy.mutiitem.MutiItemAdapter;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.weiman.bean.ComicsItem;
+import com.wzdsqyy.weiman.bean.ComicsItemPage;
 import com.wzdsqyy.weiman.ui.comics.itembinder.ComicsItemBinder;
-import com.wzdsqyy.weiman.ui.comics.viewmodel.ComicsItemPresenter;
-
-import java.util.List;
+import com.wzdsqyy.weiman.ui.comics.presenter.CallBack;
+import com.wzdsqyy.weiman.ui.comics.presenter.ComicsItemPresenter;
+import com.wzdsqyy.weiman.ui.common.LoadDataHelper;
 
 /**
  * Created by Administrator on 2016/11/9.
  */
 
-public class ComicsPageFragment extends Fragment implements Receiver<List<ComicsItem>>, Supplier<String>, MutiItemBinderFactory {
-    private static final int SUCCESS = 1, LOADING = 2, EMPTY = 3, ERROR = 4;
-    private int mStatus = LOADING;
+public class ComicsPageFragment extends Fragment implements Supplier<String>, MutiItemBinderFactory, CallBack<ComicsItemPage>,LoadDataHelper.OnRetryButtonListener{
     public static final String COMICS_TYPE_NAME = "Comics_Type_name";
     private String mName;
     private RecyclerView mRvList;
     private MutiItemAdapter<ComicsItem> rcAdapter;
-    private View mLoading, mEmpty, mError;
     private ComicsItemPresenter presenter;
+    private LoadDataHelper helper;
+    @LoadDataHelper.Status
+    private int mStatus=LoadDataHelper.LOADING;
 
     public static ComicsPageFragment newInstance(String name) {
         ComicsPageFragment fragment = new ComicsPageFragment();
         fragment.mName = name;
+        fragment.helper=new LoadDataHelper();
         return fragment;
     }
 
@@ -77,87 +78,22 @@ public class ComicsPageFragment extends Fragment implements Receiver<List<Comics
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_comics_page, container, false);
         mRvList = (RecyclerView) view.findViewById(R.id.comics_list);
-        mLoading = view.findViewById(R.id.common_loading);
-        mEmpty = view.findViewById(R.id.common_empty);
-        mError = view.findViewById(R.id.common_failtrue);
-        mError.findViewById(R.id.common_retry).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (presenter != null) {
-                    presenter.startLoading();
-                    showLoading();
-                }
-            }
-        });
         rcAdapter.setViewLayoutManager(mRvList);
         mRvList.setHasFixedSize(true);
         return view;
     }
 
     @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        helper.release();
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        showStatus(mStatus);
-    }
-
-    private void showStatus(int mStatus) {
-        switch (mStatus) {
-            case EMPTY:
-                showEmpety();
-                break;
-            case LOADING:
-                showLoading();
-                break;
-            case ERROR:
-                showError();
-                break;
-            default:
-                showSucess();
-                break;
-        }
-    }
-
-    private void showLoading() {
-        mStatus = LOADING;
-        if (getView() == null) {
-            return;
-        }
-        mEmpty.setVisibility(View.GONE);
-        mError.setVisibility(View.GONE);
-        mLoading.setVisibility(View.VISIBLE);
-        mRvList.setVisibility(View.GONE);
-        mLoading.bringToFront();
-    }
-
-    private void showError() {
-        mStatus = ERROR;
-        if (getView() == null) {
-            return;
-        }
-        mEmpty.setVisibility(View.GONE);
-        mError.setVisibility(View.VISIBLE);
-        mLoading.setVisibility(View.GONE);
-    }
-
-    private void showEmpety() {
-        mStatus = EMPTY;
-        if (getView() == null) {
-            return;
-        }
-        mEmpty.setVisibility(View.VISIBLE);
-        mError.setVisibility(View.GONE);
-        mLoading.setVisibility(View.GONE);
-    }
-
-    private void showSucess() {
-        mStatus = SUCCESS;
-        if (getView() == null) {
-            return;
-        }
-        mRvList.setVisibility(View.VISIBLE);
-        mEmpty.setVisibility(View.GONE);
-        mError.setVisibility(View.GONE);
-        mLoading.setVisibility(View.GONE);
+        helper.init(view,this);
+        helper.refresh(mStatus);
     }
 
     @Override
@@ -169,18 +105,13 @@ public class ComicsPageFragment extends Fragment implements Receiver<List<Comics
     }
 
     private void startLoadingData() {
-        if(presenter ==null){
-            presenter = new ComicsItemPresenter(this, new Receiver<Throwable>() {
-                @Override
-                public void accept(@NonNull Throwable value) {
-                    showError();
-                }
-            }, this);
+        if (presenter == null) {
+            presenter = new ComicsItemPresenter(this, this);
             if (presenter.startLoading()) {
-                showLoading();
+                mStatus=helper.showLoading();
             }
-        }else {
-            if(!presenter.isSuccessLoad()){
+        } else {
+            if (!presenter.isSuccessLoad()) {
                 presenter.startLoading();
             }
         }
@@ -192,23 +123,36 @@ public class ComicsPageFragment extends Fragment implements Receiver<List<Comics
         return new ComicsItemBinder();
     }
 
-    @Override
-    public void accept(@NonNull List<ComicsItem> value) {
-        if (value.size() == 0) {
-            showEmpety();
-        } else {
-            showSucess();
-            if (presenter.isMorePage()) {
-                rcAdapter.addMoreData(value);
-            } else {
-                rcAdapter.setData(value);
-            }
-        }
-    }
-
     @NonNull
     @Override
     public String get() {
         return mName;
+    }
+
+    @Override
+    public void onLoadError(Throwable ex) {
+        mStatus=helper.showError();
+    }
+
+    @Override
+    public void onSuccess(ComicsItemPage value) {
+        if (value.items.size() == 0) {
+            mStatus=helper.showEmpety();
+        } else {
+            mStatus=helper.showSucess();
+            if (presenter.isMorePage()) {
+                rcAdapter.addMoreData(value.items);
+            } else {
+                rcAdapter.setData(value.items);
+            }
+        }
+    }
+
+    @Override
+    public void onRetryButtonClick(View v) {
+        if (presenter != null) {
+            presenter.startLoading();
+            mStatus=helper.showLoading();
+        }
     }
 }

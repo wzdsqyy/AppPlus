@@ -1,5 +1,6 @@
-package com.wzdsqyy.weiman.ui.comics.viewmodel;
+package com.wzdsqyy.weiman.ui.comics.presenter;
 
+import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.android.agera.Merger;
@@ -9,25 +10,23 @@ import com.google.android.agera.Repository;
 import com.google.android.agera.Result;
 import com.google.android.agera.Supplier;
 import com.wzdsqyy.utils.helper.ExecutorHelper;
-import com.wzdsqyy.weiman.bean.ComicsItem;
+import com.wzdsqyy.weiman.bean.ComicsItemPage;
 import com.wzdsqyy.weiman.bean.ComicsItemResponse;
 import com.wzdsqyy.weiman.data.Api;
 import com.wzdsqyy.weiman.data.function.parser.ComicsItemFunction;
 import com.wzdsqyy.weiman.data.model.ComicsModel;
 import com.wzdsqyy.weiman.data.service.Comics;
 
-import java.util.List;
-
 /**
  * Created by Administrator on 2016/11/11.
  */
 
-public class ComicsItemPresenter extends LoadPresenter<List<ComicsItem>> implements Supplier<Integer>,Merger<Integer, String, Result<ComicsItemResponse>>{
+public class ComicsItemPresenter extends LoadPresenter<ComicsItemPage> implements Supplier<Integer>,Merger<Integer, String, Result<ComicsItemResponse>>{
     private int page=1;
     private boolean morepage=false;
-    public ComicsItemPresenter(Supplier<String> name, @NonNull Receiver<Throwable> failReceiver, @NonNull Receiver<List<ComicsItem>> successReceiver) {
-        super(failReceiver,successReceiver);
-        Repository<Result<List<ComicsItem>>> compile = Repositories.repositoryWithInitialValue(Result.<List<ComicsItem>>absent())
+    public ComicsItemPresenter(Supplier<String> name, CallBack<ComicsItemPage> callBack) {
+        super(callBack);
+        Repository<Result<ComicsItemPage>> compile = Repositories.repositoryWithInitialValue(Result.<ComicsItemPage>absent())
                 .observe(this)
                 .onUpdatesPerLoop()
                 .goTo(ExecutorHelper.getHelper().getExecutor())

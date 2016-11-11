@@ -1,11 +1,16 @@
 package com.wzdsqyy.weiman.data.model;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.agera.Function;
 import com.google.android.agera.Observable;
 import com.google.android.agera.Repositories;
 import com.google.android.agera.Repository;
 import com.google.android.agera.Result;
 import com.wzdsqyy.utils.helper.ExecutorHelper;
 import com.wzdsqyy.weiman.bean.ComicsItem;
+import com.wzdsqyy.weiman.bean.ComicsItemPage;
+import com.wzdsqyy.weiman.bean.ComicsItemResponse;
 import com.wzdsqyy.weiman.data.Api;
 import com.wzdsqyy.weiman.data.function.parser.ComicsFunction;
 import com.wzdsqyy.weiman.data.function.parser.ComicsItemFunction;
@@ -65,16 +70,16 @@ public class ComicsModel extends BaseModel {
         return types.get(index);
     }
 
-    public  Repository<Result<List<ComicsItem>>> getByNameList(String page, String name, Observable observable) {
+    public  Repository<Result<ComicsItemPage>> getByNameList(String page, String name, Observable observable) {
         return getListByType(page,getType(name),observable);
     }
 
-    public  Repository<Result<List<ComicsItem>>> getListByType(String page,Observable observable){
+    public  Repository<Result<ComicsItemPage>> getListByType(String page,Observable observable){
         return getListByType(page,types.get(1),observable);
     }
 
-    public  Repository<Result<List<ComicsItem>>> getListByType(String page, String type, Observable observable) {
-        return Repositories.repositoryWithInitialValue(Result.<List<ComicsItem>>absent())
+    public  Repository<Result<ComicsItemPage>> getListByType(String page, String type, Observable observable) {
+        return Repositories.repositoryWithInitialValue(Result.<ComicsItemPage>absent())
                 .observe(observable)
                 .onUpdatesPerLoop()
                 .goTo(ExecutorHelper.getHelper().getExecutor())

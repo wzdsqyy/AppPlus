@@ -3,8 +3,6 @@ package com.wzdsqyy.weiman.bean;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-
 /**
  * 返回的基类
  */
@@ -19,25 +17,7 @@ public class ComicsItemResponse extends BaseResponse{
         public int code;
         @Expose
         @SerializedName("pagebean")
-        public PageBean page;
+        public ComicsItemPage page;
     }
 
-    /**
-     * Created by Administrator on 2016/11/9.
-     */
-
-    public static class PageBean{
-        @Expose
-        @SerializedName("currentPage")
-        public int page;
-        @Expose
-        @SerializedName("hasMorePage")
-        public boolean more;
-        @Expose
-        @SerializedName("maxResult")
-        public long count;
-        @Expose
-        @SerializedName("contentlist")
-        public ArrayList<ComicsItem> items;
-    }
 }
