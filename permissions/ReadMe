@@ -1,0 +1,73 @@
+¶危险权限(Dangerous Permissions)
+    Permission   Group	Permissions
+    CALENDAR	    READ_CALENDAR
+    ------------------------------------------
+                    WRITE_CALENDAR
+    CAMERA	        CAMERA
+    ------------------------------------------
+    CONTACTS	    READ_CONTACTS
+                    WRITE_CONTACTS
+                    GET_ACCOUNTS
+    ------------------------------------------
+    LOCATION	    ACCESS_FINE_LOCATION
+                    ACCESS_COARSE_LOCATION
+    ------------------------------------------
+    MICROPHONE	    RECORD_AUDIO
+    ------------------------------------------
+    PHONE	        READ_PHONE_STATE
+                    CALL_PHONE
+                    READ_CALL_LOG
+                    WRITE_CALL_LOG
+                    ADD_VOICEMAIL
+                    USE_SIP
+                    PROCESS_OUTGOING_CALLS
+    ------------------------------------------
+    SENSORS	        BODY_SENSORS
+    ------------------------------------------
+    SMS	            SEND_SMS
+                    RECEIVE_SMS
+                    READ_SMS
+                    RECEIVE_WAP_PUSH
+                    RECEIVE_MMS
+    ------------------------------------------
+    STORAGE	        READ_EXTERNAL_STORAGE
+                    WRITE_EXTERNAL_STORAGE
+
+¶特殊权限(Special Permissions)
+    Special Permissions
+    SYSTEM_ALERT_WINDOW 设置悬浮窗
+    WRITE_SETTINGS 修改系统设置
+        *看权限名就知道特殊权限比危险权限更危险，特殊权限需要在manifest中申请并且通过发送Intent让用户在设置界面进行勾选.
+
+        ¶申请SYSTEM_ALERT_WINDOW权限
+        private static final int REQUEST_CODE = 1;
+        private  void requestPermission() {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_CODE);
+        }
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == REQUEST_CODE) {
+                if (Settings.canDrawOverlays(this)) {
+                    Log.i(LOGTAG, "onActivityResult granted");
+                }
+            }
+        }
+¶申请WRITE_SETTINGS权限
+        private static final int REQUEST_CODE_WRITE_SETTINGS = 2;
+        private void requestSettings() {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
+            intent.setData(Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_CODE_WRITE_SETTINGS );
+        }
+        @Override
+        protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == REQUEST_CODE_WRITE_SETTINGS) {
+                if (Settings.System.canWrite(this)) {
+                    Log.i(LOGTAG, "onActivityResult write settings granted" );
+                }
+            }
+        }

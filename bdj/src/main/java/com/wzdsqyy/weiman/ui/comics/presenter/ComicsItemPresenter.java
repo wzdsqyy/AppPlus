@@ -24,6 +24,7 @@ import com.wzdsqyy.weiman.data.service.Comics;
 public class ComicsItemPresenter extends LoadPresenter<ComicsItemPage> implements Supplier<Integer>,Merger<Integer, String, Result<ComicsItemResponse>>{
     private int page=1;
     private boolean morepage=false;
+    private ComicsItemPage comicsItemPage;
     public ComicsItemPresenter(Supplier<String> name, CallBack<ComicsItemPage> callBack) {
         super(callBack);
         Repository<Result<ComicsItemPage>> compile = Repositories.repositoryWithInitialValue(Result.<ComicsItemPage>absent())
@@ -38,19 +39,26 @@ public class ComicsItemPresenter extends LoadPresenter<ComicsItemPage> implement
     }
 
     public boolean startLoading(){
+        return startLoading(page);
+    }
+
+    public boolean startNextLoading(){
+        return startLoading(page++);
+    }
+
+    public boolean startRefresh(){
         return startLoading(1);
     }
 
     public boolean isMorePage(){
-        return morepage;
+        return page>1;
     }
 
     public boolean startLoading(int page){
-        if(isMorePage()){
+        if(page>this.page&&(comicsItemPage!=null||!comicsItemPage.more)){
             return false;
         }
         this.page=page;
-
         return super.startLoading();
     }
 
