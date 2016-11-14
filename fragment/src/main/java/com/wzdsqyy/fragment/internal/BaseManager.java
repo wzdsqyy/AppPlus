@@ -11,12 +11,12 @@ import com.wzdsqyy.fragment.SaveState;
  * Created by Administrator on 2016/11/3.
  */
  abstract class BaseManager implements Manager {
-    final ContentPage contentPage;
+    protected final ContentPage contentPage;
     private int enter = 0;
     private int exit = 0;
     private int popEnter = 0;
     private int popExit = 0;
-    private FragmentTransaction transaction;
+//    private FragmentTransaction transaction;
     private SaveState mSaveState;
 
     public BaseManager(ContentPage contentPage) {

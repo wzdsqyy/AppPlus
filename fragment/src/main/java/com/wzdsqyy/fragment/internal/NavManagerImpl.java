@@ -14,7 +14,7 @@ import com.wzdsqyy.fragment.SaveState;
  * Created by Administrator on 2016/11/3.
  */
 class NavManagerImpl extends BaseManager implements NavManager {
-    SaveState saveState;
+    private SaveState saveState;
 
     NavManagerImpl(@NonNull ContentPage contentPage, @NonNull SaveState saveState) {
         super(contentPage);

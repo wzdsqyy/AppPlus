@@ -11,8 +11,8 @@ import java.util.ArrayList;
  */
 class SaveStateImpl implements SaveState {
 
-    ArrayList<Runnable> tasks;
-    public boolean commit=true;
+    private ArrayList<Runnable> tasks;
+    private boolean commit=true;
 
     public ArrayList<Runnable> getTasks() {
         if(tasks==null){

@@ -1,23 +1,17 @@
 package com.wzdsqyy.weiman.data.model;
 
-import android.support.annotation.NonNull;
-
-import com.google.android.agera.Function;
 import com.google.android.agera.Observable;
 import com.google.android.agera.Repositories;
 import com.google.android.agera.Repository;
 import com.google.android.agera.Result;
 import com.wzdsqyy.utils.helper.ExecutorHelper;
-import com.wzdsqyy.weiman.bean.ComicsItem;
 import com.wzdsqyy.weiman.bean.ComicsItemPage;
-import com.wzdsqyy.weiman.bean.ComicsItemResponse;
 import com.wzdsqyy.weiman.data.Api;
 import com.wzdsqyy.weiman.data.function.parser.ComicsFunction;
 import com.wzdsqyy.weiman.data.function.parser.ComicsItemFunction;
 import com.wzdsqyy.weiman.data.service.Comics;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/11/9.

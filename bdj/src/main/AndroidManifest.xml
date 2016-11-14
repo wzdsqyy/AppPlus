@@ -19,7 +19,6 @@
         </activity>
         <activity
             android:name="com.wzdsqyy.weiman.ui.MainActivity"
-            android:configChanges="orientation|screenSize|keyboard|navigation"
             android:launchMode="singleTask" />
         <activity
             android:name="com.wzdsqyy.weiman.ui.comics.ComicsDetailActivity"

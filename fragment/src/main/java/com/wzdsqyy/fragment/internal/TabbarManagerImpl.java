@@ -13,7 +13,7 @@ import java.util.List;
  * Created by Administrator on 2016/11/3.
  */
 class TabbarManagerImpl extends BaseManager implements TabbarManager {
-    SaveState saveState;
+    private SaveState saveState;
     private FragmentTransaction transaction;
 
     TabbarManagerImpl(ContentPage contentPage, SaveState saveState) {

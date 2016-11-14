@@ -1,6 +1,7 @@
 package com.wzdsqyy.applibDemo.main;
 
 import android.app.Application;
+import android.content.res.Configuration;
 
 
 import com.wzdsqyy.applibDemo.banner.engine.Engine;
@@ -28,6 +29,10 @@ public class App extends Application {
                 .build().create(Engine.class);
     }
 
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+    }
 
     public static App getInstance() {
         return sInstance;

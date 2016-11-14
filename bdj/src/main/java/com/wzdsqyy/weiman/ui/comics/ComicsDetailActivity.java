@@ -16,14 +16,14 @@ import com.wzdsqyy.weiman.data.model.ComicsModel;
 import com.wzdsqyy.weiman.ui.comics.adapter.ImageViewAdapter;
 import com.wzdsqyy.weiman.ui.comics.presenter.CallBack;
 import com.wzdsqyy.weiman.ui.comics.presenter.LoadPresenter;
-import com.wzdsqyy.weiman.ui.common.LoadDataHelper;
+import com.wzdsqyy.weiman.ui.common.LoadStatusHelper;
 
-public class ComicsDetailActivity extends AppCompatActivity implements CallBack<Comics>,LoadDataHelper.OnRetryButtonListener{
+public class ComicsDetailActivity extends AppCompatActivity implements CallBack<Comics>,LoadStatusHelper.OnRetryButtonListener{
     private static final String TAG = "ComicsDetailActivity";
     private LoadPresenter<Comics> presenter;
     private ImageViewAdapter adapter;
     private RecyclerView mRvlist;
-    private LoadDataHelper helper=new LoadDataHelper();
+    private LoadStatusHelper helper;
     private Toolbar toolbar;
 
     @Override
@@ -31,7 +31,7 @@ public class ComicsDetailActivity extends AppCompatActivity implements CallBack<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_comics_detail);
         mRvlist= (RecyclerView) findViewById(R.id.comics_list);
-        helper.init(this,this);
+        helper=new LoadStatusHelper(this,this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         String title=getIntent().getStringExtra("Comics_Title");
@@ -43,6 +43,7 @@ public class ComicsDetailActivity extends AppCompatActivity implements CallBack<
         Repository<Result<Comics>> comics = ComicsModel.getComics(id, presenter);
         presenter.setCompile(comics);
         presenter.startLoading();
+        toolbar.setTitle(title);
     }
 
     public static void start(Context context,String id,String title) {
@@ -54,13 +55,13 @@ public class ComicsDetailActivity extends AppCompatActivity implements CallBack<
 
     @Override
     public void onLoadError(Throwable ex) {
-       helper.showError();
+       helper.setStatus(LoadStatusHelper.ERROR);
     }
 
     @Override
     public void onSuccess(Comics value) {
         adapter.setData(value.imgList);
-        helper.showSucess();
+        helper.setStatus(LoadStatusHelper.SUCCESS);
         toolbar.setTitle(value.title);
     }
 
@@ -68,7 +69,7 @@ public class ComicsDetailActivity extends AppCompatActivity implements CallBack<
     public void onRetryButtonClick(View v) {
         if (presenter != null) {
             presenter.startLoading();
-            helper.showLoading();
+            helper.setStatus(LoadStatusHelper.LOADING);
         }
     }
 }

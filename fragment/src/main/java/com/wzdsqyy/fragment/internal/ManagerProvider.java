@@ -12,7 +12,7 @@ import com.wzdsqyy.fragment.TabbarManager;
  */
 
 public final class ManagerProvider {
-    SaveState mSaveState;
+    private SaveState mSaveState;
 
     public ManagerProvider() {
         mSaveState = new SaveStateImpl();

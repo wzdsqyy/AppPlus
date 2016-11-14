@@ -21,26 +21,24 @@ import com.wzdsqyy.weiman.bean.ComicsItemPage;
 import com.wzdsqyy.weiman.ui.comics.itembinder.ComicsItemBinder;
 import com.wzdsqyy.weiman.ui.comics.presenter.CallBack;
 import com.wzdsqyy.weiman.ui.comics.presenter.ComicsItemPresenter;
-import com.wzdsqyy.weiman.ui.common.LoadDataHelper;
+import com.wzdsqyy.weiman.ui.common.LoadStatusHelper;
 
 /**
  * Created by Administrator on 2016/11/9.
  */
 
-public class ComicsPageFragment extends Fragment implements Supplier<String>, MutiItemBinderFactory, CallBack<ComicsItemPage>,LoadDataHelper.OnRetryButtonListener{
+public class ComicsPageFragment extends Fragment implements Supplier<String>, MutiItemBinderFactory, CallBack<ComicsItemPage>,LoadStatusHelper.OnRetryButtonListener{
     public static final String COMICS_TYPE_NAME = "Comics_Type_name";
     private String mName;
     private RecyclerView mRvList;
     private MutiItemAdapter<ComicsItem> rcAdapter;
     private ComicsItemPresenter presenter;
-    private LoadDataHelper helper;
-    @LoadDataHelper.Status
-    private int mStatus=LoadDataHelper.LOADING;
+    private LoadStatusHelper helper;
 
     public static ComicsPageFragment newInstance(String name) {
         ComicsPageFragment fragment = new ComicsPageFragment();
         fragment.mName = name;
-        fragment.helper=new LoadDataHelper();
+        fragment.helper=new LoadStatusHelper();
         return fragment;
     }
 
@@ -58,6 +56,13 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
         if (savedInstanceState != null) {
             mName = (String) savedInstanceState.getCharSequence(COMICS_TYPE_NAME);
         }
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        helper.init(getView(),this);
+        helper.refresh();
     }
 
     @Override
@@ -92,8 +97,6 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        helper.init(view,this);
-        helper.refresh(mStatus);
     }
 
     @Override
@@ -108,7 +111,7 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
         if (presenter == null) {
             presenter = new ComicsItemPresenter(this, this);
             if (presenter.startLoading()) {
-                mStatus=helper.showLoading();
+                helper.setStatus(LoadStatusHelper.LOADING);
             }
         } else {
             if (!presenter.isSuccessLoad()) {
@@ -131,15 +134,15 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
 
     @Override
     public void onLoadError(Throwable ex) {
-        mStatus=helper.showError();
+        helper.setStatus(LoadStatusHelper.ERROR);
     }
 
     @Override
     public void onSuccess(ComicsItemPage value) {
         if (value.items.size() == 0) {
-            mStatus=helper.showEmpety();
+            helper.setStatus(LoadStatusHelper.EMPTY);
         } else {
-            mStatus=helper.showSucess();
+            helper.setStatus(LoadStatusHelper.SUCCESS);
             if (presenter.isMorePage()) {
                 rcAdapter.addMoreData(value.items);
             } else {
@@ -152,7 +155,7 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
     public void onRetryButtonClick(View v) {
         if (presenter != null) {
             presenter.startLoading();
-            mStatus=helper.showLoading();
+            helper.setStatus(LoadStatusHelper.LOADING);
         }
     }
 }

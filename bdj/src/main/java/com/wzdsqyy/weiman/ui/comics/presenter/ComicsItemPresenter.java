@@ -1,10 +1,8 @@
 package com.wzdsqyy.weiman.ui.comics.presenter;
 
-import android.os.Handler;
 import android.support.annotation.NonNull;
 
 import com.google.android.agera.Merger;
-import com.google.android.agera.Receiver;
 import com.google.android.agera.Repositories;
 import com.google.android.agera.Repository;
 import com.google.android.agera.Result;

@@ -36,9 +36,7 @@ public class ComicsFragment extends Fragment{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         adapter=new ComicsPageAdapter(getFragmentManager(),getActivity());
-        if(pager!=null){
-            pager.setAdapter(adapter);
-        }
+        pager.setAdapter(adapter);
     }
 
     @Nullable
@@ -49,7 +47,6 @@ public class ComicsFragment extends Fragment{
         categotyTab.setTabMode(TabLayout.MODE_SCROLLABLE);
         categotyTab.setTabGravity(TabLayout.GRAVITY_CENTER);
         pager= (ViewPager) view.findViewById(R.id.comics_page);
-        pager.setAdapter(adapter);
         categotyTab.setupWithViewPager(pager);
         return view;
     }
