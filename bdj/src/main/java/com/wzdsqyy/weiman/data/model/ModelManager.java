@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentManager;
 
 public class ModelManager{
     @Nullable
-    private static <T extends Fragment> T getModel(@NonNull Class<T> model, @NonNull FragmentManager manager) throws Exception {
+    public static <T extends Fragment> T getModel(@NonNull Class<T> model, @NonNull FragmentManager manager) throws Exception {
         String name = model.getClass().getName();
         Fragment data = manager.findFragmentByTag(name);
         if (data == null) {

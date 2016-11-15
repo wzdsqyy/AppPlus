@@ -10,9 +10,7 @@ import android.widget.TextView;
 
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.utils.CommonAdapter;
-import com.wzdsqyy.commonview.BadgeDrawable;
-
-import java.util.List;
+import com.wzdsqyy.commonview.drawable.BadgeDrawable;
 
 /**
  * Created by Administrator on 2016/9/20.
@@ -26,11 +24,14 @@ public class AppAdapter extends CommonAdapter<Bean> implements AdapterView.OnIte
         BadgeDrawable drawable;
         if (convertView == null) {
             item = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_main, parent, false);
-            drawable = new BadgeDrawable(item.getBackground());
-            drawable.setShowNum(true);
+            drawable=new BadgeDrawable(item.getBackground());
             item.setBackgroundDrawable(drawable);
+//            Drawable[] drawables = item.getCompoundDrawables();
+//            drawables[0]=drawable;
+            drawable.setShowNum(true);
+//            item.setCompoundDrawables(drawable,drawables[1],drawables[2],drawables[3]);
         } else {
-            drawable = (BadgeDrawable) convertView.getBackground();
+            drawable = (BadgeDrawable) item.getBackground();
         }
         drawable.setBadgeCount(position);
         drawable.setShowNum(false);

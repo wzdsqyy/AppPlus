@@ -18,7 +18,11 @@ public class ComicsPageAdapter extends FragmentPagerAdapter {
 
     public ComicsPageAdapter(FragmentManager fm, FragmentActivity activity) {
         super(fm);
-        model = ModelManager.getModel(ComicsModel.class,activity);
+        try {
+            model = ModelManager.getModel(ComicsModel.class,activity.getSupportFragmentManager());
+        } catch (Exception e) {
+           model=null;
+        }
     }
 
     @Override
@@ -28,6 +32,9 @@ public class ComicsPageAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
+        if(model==null){
+            return 0;
+        }
         return model.getNames().size();
     }
 

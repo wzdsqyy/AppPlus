@@ -18,7 +18,7 @@ import android.widget.FrameLayout;
 public class StickyLayout extends FrameLayout implements OnScrollHandler {
     RecyclerView.ViewHolder holder;
     RecyclerView target;
-    int stickyItem = -1;
+    @LayoutRes int stickyItem = -1;
 
     public static StickyLayout newInstance(@NonNull Context context) {
         StickyLayout fragment = new StickyLayout(context);
@@ -68,6 +68,15 @@ public class StickyLayout extends FrameLayout implements OnScrollHandler {
             addView(this.holder.itemView,new ViewGroup.LayoutParams(width,ViewGroup.LayoutParams.WRAP_CONTENT));
         }
         return holder;
+    }
+
+    public int getStickyHeight() {
+        if (holder == null) {
+            holder = target.getAdapter().onCreateViewHolder(this,stickyItem);
+            int width = target.getWidth();
+            addView(this.holder.itemView,new ViewGroup.LayoutParams(width,ViewGroup.LayoutParams.WRAP_CONTENT));
+        }
+        return holder.itemView.getHeight();
     }
 
     @Override

@@ -37,7 +37,8 @@ public class LoadStatusHelper {
     private View mError;
     private boolean init = false;
     private OnRetryButtonListener mlistener;
-
+    public LoadStatusHelper() {
+    }
     public LoadStatusHelper(Activity activity) {
         init(activity);
         init = true;

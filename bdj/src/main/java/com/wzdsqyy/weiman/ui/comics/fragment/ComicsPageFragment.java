@@ -61,7 +61,8 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        helper.init(getView(),this);
+        helper.init(getView());
+        helper.setListener(this);
         helper.refresh();
     }
 

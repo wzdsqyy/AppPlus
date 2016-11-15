@@ -1,24 +1,19 @@
-package com.wzdsqyy.commonview;
+package com.wzdsqyy.commonview.drawable;
 
 
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 /**
  * Created by Qiuyy on 2016/9/13.
  */
-public class BadgeDrawable extends Drawable {
-    private Drawable drawable;
+public class BadgeDrawable extends BaseDrawable {
     private Paint mPaint;
-    private boolean mHideOnZero = true;
     private boolean mShowNum = false;
     private boolean centerHorizontal = false;
     private boolean centerVertical = false;
@@ -36,10 +31,10 @@ public class BadgeDrawable extends Drawable {
     private int mTop = 0;
     private float mTextWidth;
     private float mTextHeight;
-    private boolean showStroke=false;
+    private boolean showStroke = false;
 
-    public BadgeDrawable(@NonNull Drawable drawable) {
-        this.drawable = drawable;
+    public BadgeDrawable(Drawable drawable) {
+        super(drawable);
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setTextAlign(Paint.Align.LEFT);
         mPaint.setStrokeWidth(1);
@@ -140,39 +135,37 @@ public class BadgeDrawable extends Drawable {
 
     @Override
     public void draw(Canvas canvas) {
-        if (drawable != null) {
-            drawable.draw(canvas);
-        }
+        super.draw(canvas);
         canvas.save();
         mPaint.setColor(badgeColor);
         float dotR = radius;
         if (mShowNum) {
             dotR = (mTextHeight > mTextWidth ? mTextHeight + radius : mTextWidth + radius) / 2;
-            if(showStroke){
-                dotR=dotR+mStrokeWidth;
+            if (showStroke) {
+                dotR = dotR + mStrokeWidth;
             }
         }
         float centerDotX = mLeft + dotR;
         float centerDotY = mTop + dotR;
         if (mLeft < 0) {
-            centerDotX = canvas.getWidth() + mLeft - dotR;
+            centerDotX = getWidth() + mLeft - dotR;
         }
         if (mTop < 0) {
-            centerDotY = canvas.getHeight() + mTop - dotR;
+            centerDotY = getHeight() + mTop - dotR;
         }
         if (centerHorizontal) {
-            centerDotX = canvas.getWidth() / 2;
+            centerDotX = getWidth()/ 2;
         }
         if (centerVertical) {
-            centerDotY = canvas.getHeight() / 2;
+            centerDotY = getHeight() / 2;
         }
         mPaint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(centerDotX, centerDotY, dotR, mPaint);
-        if(showStroke){
+        if (showStroke) {
             mPaint.setColor(mStrokeColor);
             mPaint.setStyle(Paint.Style.STROKE);
             mPaint.setStrokeWidth(mStrokeWidth);
-            canvas.drawCircle(centerDotX,centerDotY,dotR,mPaint);
+            canvas.drawCircle(centerDotX, centerDotY, dotR, mPaint);
         }
         if (mShowNum && !TextUtils.isEmpty(mNumCount)) {
             mPaint.setColor(mNumColor);
@@ -181,35 +174,6 @@ public class BadgeDrawable extends Drawable {
             canvas.drawText(mNumCount + "", textX, textY, mPaint);
         }
         canvas.restore();
-    }
-
-    @Override
-    public void setAlpha(int alpha) {
-        if (drawable == null) {
-            return;
-        }
-        drawable.setAlpha(alpha);
-    }
-
-    @Override
-    public void setColorFilter(ColorFilter colorFilter) {
-        if (drawable == null) {
-            return;
-        }
-        drawable.setColorFilter(colorFilter);
-    }
-
-    @Override
-    protected void onBoundsChange(Rect bounds) {
-        super.onBoundsChange(bounds);
-    }
-
-    @Override
-    public int getOpacity() {
-        if (drawable == null) {
-            return PixelFormat.OPAQUE;
-        }
-        return drawable.getOpacity();
     }
 }
 

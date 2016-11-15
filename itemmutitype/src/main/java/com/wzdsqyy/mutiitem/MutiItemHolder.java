@@ -24,6 +24,10 @@ public class MutiItemHolder extends RecyclerView.ViewHolder {
         this.itemHolder.init(this);
     }
 
+    public void setItemOnClickListener(View.OnClickListener listener){
+        itemView.setOnClickListener(listener);
+    }
+
     public Context getContext(){
         return itemView.getContext();
     }

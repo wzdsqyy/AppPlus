@@ -39,46 +39,44 @@ class StickyItemListener extends RecyclerView.OnScrollListener {
 
     @Override
     public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+        if (scrollListener == null||!scrollListener.hasStickyItem()) {
+            return;
+        }
         if (manager == null) {
             return;
         }
         if (adapter == null) {
             return;
         }
-        if (scrollListener == null) {
-            return;
-        }
-        if (!scrollListener.hasStickyItem()) {
-            return;
-        }
-        int targetPosition = manager.findFirstVisibleItemPosition();
+        int first = manager.findFirstVisibleItemPosition();
         int end = manager.findLastVisibleItemPosition();
-        targetPosition = getStickyPosition(targetPosition, end);
-        int type = adapter.getItemViewType(targetPosition);
-        if (!isStickyType(type)) {
+        int sticky = getStickyPosition(first, end);
+        int stickyItem = adapter.getItemViewType(sticky);
+        if (!isStickyType(stickyItem)) {
             return;//不是stick的类型直接返回
         }
-        View view = manager.findViewByPosition(targetPosition);//找到对应的View
-        int distance = view.getTop() - scrollListener.getStickyHolder(type).itemView.getHeight();
+        View view = manager.findViewByPosition(sticky);//找到对应的View
+        int distance = view.getTop() - scrollListener.getStickyHolder(stickyItem).itemView.getHeight();
         if (distance > 0) {
             if (isScroll()) {
                 distance = 0;
             }
-            showPrePosition(targetPosition);
+            showPrePosition(sticky);
         } else {
             if (view.getTop() < 0) {
                 if (isScroll()) {
                     distance = 0;
                 }
-                showPosition(targetPosition);
+                showPosition(sticky);
             } else {
-                showPrePosition(targetPosition);
+                showPrePosition(sticky);
             }
         }
-        scrollListener.setStickyTranslationY(type, distance);
+        scrollListener.setStickyTranslationY(stickyItem, distance);
     }
 
     /**
+     * 在可见范围内搜索sticky的possion
      * @param start 起始
      * @param end   结束
      * @return 如果有则返回 最靠近 start 的Position，否则直接返回start的值
