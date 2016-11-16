@@ -2,14 +2,11 @@ package com.wzdsqyy.weiman.ui.comics.itembinder;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.wzdsqyy.bdj.R;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
-import com.wzdsqyy.mutiitem.MutiItemHolder;
-import com.wzdsqyy.weiman.bean.Comics;
+import com.wzdsqyy.mutiitem.DefaultMutiItemHolder;
 import com.wzdsqyy.weiman.bean.ComicsItem;
 import com.wzdsqyy.weiman.ui.comics.ComicsDetailActivity;
 import com.wzdsqyy.weiman.ui.comics.adapter.ImageViewAdapter;
@@ -24,7 +21,7 @@ public class ComicsItemBinder implements MutiItemBinder<ComicsItem>,View.OnClick
     private ImageViewAdapter adapter;
     private ComicsItem bean;
     @Override
-    public void onBindViewHolder(MutiItemHolder holder, ComicsItem bean, int possion) {
+    public void onBindViewHolder(DefaultMutiItemHolder holder, ComicsItem bean, int possion) {
         this.bean=bean;
         tvTime.setText(bean.time);
         tvTitle.setText(bean.title);
@@ -32,7 +29,7 @@ public class ComicsItemBinder implements MutiItemBinder<ComicsItem>,View.OnClick
     }
 
     @Override
-    public void init(MutiItemHolder holder) {
+    public void init(DefaultMutiItemHolder holder) {
         tvTitle=holder.findViewById(R.id.comics_title);
         tvTime=holder.findViewById(R.id.comics_title);
         rvlist=holder.findViewById(R.id.thumbnailList);

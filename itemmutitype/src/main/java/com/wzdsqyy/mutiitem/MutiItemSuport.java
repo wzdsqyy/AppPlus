@@ -18,7 +18,7 @@ public interface MutiItemSuport {
     /**
      * 缓存
      *
-     * @param viewType
+     * @param layoutRes
      */
-    void setMutiItemViewType(@LayoutRes int viewType);
+    void setMutiItemViewType(@LayoutRes int layoutRes);
 }

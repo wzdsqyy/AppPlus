@@ -3,7 +3,6 @@ package com.wzdsqyy.applibDemo.MutiItemList;
 import android.view.View;
 import android.widget.Toast;
 
-import com.wzdsqyy.mutiitem.MutiItemHolder;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 
@@ -14,7 +13,7 @@ import com.wzdsqyy.mutiitem.MutiItemBinder;
 public class StudentView implements MutiItemBinder<StudentModel>, View.OnClickListener {
 
     private StudentModel bean;
-
+    RecyclerView.ViewHolder holder;
     public static StudentView newInstance() {
         StudentView instance = new StudentView();
         return instance;
@@ -28,13 +27,13 @@ public class StudentView implements MutiItemBinder<StudentModel>, View.OnClickLi
     }
 
     @Override
-    public void onBindViewHolder(MutiItemHolder holder, StudentModel bean, int possion) {
-        this.bean= (StudentModel) bean;
+    public void onBindViewHolder(StudentModel bean, int possion) {
+        this.bean= bean;
         holder.itemView.setOnClickListener(this);
     }
 
     @Override
-    public void init(MutiItemHolder holder) {
-
+    public void init(RecyclerView.ViewHolder holder, android.support.v7.widget.RecyclerView.Adapter adapter) {
+        this.holder=holder;
     }
 }

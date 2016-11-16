@@ -2,34 +2,27 @@ package com.wzdsqyy.mutiitem;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 多种视图适配器
  */
 
-public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<MutiItemHolder, M> {
-    MutiItemBinderFactory factory;
-    ArrayList<Class> clazzs;
-    ArrayList<Integer> itemTypes;
+public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<RecyclerView.ViewHolder, M> {
+    private MutiItemBinderFactory factory;
+    private ArrayList<Class> clazzs;
+    private ArrayList<Integer> itemTypes;
 
     public MutiItemAdapter(MutiItemBinderFactory factory) {
-        this.factory=factory;
+        this.factory = factory;
         clazzs = new ArrayList<>();
         itemTypes = new ArrayList<>();
-    }
-
-    public MutiItemAdapter() {
-        this(null);
     }
 
     public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
@@ -67,19 +60,29 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Mut
     }
 
     @Override
-    public MutiItemHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
-        if(factory==null){
+    public RecyclerView.ViewHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+        if (factory == null) {
             throw new RuntimeException("必须提前设置 MutiItemBinderFactory");
         }
-        View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-        MutiItemBinder mutiItemBinder = factory.getMutiItemHolder(viewType);
-        MutiItemHolder holder = new MutiItemHolder(this, view, mutiItemBinder);
+        MutiItemBinder mutiItemBinder = factory.getMutiItemBinder(viewType, parent);
+        RecyclerView.ViewHolder holder;
+        if (mutiItemBinder instanceof RecyclerView.ViewHolder) {
+            holder = (RecyclerView.ViewHolder) mutiItemBinder;
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+            holder = new DefaultMutiItemHolder(view).setItemHolder(mutiItemBinder);
+        }
+        mutiItemBinder.init(holder, this);
         return holder;
     }
 
     @Override
-    public void onBindViewHolder(MutiItemHolder holder, int position) {
-        holder.getItemHolder().onBindViewHolder(holder, getItem(position), position);
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof DefaultMutiItemHolder) {
+            ((DefaultMutiItemHolder) holder).getMutiItemBinder().onBindViewHolder(getItem(position), position);
+        } else {
+            ((MutiItemBinder) holder).onBindViewHolder(getItem(position), position);
+        }
     }
 
     @Override

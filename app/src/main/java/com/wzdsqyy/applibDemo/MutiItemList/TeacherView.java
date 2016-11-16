@@ -1,6 +1,7 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
-import com.wzdsqyy.mutiitem.MutiItemHolder;
+import android.support.v7.widget.RecyclerView;
+
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 /**
@@ -10,12 +11,12 @@ import com.wzdsqyy.mutiitem.MutiItemBinder;
 public class TeacherView implements MutiItemBinder<Teacher> {
 
     @Override
-    public void onBindViewHolder(MutiItemHolder holder, Teacher bean, int possion) {
+    public void onBindViewHolder(Teacher bean, int possion) {
 
     }
 
     @Override
-    public void init(MutiItemHolder holder) {
+    public void init(RecyclerView.ViewHolder holder, RecyclerView.Adapter adapter) {
 
     }
 }

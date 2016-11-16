@@ -123,7 +123,7 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
 
     @NonNull
     @Override
-    public MutiItemBinder getMutiItemHolder(@LayoutRes int layoutRes) {
+    public MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes, ViewGroup parent) {
         return new ComicsItemBinder();
     }
 

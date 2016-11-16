@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -77,14 +78,15 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
 
     @NonNull
     @Override
-    public MutiItemBinder getMutiItemHolder(@LayoutRes int viewtype) {
+    public MutiItemBinder getMutiItemBinder(@LayoutRes int viewtype, ViewGroup parent) {
         switch (viewtype) {
             case R.layout.item_teacher:
                 return new TeacherView();
             case R.layout.item_student:
                 return new StudentView();
             case R.layout.item_sticky:
-                return new StickyView();
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sticky, parent, false);
+                return new StickyView(view);
             default:
                 return new StudentView();
         }

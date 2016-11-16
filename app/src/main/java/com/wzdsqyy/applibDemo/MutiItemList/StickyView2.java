@@ -1,11 +1,11 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
-import com.wzdsqyy.mutiitem.MutiItemHolder;
 
 
 /**
@@ -16,7 +16,7 @@ public class StickyView2 implements MutiItemBinder<StickyModel2>, View.OnClickLi
 
     private StickyModel bean;
     private TextView textView;
-    private MutiItemHolder holder;
+    private RecyclerView.ViewHolder holder;
 
     public static StickyView2 newInstance() {
         StickyView2 instance = new StickyView2();
@@ -29,14 +29,14 @@ public class StickyView2 implements MutiItemBinder<StickyModel2>, View.OnClickLi
     }
 
     @Override
-    public void onBindViewHolder(MutiItemHolder holder, StickyModel2 bean, int possion) {
+    public void onBindViewHolder(StickyModel2 bean, int possion) {
         textView= (TextView) holder.itemView;
         textView.setText(bean.toString()+possion);
         holder.itemView.setOnClickListener(this);
     }
 
     @Override
-    public void init(MutiItemHolder holder) {
+    public void init(RecyclerView.ViewHolder holder, RecyclerView.Adapter adapter) {
         this.holder=holder;
     }
 }
