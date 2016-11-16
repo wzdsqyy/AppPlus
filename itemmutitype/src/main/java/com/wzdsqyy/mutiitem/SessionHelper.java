@@ -86,20 +86,20 @@ public class SessionHelper extends RecyclerView.AdapterDataObserver {
 
     public boolean deleteSection(int possion) {
         SessionSupport item = adapter.getItem(possion);
-        List<SessionSupport> list = adapter.getData().subList(possion, item.getSessionCount());
-        boolean all = adapter.getData().removeAll(list);
-        if (all) {
-            adapter.notifyItemRangeRemoved(possion, item.getSessionCount());
-        }
-        return all;
+        return deleteSubItems(possion+1,item);
     }
 
     public boolean deleteSectionItems(int possion) {
         SessionSupport item = adapter.getItem(possion);
-        List<SessionSupport> list = adapter.getData().subList(possion+1, item.getSessionCount());
+        boolean all = deleteSubItems(possion, item);
+        return all;
+    }
+
+    private boolean deleteSubItems(int possion, SessionSupport item) {
+        List<SessionSupport> list = adapter.getData().subList(possion, item.getSessionCount());
         boolean all = adapter.getData().removeAll(list);
         if (all) {
-            adapter.notifyItemRangeRemoved(possion+1, item.getSessionCount());
+            adapter.notifyItemRangeRemoved(possion, item.getSessionCount());
         }
         return all;
     }
