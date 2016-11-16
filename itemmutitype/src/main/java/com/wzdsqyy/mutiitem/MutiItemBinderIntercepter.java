@@ -1,6 +1,7 @@
 package com.wzdsqyy.mutiitem;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 
 /**
@@ -8,5 +9,5 @@ import android.support.v7.widget.RecyclerView;
  */
 
 public interface MutiItemBinderIntercepter<VH extends RecyclerView.ViewHolder> {
-    void afterIntercepter(VH holder,@LayoutRes int layoutRes);
+    void afterIntercepter(@NonNull VH holder, @LayoutRes int layoutRes);
 }

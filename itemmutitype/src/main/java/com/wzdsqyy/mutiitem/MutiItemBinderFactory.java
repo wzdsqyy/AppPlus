@@ -6,5 +6,5 @@ import android.view.ViewGroup;
 
 public interface MutiItemBinderFactory {
     @NonNull
-    MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes, ViewGroup parent);
+    MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes,@NonNull ViewGroup parent);
 }
