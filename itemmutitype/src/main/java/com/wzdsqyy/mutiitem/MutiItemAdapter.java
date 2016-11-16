@@ -44,6 +44,9 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
         return this;
     }
 
+    public boolean isRegister(@LayoutRes int layoutRes){
+        return itemTypes.indexOf(layoutRes)!=-1;
+    }
 
     /**
      * 将会替换你设置的布局管理器
@@ -93,11 +96,11 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
             return type;
         }
         int index = clazzs.indexOf(item.getClass());
-        if (index < 0 || index >= itemTypes.size()) {
-            return super.getItemViewType(position);
+        if (index != -1) {
+            type = itemTypes.get(index);
+            item.setMutiItemViewType(type);
+            return type;
         }
-        type = itemTypes.get(index);
-        item.setMutiItemViewType(type);
-        return type;
+        return super.getItemViewType(position);
     }
 }

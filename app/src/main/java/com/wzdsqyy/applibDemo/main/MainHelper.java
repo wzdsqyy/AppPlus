@@ -1,7 +1,5 @@
 package com.wzdsqyy.applibDemo.main;
 
-import android.widget.ExpandableListView;
-
 import com.wzdsqyy.applibDemo.ExpandActivity;
 import com.wzdsqyy.applibDemo.ImageSelector.ImageSelectorActivity;
 import com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity;
@@ -13,6 +11,7 @@ import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
 import com.wzdsqyy.applibDemo.dialog.DialogActivity;
 import com.wzdsqyy.applibDemo.fragment.OneActivity;
+import com.wzdsqyy.applibDemo.group.GroupActivity;
 import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
@@ -37,6 +36,7 @@ public class MainHelper {
     public static List<Bean> getActivityList() {
         List<Bean> list = new ArrayList<>();
         list.add(new Bean("倒计时", CountDownActivity.class));
+        list.add(new Bean("分组", GroupActivity.class));
         list.add(new Bean("Banner", BannerActivity.class));
         list.add(new Bean("文字的展开与收缩", TextLineHelperActivity.class));
         list.add(new Bean("升级", UpdataActivity.class));
