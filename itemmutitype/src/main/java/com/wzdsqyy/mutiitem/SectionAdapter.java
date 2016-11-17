@@ -29,21 +29,27 @@ public class SectionAdapter extends MutiItemAdapter {
         return this;
     }
 
+    /**
+     * @param possion Adapter里的位置，
+     * @return 第几组
+     */
     public int getSection(int possion) {
         return helper.getSection(possion);
     }
 
     /**
      * 添加数据到某组
+     *
      * @param data
      * @param sectionPosition
      */
-    public void addSectionData(List<MutiItemSuport> data,int sectionPosition) {
-        addData(data,sectionPosition);
+    public void addSectionData(List<MutiItemSuport> data, int sectionPosition) {
+        addData(data, sectionPosition);
     }
 
     /**
      * 获取指定所属组在列表中的位置
+     *
      * @param position
      */
     public void getSectionPosition(int position) {

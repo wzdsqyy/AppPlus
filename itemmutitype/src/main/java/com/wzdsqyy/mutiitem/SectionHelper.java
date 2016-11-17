@@ -253,12 +253,11 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
         int start = possion;
         while (start > 0) {
             if (adapter.getItemViewType(start) == mSectionType) {
-                session = start;
-                break;
+                cache.put(possion, start);
+                return start;
             }
             start--;
         }
-        cache.put(possion, session);
         return session;
     }
 
