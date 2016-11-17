@@ -38,9 +38,11 @@ public class ItemBinder implements MutiItemBinder<Item>, View.OnClickListener {
         if(toast!=null){
             toast.cancel();
         }
-        int possion = adapter.getSessionHelper().getSectionPossion(holder.getAdapterPosition());
+        int adapterPosition = holder.getLayoutPosition();
+        int possion = adapter.getSessionHelper().getSection(adapterPosition);
         toast = Toast.makeText(v.getContext(), "第" + possion, Toast.LENGTH_SHORT);
         toast.show();
-        adapter.removeItem(holder.getAdapterPosition());
+        adapter.removeItem(adapterPosition);
+        adapter.notifyItemRangeChanged(adapterPosition, adapter.getItemCount() - adapterPosition);
     }
 }

@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/11/16.
  */
@@ -16,6 +18,8 @@ public class SessionItemBinder implements MutiItemBinder<SessionItem>, View.OnCl
     private GroupAdapter adapter;
     private TextView textView;
     RecyclerView.ViewHolder holder;
+    SessionItem bean;
+    private Toast toast;
 
     public SessionItemBinder(GroupAdapter adapter) {
         this.adapter = adapter;
@@ -23,17 +27,29 @@ public class SessionItemBinder implements MutiItemBinder<SessionItem>, View.OnCl
 
     @Override
     public void onBindViewHolder(SessionItem bean, int possion) {
-        textView.setText(bean.getSession());
+        this.bean = bean;
+        textView.setText(bean.getSession() + adapter.getSessionHelper().getSection(possion));
     }
 
     @Override
     public void init(@NonNull RecyclerView.ViewHolder holder, @NonNull RecyclerView.Adapter adapter) {
-       textView= (TextView) holder.itemView;
-        this.holder=holder;
+        textView = (TextView) holder.itemView;
+        this.holder = holder;
+        textView.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        Toast.makeText(v.getContext(),"第"+adapter.getSessionHelper().getSectionPossion(holder.getAdapterPosition()),Toast.LENGTH_SHORT).show();
+        int adapterPosition = holder.getLayoutPosition();
+        if(toast!=null){
+            toast.cancel();
+        }
+        toast=Toast.makeText(v.getContext(), "第" + adapter.getSessionHelper().getSection(adapterPosition), Toast.LENGTH_SHORT);
+        toast.show();
+        if (adapter.getSessionHelper().isExpand(adapterPosition)) {
+            adapter.getSessionHelper().setSection(adapterPosition, false);
+        } else {
+            adapter.getSessionHelper().setSection(adapterPosition, true);
+        }
     }
 }

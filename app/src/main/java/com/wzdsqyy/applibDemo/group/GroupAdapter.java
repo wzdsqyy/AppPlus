@@ -1,19 +1,19 @@
 package com.wzdsqyy.applibDemo.group;
 
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.LayoutRes;
-import android.support.v7.widget.RecyclerView;
 
-import com.wzdsqyy.mutiitem.SessionHelper;
 import com.wzdsqyy.mutiitem.MutiItemAdapter;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
-import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.SectionHelper;
 
 /**
  * Created by Administrator on 2016/11/16.
  */
 
-public class GroupAdapter<M extends MutiItemSuport> extends MutiItemAdapter<M> {
-    private SessionHelper helper;
+public class GroupAdapter extends MutiItemAdapter {
+    private SectionHelper helper;
     public GroupAdapter(MutiItemBinderFactory factory) {
         super(factory);
     }
@@ -22,7 +22,7 @@ public class GroupAdapter<M extends MutiItemSuport> extends MutiItemAdapter<M> {
         boolean register = isRegister(layoutRes);
         if(register){
             if(helper==null){
-                helper=new SessionHelper(layoutRes,this);
+                helper=new SectionHelper(layoutRes,this);
             }else {
                 helper.setSectionType(layoutRes);
             }
@@ -32,7 +32,7 @@ public class GroupAdapter<M extends MutiItemSuport> extends MutiItemAdapter<M> {
         return this;
     }
 
-    public SessionHelper getSessionHelper() {
+    public SectionHelper getSessionHelper() {
         return helper;
     }
 }

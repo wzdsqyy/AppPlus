@@ -83,10 +83,10 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
      * @param data
      */
     public void addMoreData(List<M> data) {
-        addMoreData(data,mData.size()-1);
+        addData(data,mData.size()-1);
     }
 
-    public void addMoreData(List<M> data,int position) {
+    public void addData(List<M> data, int position) {
         if (data != null) {
             mData.addAll(position+1, data);
             notifyItemRangeInserted(position+1, data.size());
