@@ -42,6 +42,14 @@ public class SectionAdapter extends MutiItemAdapter<SectionSupport> {
         addData(data,sectionPosition);
     }
 
+    /**
+     * 获取指定所属组在列表中的位置
+     * @param position
+     */
+    public void getSectionPosition(int position) {
+        helper.getSectionPossion(position);
+    }
+
     public boolean isExpand(int position) {
         return helper.isExpand(position);
     }
