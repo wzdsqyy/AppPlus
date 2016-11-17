@@ -45,10 +45,5 @@ public class SessionItemBinder implements MutiItemBinder<SessionItem>, View.OnCl
         }
         toast=Toast.makeText(v.getContext(), "第" + adapter.getSection(adapterPosition), Toast.LENGTH_SHORT);
         toast.show();
-        if (adapter.isExpand(adapterPosition)) {
-            adapter.setSection(adapterPosition, false);
-        } else {
-            adapter.setSection(adapterPosition, true);
-        }
     }
 }

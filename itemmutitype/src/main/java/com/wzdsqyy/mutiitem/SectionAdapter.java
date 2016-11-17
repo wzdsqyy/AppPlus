@@ -30,6 +30,8 @@ public class SectionAdapter extends MutiItemAdapter {
     }
 
     /**
+     * 遍历整个数据集进行计算，推荐用一级列表来处理分组数据
+     *
      * @param possion Adapter里的位置，
      * @return 第几组
      */
