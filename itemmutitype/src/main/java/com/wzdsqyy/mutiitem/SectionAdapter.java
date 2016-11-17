@@ -2,8 +2,10 @@ package com.wzdsqyy.mutiitem;
 
 import android.support.annotation.LayoutRes;
 
+import java.util.List;
+
 /**
- * 分组列表
+ * 分组列表,注意需要将二级列表映射为一级列表，同一组的数据需保证连续，不连续的视为不同组
  */
 public class SectionAdapter extends MutiItemAdapter<SectionSupport> {
 
@@ -31,24 +33,32 @@ public class SectionAdapter extends MutiItemAdapter<SectionSupport> {
         return helper.getSection(possion);
     }
 
+    /**
+     * 添加数据到某组
+     * @param data
+     * @param sectionPosition
+     */
+    public void addSectionData(List<SectionSupport> data,int sectionPosition) {
+        addData(data,sectionPosition);
+    }
 
-    public boolean isExpand(int position){
+    public boolean isExpand(int position) {
         return helper.isExpand(position);
     }
 
     public void setSection(int position, boolean expand) {
-        helper.setSection(position,expand);
+        helper.setSection(position, expand);
     }
 
-    public int getSectionCount(){
+    public int getSectionCount() {
         return helper.getSectionCount();
     }
 
-    public void deleteSection(int possion){
+    public void deleteSection(int possion) {
         helper.deleteSection(possion);
     }
 
-    public void deleteSectionItems(int possion){
+    public void deleteSectionItems(int possion) {
         helper.deleteSectionItem(possion);
     }
 }

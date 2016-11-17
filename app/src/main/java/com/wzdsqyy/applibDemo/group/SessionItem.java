@@ -2,8 +2,8 @@ package com.wzdsqyy.applibDemo.group;
 
 import android.support.annotation.LayoutRes;
 
-import com.wzdsqyy.mutiitem.ExpandItemSupport;
 import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.SectionSupport;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import java.util.List;
  * Created by Administrator on 2016/11/16.
  */
 
-public class SessionItem implements ExpandItemSupport {
+public class SessionItem implements SectionSupport {
     private int layoutRes = -1;
     private String session = "组";
     private List delete;
@@ -44,12 +44,12 @@ public class SessionItem implements ExpandItemSupport {
     }
 
     @Override
-    public void setDeleteList(List<MutiItemSuport> delete) {
-        this.delete=delete;
+    public List<MutiItemSuport> getSectionItems() {
+        return delete;
     }
 
     @Override
-    public List<MutiItemSuport> getDeleteList() {
-        return delete;
+    public void setSectionItems(List<MutiItemSuport> list) {
+        this.delete=list;
     }
 }
