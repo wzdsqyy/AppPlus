@@ -7,17 +7,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
+import com.wzdsqyy.mutiitem.SectionAdapter;
 
 /**
  * Created by Administrator on 2016/11/16.
  */
 
 public class ItemBinder implements MutiItemBinder<Item>, View.OnClickListener {
-    GroupAdapter  adapter;
+    SectionAdapter adapter;
     private TextView textView;
     Toast toast;
     RecyclerView.ViewHolder holder;
-    public ItemBinder(GroupAdapter adapter) {
+    public ItemBinder(SectionAdapter adapter) {
         this.adapter = adapter;
     }
 
@@ -39,7 +40,7 @@ public class ItemBinder implements MutiItemBinder<Item>, View.OnClickListener {
             toast.cancel();
         }
         int adapterPosition = holder.getLayoutPosition();
-        int possion = adapter.getSessionHelper().getSection(adapterPosition);
+        int possion = adapter.getSection(adapterPosition);
         toast = Toast.makeText(v.getContext(), "第" + possion, Toast.LENGTH_SHORT);
         toast.show();
         adapter.removeItem(adapterPosition);

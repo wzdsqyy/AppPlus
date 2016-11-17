@@ -11,19 +11,20 @@ import android.view.ViewGroup;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
+import com.wzdsqyy.mutiitem.SectionAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class GroupActivity extends AppCompatActivity implements MutiItemBinderFactory {
     private RecyclerView recyclerView;
-    private GroupAdapter adapter;
+    private SectionAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
         recyclerView= (RecyclerView) findViewById(R.id.list_item);
-        adapter=new GroupAdapter(this);
+        adapter=new SectionAdapter(this);
         adapter.setViewLayoutManager(recyclerView);
         adapter.register(SessionItem.class,R.layout.item_session);
         adapter.register(Item.class,R.layout.item_session_item);

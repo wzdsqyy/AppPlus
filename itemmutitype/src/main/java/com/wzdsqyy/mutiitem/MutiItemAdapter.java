@@ -1,5 +1,6 @@
 package com.wzdsqyy.mutiitem;
 
+import android.os.Binder;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -44,8 +45,8 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
         return this;
     }
 
-    public boolean isRegister(@LayoutRes int layoutRes){
-        return itemTypes.indexOf(layoutRes)!=-1;
+    public boolean isRegister(@LayoutRes int layoutRes) {
+        return itemTypes.indexOf(layoutRes) != -1;
     }
 
     /**
@@ -73,7 +74,7 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
             holder = (RecyclerView.ViewHolder) mutiItemBinder;
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            holder = new DefaultMutiItemHolder(view).setItemHolder(mutiItemBinder);
+            holder = new DefaultMutiItemHolder(view).setMutiItemBinder(mutiItemBinder);
         }
         mutiItemBinder.init(holder, this);
         return holder;
@@ -81,16 +82,12 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if (holder instanceof DefaultMutiItemHolder) {
-            ((DefaultMutiItemHolder) holder).getMutiItemBinder().onBindViewHolder(getItem(position), position);
-        } else {
-            ((MutiItemBinder) holder).onBindViewHolder(getItem(position), position);
-        }
+        boolean isBinder = holder instanceof DefaultMutiItemHolder;
+        MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
+        binder.onBindViewHolder(getItem(position), position);
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        MutiItemSuport item = getItem(position);
+    public int getItemViewType(MutiItemSuport item) {
         int type = item.getMutiItemViewType();
         if (type > 0) {
             return type;
@@ -101,6 +98,11 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
             item.setMutiItemViewType(type);
             return type;
         }
-        return super.getItemViewType(position);
+        return 0;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return getItemViewType(getItem(position));
     }
 }

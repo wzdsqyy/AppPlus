@@ -15,7 +15,7 @@ class DefaultMutiItemHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public DefaultMutiItemHolder setItemHolder(MutiItemBinder itemHolder) {
+    public DefaultMutiItemHolder setMutiItemBinder(MutiItemBinder itemHolder) {
         this.itemHolder = itemHolder;
         return this;
     }

@@ -12,7 +12,7 @@ import java.util.List;
  * 适合小数据量的分组处理
  */
 
-public class SectionHelper extends RecyclerView.AdapterDataObserver {
+class SectionHelper extends RecyclerView.AdapterDataObserver {
     private MutiItemAdapter adapter;
     private int mSectionType;
     private SparseIntArray cache;
@@ -39,6 +39,10 @@ public class SectionHelper extends RecyclerView.AdapterDataObserver {
     public SectionHelper setSectionType(int mSectionType) {
         this.mSectionType = mSectionType;
         return this;
+    }
+
+    public boolean isSection(int position) {
+        return adapter.getItemViewType(position) == mSectionType;
     }
 
     private void resetCache() {
@@ -111,7 +115,7 @@ public class SectionHelper extends RecyclerView.AdapterDataObserver {
      * @return -1表示没有获取到分组信息
      */
     // TODO: 2016/11/17 需要优化缓存设计，当没有命中缓存时需要遍历整个数据集,目前耗时O(n)
-    public int getSection(int possion) {
+    int getSection(int possion) {
         int section = getSection().get(possion, -1);
         if (section == -1) {
             int start = possion;
@@ -143,17 +147,17 @@ public class SectionHelper extends RecyclerView.AdapterDataObserver {
      */
     public boolean setSection(int possion, boolean expand) {
         Object o = adapter.getItem(possion);
-        if (!(o instanceof ExpandItemSupport)) {
+        if (!(o instanceof SectionSupport)) {
             throw new RuntimeException("绑定的数据未实现ExpandItemSupport 接口");
         }
         if (adapter.getItemViewType(possion) != mSectionType) {
             possion = getSectionPossion(possion);
         }
-        ExpandItemSupport item = (ExpandItemSupport) o;
+        SectionSupport item = (SectionSupport) o;
         if (expand && !haveSectionItem(possion)) {
-            adapter.addData(item.getDeleteList(), possion);
+            adapter.addData(item.getSectionItems(), possion);
         } else if (!expand && haveSectionItem(possion)) {
-            item.setDeleteList(deleteSubItems(possion, false));
+            item.setSectionItems(deleteSubItems(possion, false));
         }
         return false;
     }
