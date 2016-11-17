@@ -3,6 +3,7 @@ package com.wzdsqyy.mutiitem;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.util.SparseIntArray;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
     private MutiItemAdapter adapter;
     private int mSectionType;
     private SparseIntArray cache;
-    private ArrayList<Integer> sessions;
+    private SparseArray<List<MutiItemSuport>> mExpands;
     private int mSectionCount = -1;
     private SparseIntArray section;
 
@@ -24,7 +25,7 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
         this.mSectionType = viewType;
         this.adapter = adapter;
         cache = new SparseIntArray();
-        sessions = new ArrayList<>();
+        mExpands=new SparseArray<>();
         adapter.registerAdapterDataObserver(this);
         resetCache();
     }
@@ -146,22 +147,27 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
      * @return false 失败
      */
     public boolean setSection(int possion, boolean expand) {
-        Object o = adapter.getItem(possion);
-        if (!(o instanceof SectionSupport)) {
-            throw new RuntimeException("绑定的数据未实现ExpandItemSupport 接口");
-        }
         if (adapter.getItemViewType(possion) != mSectionType) {
             possion = getSectionPossion(possion);
         }
-        SectionSupport section = (SectionSupport) o;
-        List<MutiItemSuport> items = section.getSectionItems();
-        if (expand && !haveSectionItem(possion)) {
-            adapter.addData(items, possion);
-            section.setSectionItems(null);
-        } else if (!expand && haveSectionItem(possion)) {
-            section.setSectionItems(deleteSubItems(possion, false));
+        if(expand){
+            if(!haveSectionItem(possion)){
+                List<MutiItemSuport> items=mExpands.get(possion,null);
+                if(items!=null&&items.size()>0){
+                    adapter.addData(items, possion);
+                    mExpands.remove(possion);
+                    return true;
+                }
+            }
+        }else {
+            if(haveSectionItem(possion)){
+                List list = deleteSubItems(possion, false);
+                if(list!=null&&list.size()>0){
+                    mExpands.put(possion,list);
+                    return true;
+                }
+            }
         }
-
         return false;
     }
 
