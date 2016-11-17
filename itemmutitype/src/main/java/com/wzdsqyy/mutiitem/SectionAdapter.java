@@ -40,6 +40,10 @@ public class SectionAdapter extends MutiItemAdapter<SectionSupport> {
         helper.setSection(position,expand);
     }
 
+    public int getSectionCount(){
+        return helper.getSectionCount();
+    }
+
     public void deleteSection(int possion){
         helper.deleteSection(possion);
     }
