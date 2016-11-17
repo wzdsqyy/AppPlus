@@ -153,12 +153,15 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
         if (adapter.getItemViewType(possion) != mSectionType) {
             possion = getSectionPossion(possion);
         }
-        SectionSupport item = (SectionSupport) o;
+        SectionSupport section = (SectionSupport) o;
+        List<MutiItemSuport> items = section.getSectionItems();
         if (expand && !haveSectionItem(possion)) {
-            adapter.addData(item.getSectionItems(), possion);
+            adapter.addData(items, possion);
+            section.setSectionItems(null);
         } else if (!expand && haveSectionItem(possion)) {
-            item.setSectionItems(deleteSubItems(possion, false));
+            section.setSectionItems(deleteSubItems(possion, false));
         }
+
         return false;
     }
 
