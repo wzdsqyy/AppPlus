@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.wzdsqyy.mutiitem.Node;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -106,16 +107,27 @@ public class NodeHelper implements Node {
         int start=root.indexOf(this)+1;
         mChilds.clear();
         boolean result = false;
-        for (int i = start; i < root.size(); i++) {
-            Node node = root.get(start);
-            if(node.getNodeType()==getNodeType()){
-                break;
-            }
-            Node self = node.getNodeHelper().removeSelf(root);
-            result=self!=null;
-            mChilds.add(node);
+        findChilds(root, start);
+        for (int i = 0; i < mChilds.size(); i++) {
+            Node node = mChilds.get(i);
+            result= node.getNodeHelper().removeSelf(root)!=null;
         }
         return result;
+    }
+
+    /**
+     * @param root
+     * @param start
+     * @return
+     */
+    private void findChilds(@NonNull List<Node> root, int start) {//找出要结束的位置
+        for (int i = start; i < root.size(); i++) {//记录要删除的项
+            Node node = root.get(i);
+            if(node.getNodeType()==getNodeType()){
+               return;
+            }
+            mChilds.add(node);
+        }
     }
 
     boolean addSelf(@NonNull List<Node> root) {
