@@ -22,7 +22,7 @@ public class NodeList implements List<Node> {
     private SparseBooleanArray mExpands = new SparseBooleanArray();
     private boolean mDefaultExpands = true;
 
-    public static NodeList getNodeList(boolean defaultExpands, @NonNull List<Node> list) {
+    public static NodeList getNodeList(boolean defaultExpands, @Nullable List<Node> list) {
         NodeList nodes = new NodeList(list);
         nodes.setDefaultExpands(defaultExpands);
         return nodes;
