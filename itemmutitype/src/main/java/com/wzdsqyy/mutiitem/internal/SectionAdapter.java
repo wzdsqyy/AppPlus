@@ -1,13 +1,17 @@
-package com.wzdsqyy.mutiitem;
+package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.LayoutRes;
+
+import com.wzdsqyy.mutiitem.MutiItem;
+import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 
 import java.util.List;
 
 /**
  * 分组列表,注意需要将二级列表映射为一级列表，同一组的数据需保证连续，不连续的视为不同组
+ *  @deprecated Use {@link NodeAdapter} instead.
  */
-public class SectionAdapter extends MutiItemAdapter {
+public class SectionAdapter<M extends MutiItem> extends AbsMutiItemAdapter<M,List<M>> {
 
     private SectionHelper helper;
 
@@ -15,7 +19,7 @@ public class SectionAdapter extends MutiItemAdapter {
         super(factory);
     }
 
-    public MutiItemAdapter setSessionType(@LayoutRes int layoutRes) {
+    public SectionAdapter setSessionType(@LayoutRes int layoutRes) {
         boolean register = isRegister(layoutRes);
         if (register) {
             if (helper == null) {
@@ -45,8 +49,9 @@ public class SectionAdapter extends MutiItemAdapter {
      * @param data
      * @param sectionPosition
      */
-    public void addSectionData(List<MutiItemSuport> data, int sectionPosition) {
-        addData(data, sectionPosition);
+    public void addSectionData(List<M> data, int sectionPosition) {
+        int next = helper.getSectionPossionNext(sectionPosition + 1);//获取下一个分组的位置
+        addData(data, next-1);
     }
 
     /**

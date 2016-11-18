@@ -1,18 +1,18 @@
 package com.wzdsqyy.applibDemo.group;
 
-import android.support.annotation.LayoutRes;
-
-import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
+import com.wzdsqyy.mutiitem.internal.NodeHelper;
 
 /**
  * Created by Administrator on 2016/11/16.
  */
 
-public class SessionItem implements MutiItemSuport {
-    private int layoutRes = -1;
+public class SessionItem extends NodeHelper{
     private String session = "组";
+    private MutiItemHelper mutiItem=new MutiItemHelper();
 
     public SessionItem(int possion) {
+        super(0);
         this.session = this.session + possion + "--";
     }
 
@@ -21,12 +21,7 @@ public class SessionItem implements MutiItemSuport {
     }
 
     @Override
-    public int getMutiItemViewType() {
-        return layoutRes;
-    }
-
-    @Override
-    public void setMutiItemViewType(@LayoutRes int layoutRes) {
-        this.layoutRes = layoutRes;
+    public MutiItemHelper getMutiItem() {
+        return mutiItem;
     }
 }

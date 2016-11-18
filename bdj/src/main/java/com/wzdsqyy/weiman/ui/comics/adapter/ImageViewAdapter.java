@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.wzdsqyy.mutiitem.BaseRVAdapter;
+import com.wzdsqyy.mutiitem.internal.BaseRVAdapter;
 
 /**
  * Created by Administrator on 2016/11/10.

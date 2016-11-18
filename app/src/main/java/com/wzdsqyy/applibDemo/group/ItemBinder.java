@@ -7,23 +7,26 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
-import com.wzdsqyy.mutiitem.SectionAdapter;
+import com.wzdsqyy.mutiitem.internal.BaseRVAdapter;
 
 /**
  * Created by Administrator on 2016/11/16.
  */
 
 public class ItemBinder implements MutiItemBinder<Item>, View.OnClickListener {
-    SectionAdapter adapter;
+    BaseRVAdapter adapter;
     private TextView textView;
     Toast toast;
     RecyclerView.ViewHolder holder;
-    public ItemBinder(SectionAdapter adapter) {
+    Item item;
+    private boolean expand=true;
+    public ItemBinder(BaseRVAdapter adapter) {
         this.adapter = adapter;
     }
 
     @Override
     public void onBindViewHolder(Item bean, int possion) {
+        item=bean;
         textView.setText(bean.getItem()+possion);
     }
 
@@ -40,10 +43,8 @@ public class ItemBinder implements MutiItemBinder<Item>, View.OnClickListener {
             toast.cancel();
         }
         int adapterPosition = holder.getLayoutPosition();
-        int possion = adapter.getSection(adapterPosition);
-        toast = Toast.makeText(v.getContext(), "第" + possion, Toast.LENGTH_SHORT);
+        toast = Toast.makeText(v.getContext(), "第" + adapterPosition, Toast.LENGTH_SHORT);
         toast.show();
         adapter.removeItem(adapterPosition);
-        adapter.notifyItemRangeChanged(adapterPosition, adapter.getItemCount() - adapterPosition);
     }
 }

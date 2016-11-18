@@ -1,4 +1,4 @@
-package com.wzdsqyy.mutiitem;
+package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -6,14 +6,16 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import com.wzdsqyy.mutiitem.MutiItemBinderIntercepter;
+
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/10/13.
  */
 
-public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<VH> {
-    protected List<M> mData;
+public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L extends List<M>> extends RecyclerView.Adapter<VH> {
+    protected L mData;
     private MutiItemBinderIntercepter intercepter;
 
     public BaseRVAdapter setViewHolderIntercepter(MutiItemBinderIntercepter intercepter) {
@@ -61,7 +63,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
      *
      * @return
      */
-    public List<M> getData() {
+    L getData() {
         return mData;
     }
 
@@ -70,7 +72,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
      *
      * @param data
      */
-    public void addNewData(List<M> data) {
+    public void addNewData(L data) {
         if (data != null) {
             mData.addAll(0, data);
             notifyItemRangeInserted(0, data.size());
@@ -82,11 +84,11 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
      *
      * @param data
      */
-    public void addMoreData(List<M> data) {
+    public void addMoreData(L data) {
         addData(data,mData.size()-1);
     }
 
-    public void addData(List<M> data, int position) {
+    public void addData(L data, int position) {
         if (data != null) {
             mData.addAll(position+1, data);
             notifyItemRangeInserted(position+1, data.size());
@@ -98,7 +100,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
      *
      * @param data
      */
-    public void setData(List<M> data) {
+    public void setData(L data) {
         if (data != null) {
             mData = data;
         } else {

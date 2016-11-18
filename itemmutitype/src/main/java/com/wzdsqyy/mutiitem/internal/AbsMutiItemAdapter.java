@@ -1,6 +1,5 @@
-package com.wzdsqyy.mutiitem;
+package com.wzdsqyy.mutiitem.internal;
 
-import android.os.Binder;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -9,24 +8,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.wzdsqyy.mutiitem.MutiItem;
+import com.wzdsqyy.mutiitem.MutiItemBinder;
+import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
+import com.wzdsqyy.mutiitem.SpanSize;
+
 import java.util.ArrayList;
+import java.util.List;
 
 /**
- * 多种视图适配器
+ * Created by Administrator on 2016/11/18.
  */
 
-public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<RecyclerView.ViewHolder, M> {
+class AbsMutiItemAdapter<M extends MutiItem,L extends List<M>> extends BaseRVAdapter<RecyclerView.ViewHolder, M,L> {
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs;
     private ArrayList<Integer> itemTypes;
 
-    public MutiItemAdapter(MutiItemBinderFactory factory) {
+    public AbsMutiItemAdapter(MutiItemBinderFactory factory) {
         this.factory = factory;
         clazzs = new ArrayList<>();
         itemTypes = new ArrayList<>();
     }
 
-    public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
+    public AbsMutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
         return this;
     }
@@ -36,7 +41,7 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiItemAdapter register(Class<? extends MutiItemSuport> clazz, @LayoutRes int layoutRes) {
+    public AbsMutiItemAdapter register(Class<? extends MutiItem> clazz, @LayoutRes int layoutRes) {
         int index = clazzs.indexOf(clazz);
         if (index == -1) {
             clazzs.add(clazz);
@@ -87,15 +92,15 @@ public class MutiItemAdapter<M extends MutiItemSuport> extends BaseRVAdapter<Rec
         binder.onBindViewHolder(getItem(position), position);
     }
 
-    public int getItemViewType(MutiItemSuport item) {
-        int type = item.getMutiItemViewType();
+    public int getItemViewType(MutiItem item) {
+        int type = item.getMutiItem().getMutiItemViewType();
         if (type > 0) {
             return type;
         }
         int index = clazzs.indexOf(item.getClass());
         if (index != -1) {
             type = itemTypes.get(index);
-            item.setMutiItemViewType(type);
+            item.getMutiItem().setMutiItemViewType(type);
             return type;
         }
         return 0;

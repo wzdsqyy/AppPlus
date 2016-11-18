@@ -15,11 +15,12 @@ import android.widget.Toast;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.commonview.IndexBar;
 import com.wzdsqyy.commonview.OnIndexTouchListener;
-import com.wzdsqyy.mutiitem.MutiItemAdapter;
+import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
-import com.wzdsqyy.mutiitem.MutiItemSuport;
 import com.wzdsqyy.mutiitem.SpanSize;
+import com.wzdsqyy.mutiitem.internal.MutiItemAdapter;
+import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
 import com.wzdsqyy.stickyheader.StickyLayout;
 
 import java.util.ArrayList;
@@ -62,7 +63,7 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
     public void randomData(View view) {
         Random random = new Random();
         int count = random.nextInt(20) + 200;
-        ArrayList<MutiItemSuport> datas = new ArrayList<>();
+        ArrayList<MutiItem> datas = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             if (i % 5 == 3) {
                 datas.add(new StickyModel("StickyModel_"));

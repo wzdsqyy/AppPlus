@@ -1,4 +1,4 @@
-package com.wzdsqyy.mutiitem;
+package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
@@ -11,17 +11,19 @@ import java.util.List;
 
 /**
  * 适合小数据量的分组处理
+ * /**
+ * 分组列表,注意需要将二级列表映射为一级列表，同一组的数据需保证连续，不连续的视为不同组
+ *  @deprecated Use {@link NodeHelper} instead.
  */
-
 class SectionHelper extends RecyclerView.AdapterDataObserver {
-    private MutiItemAdapter adapter;
+    private AbsMutiItemAdapter adapter;
     private int mSectionType;
     private SparseIntArray cache;
-    private SparseArray<List<MutiItemSuport>> mExpands;
+    private SparseArray<List<MutiItemHelper>> mExpands;
     private int mSectionCount = -1;
     private SparseIntArray section;
 
-    public SectionHelper(@LayoutRes int viewType, @NonNull MutiItemAdapter adapter) {
+    public SectionHelper(@LayoutRes int viewType, @NonNull AbsMutiItemAdapter adapter) {
         this.mSectionType = viewType;
         this.adapter = adapter;
         cache = new SparseIntArray();
@@ -152,7 +154,7 @@ class SectionHelper extends RecyclerView.AdapterDataObserver {
         }
         if(expand){
             if(!haveSectionItem(possion)){
-                List<MutiItemSuport> items=mExpands.get(possion,null);
+                List<MutiItemHelper> items=mExpands.get(possion,null);
                 if(items!=null&&items.size()>0){
                     adapter.addData(items, possion);
                     mExpands.remove(possion);

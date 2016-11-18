@@ -1,14 +1,13 @@
 package com.wzdsqyy.applibDemo.MutiItemList;
 
-import android.support.annotation.LayoutRes;
-
-import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.MutiItem;
+import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
 
 /**
  * Created by Administrator on 2016/10/18.
  */
 
-public class StickyModel implements MutiItemSuport {
+public class StickyModel implements MutiItem {
 
     private String name;
 
@@ -16,19 +15,16 @@ public class StickyModel implements MutiItemSuport {
         this.name = name;
     }
 
-    private int type=-1;
-    @Override
-    public int getMutiItemViewType() {
-        return type;
-    }
+    private MutiItemHelper helper=new MutiItemHelper();
 
     @Override
     public String toString() {
         return name;
     }
 
+
     @Override
-    public void setMutiItemViewType(@LayoutRes int layoutRes) {
-        this.type=layoutRes;
+    public MutiItemHelper getMutiItem() {
+        return helper;
     }
 }

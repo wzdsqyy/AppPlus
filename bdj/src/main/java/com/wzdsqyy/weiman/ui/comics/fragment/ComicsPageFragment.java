@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 
 import com.google.android.agera.Supplier;
 import com.wzdsqyy.bdj.R;
-import com.wzdsqyy.mutiitem.MutiItemAdapter;
+import com.wzdsqyy.mutiitem.internal.MutiItemAdapter;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.weiman.bean.ComicsItem;
