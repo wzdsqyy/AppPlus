@@ -1,7 +1,11 @@
 package com.wzdsqyy.mutiitem.internal;
 
+import android.support.annotation.NonNull;
+
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.mutiitem.Node;
+
+import java.util.List;
 
 /**
  * 无限层级列表

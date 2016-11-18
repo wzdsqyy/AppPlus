@@ -1,6 +1,7 @@
 package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.SparseBooleanArray;
 
 import com.wzdsqyy.mutiitem.Node;
@@ -18,38 +19,49 @@ import java.util.ListIterator;
 
 public class NodeList implements List<Node> {
     private List<Node> mNodes;
-    private SparseBooleanArray mExpands=new SparseBooleanArray();
-    private boolean mDefaultExpands=true;
+    private SparseBooleanArray mExpands = new SparseBooleanArray();
+    private boolean mDefaultExpands = true;
 
-    public NodeList setDefaultExpands(boolean mDefaultExpands) {
-        this.mDefaultExpands = mDefaultExpands;
-        return this;
+    public static NodeList getNodeList(boolean defaultExpands, @NonNull List<Node> list) {
+        NodeList nodes = new NodeList(list);
+        nodes.setDefaultExpands(defaultExpands);
+        return nodes;
     }
 
-    public NodeList setExpands(int nodeType, boolean expand) {
-        mExpands.put(nodeType,expand);
-        if(!isEmpty()){
-            for (int i = 0; i < size(); i++) {
-               get(i).getNodeHelper().setExpand(expand,mNodes);
+    NodeList setDefaultExpands(boolean mDefaultExpands) {
+        if (mDefaultExpands != this.mDefaultExpands) {
+            this.mDefaultExpands = mDefaultExpands;
+            if (!isEmpty()) {
+                init(mNodes);
             }
         }
         return this;
     }
 
-    public NodeList(List<Node> root) {
+    public NodeList setExpands(int nodeType, boolean expand) {
+        mExpands.put(nodeType, expand);
+        if (!isEmpty()) {
+            for (int i = 0; i < size(); i++) {
+                get(i).getNodeHelper().setExpand(expand, mNodes);
+            }
+        }
+        return this;
+    }
+
+    private NodeList(@Nullable List<Node> root) {
         this.mNodes = root;
-        if(root==null){
-            throw new NullPointerException("不能null");
+        if (root == null) {
+            this.mNodes = new ArrayList<>();
         }
         init(root);
     }
 
-    private void init(List<Node> nodes){
-        if(nodes.isEmpty()){
+    private void init(List<Node> nodes) {
+        if (nodes.isEmpty()) {
             return;
         }
-        ArrayList<Node> list=new ArrayList();
-        Collections.copy(list,nodes);
+        ArrayList<Node> list = new ArrayList();
+        Collections.copy(list, nodes);
         nodes.clear();
         for (int i = 0; i < list.size(); i++) {
             add(list.get(i));
@@ -98,7 +110,7 @@ public class NodeList implements List<Node> {
 
     @Override
     public boolean remove(Object o) {
-        if(o instanceof Node){
+        if (o instanceof Node) {
             ((Node) o).getNodeHelper().removeSelf(mNodes);
             return true;
         }
@@ -113,8 +125,8 @@ public class NodeList implements List<Node> {
     @Override
     public boolean addAll(Collection<? extends Node> c) {
         Iterator<? extends Node> iterator = c.iterator();
-        boolean result=false;
-        while (iterator.hasNext()){
+        boolean result = false;
+        while (iterator.hasNext()) {
             add(iterator.next());
         }
         return result;
@@ -123,7 +135,7 @@ public class NodeList implements List<Node> {
     @Override
     public boolean addAll(int index, Collection<? extends Node> c) {
         Iterator<? extends Node> iterator = c.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             add(iterator.next());
         }
         return true;
@@ -132,13 +144,13 @@ public class NodeList implements List<Node> {
     @Override
     public boolean removeAll(Collection<?> c) {
         Iterator iterator = c.iterator();
-        boolean result=false;
-        while (iterator.hasNext()){
+        boolean result = false;
+        while (iterator.hasNext()) {
             Object o = iterator.next();
-            if(o instanceof Node){
+            if (o instanceof Node) {
                 remove(o);
-            }else {
-                result=false;
+            } else {
+                result = false;
             }
         }
         return result;
@@ -163,14 +175,14 @@ public class NodeList implements List<Node> {
     public Node set(int index, Node node) {
         boolean expands = mExpands.get(node.getNodeType(), mDefaultExpands);
         node.getNodeHelper().setExpand(expands);
-        return node.getNodeHelper().setSelf(index,mNodes);
+        return node.getNodeHelper().setSelf(index, mNodes);
     }
 
     @Override
     public void add(int index, Node node) {
         boolean expands = mExpands.get(node.getNodeType(), mDefaultExpands);
         node.getNodeHelper().setExpand(expands);
-        node.getNodeHelper().addSelf(index,mNodes);
+        node.getNodeHelper().addSelf(index, mNodes);
     }
 
     @Override
@@ -202,6 +214,6 @@ public class NodeList implements List<Node> {
     @NonNull
     @Override
     public List<Node> subList(int fromIndex, int toIndex) {
-        return mNodes.subList(fromIndex,toIndex);
+        return mNodes.subList(fromIndex, toIndex);
     }
 }

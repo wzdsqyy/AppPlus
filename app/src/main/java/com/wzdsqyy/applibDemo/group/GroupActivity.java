@@ -26,6 +26,7 @@ public class GroupActivity extends AppCompatActivity implements MutiItemBinderFa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group);
         recyclerView= (RecyclerView) findViewById(R.id.list_item);
+        recyclerView.setHasFixedSize(true);
         adapter=new NodeAdapter(this);
         adapter.setViewLayoutManager(recyclerView);
         adapter.register(SessionItem.class,R.layout.item_session);
@@ -39,7 +40,6 @@ public class GroupActivity extends AppCompatActivity implements MutiItemBinderFa
     }
     private NodeList initData(int start) {
         NodeList list=new NodeList(new ArrayList(20));
-        list.setDefaultExpands(false);
         for (int i=start;i<start+20;i++){
             SessionItem item = new SessionItem(i);
             ArrayList<Node> subs=new ArrayList(5);
