@@ -15,8 +15,8 @@ public class NodeAdapter extends AbsMutiItemAdapter<Node, NodeList> {
         return node.getNodeHelper().setExpand(expand, getData());
     }
 
-    public void toggleExpand(int position){
-       toggleExpand(getData().get(position));
+    public int toggleExpand(int position){
+      return toggleExpand(getData().get(position));
     }
 
     public int toggleExpand(Node model){
