@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 
 import com.wzdsqyy.mutiitem.Node;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -14,9 +15,10 @@ import java.util.List;
 public class NodeHelper implements Node {
     private final int mNodeLevel;
     private boolean mExpand;
+    private Node parent = null;
     private List<Node> mChilds = null;
     private MutiItemHelper helper = new MutiItemHelper();
-    private int mChildType=-1;
+    private int mChildType = -1;
 
     public NodeHelper(int mNodeType) {
         this(mNodeType, true);
@@ -34,17 +36,11 @@ public class NodeHelper implements Node {
      */
     public void setChilds(@Nullable List<Node> childs) {
         this.mChilds = childs;
-        if(childs==null){
+        if (childs == null) {
             return;
         }
         for (int i = 0; i < childs.size(); i++) {
-            if(mChildType==-1){
-                mChildType=childs.get(i).getNodeType();
-                continue;
-            }
-            if(mChildType!=childs.get(i).getNodeType()){
-                throw new IllegalArgumentException("所有的孩子类型必须一致");
-            }
+            childs.get(i).getNodeHelper().parent = this;
         }
     }
 
@@ -78,8 +74,8 @@ public class NodeHelper implements Node {
      * @param expand
      * @return
      */
-    int setExpand(boolean expand,@NonNull List<Node> root) {
-        if (mExpand == expand) {
+    int setExpand(boolean expand, @NonNull List<Node> root) {
+        if (mExpand == expand || mChilds == null) {
             return 0;
         }
         mExpand = expand;
@@ -92,11 +88,11 @@ public class NodeHelper implements Node {
         return mChilds.size();
     }
 
-    private int addChilds(int index,@NonNull List<Node> root) {
-        if(!isExpand()||mChilds==null||index==-1){
+    private int addChilds(int index, @NonNull List<Node> root) {
+        if (!isExpand() || mChilds == null || index == -1) {
             return 0;
         }
-        int count=mChilds.size();
+        int count = mChilds.size();
         for (int i = 0; i < count; i++) {
             index = mChilds.get(i).getNodeHelper().addSelf(index, root);
         }
@@ -113,16 +109,16 @@ public class NodeHelper implements Node {
     }
 
     private boolean removeChilds(@NonNull List<Node> root) {
-        if(mChilds==null||root.size()==0){
+        if (mChilds == null || root.size() == 0) {
             return false;
         }
-        int start=root.indexOf(this)+1;
+        int start = root.indexOf(this) + 1;
         mChilds.clear();
         boolean result = false;
         findChilds(root, start);
         for (int i = 0; i < mChilds.size(); i++) {
             Node node = mChilds.get(i);
-            result= node.getNodeHelper().removeSelf(root)!=null;
+            result = node.getNodeHelper().removeSelf(root) != null;
         }
         return result;
     }
@@ -135,12 +131,20 @@ public class NodeHelper implements Node {
     private void findChilds(@NonNull List<Node> root, int start) {//找出要结束的位置
         for (int i = start; i < root.size(); i++) {//记录要删除的项
             Node node = root.get(i);
-            if(node.getNodeType()==mChildType){
+            if (isMyChild(node)) {
                 mChilds.add(node);
-            }else if(node.getNodeType()==getNodeType()){
-               return;
+            } else if (isBrother(node)) {
+                return;
             }
         }
+    }
+
+    private boolean isMyChild(Node node) {
+        return node.getNodeHelper().parent == this;
+    }
+
+    private boolean isBrother(Node node) {
+        return node.getNodeHelper().parent == parent;
     }
 
     boolean addSelf(@NonNull List<Node> root) {
@@ -161,7 +165,7 @@ public class NodeHelper implements Node {
         return result;
     }
 
-    int addSelf(int index,@NonNull List<Node> root) {
+    int addSelf(int index, @NonNull List<Node> root) {
         if (index < 0 || index > root.size()) {
             return -1;
         }
@@ -175,7 +179,7 @@ public class NodeHelper implements Node {
         return index;
     }
 
-    Node setSelf(int index,@NonNull List<Node> root) {
+    Node setSelf(int index, @NonNull List<Node> root) {
         Node old = root.set(index, this);
         old.getNodeHelper().removeChilds(root);
         if (isExpand() && mChilds != null) {
@@ -186,9 +190,58 @@ public class NodeHelper implements Node {
         return old;
     }
 
-    @Override
+    public static List<Node> getChilds(Node model, List<Node> root) {
+        int start = root.indexOf(model);
+        ArrayList<Node> list = new ArrayList<>();
+        if (start == -1) {
+            return list;
+        }
+        for (int i = 0; i < root.size(); i++) {
+            Node node = root.get(i);
+            if (model.getNodeHelper().isMyChild(node)) {
+                list.add(node);
+                continue;
+            }
+            if (model.getNodeHelper().isBrother(node)) {
+                return list;
+            }
+        }
+        return list;
+    }
+
+    public static int getNextBrotherIndex(Node model, List<Node> root) {
+        int start = root.indexOf(model);
+        if (start == -1) {
+            return -1;
+        }
+        Node node;
+        for (int i = start; i < root.size(); i++) {
+            node = root.get(i);
+            if (model.getNodeHelper().isBrother(node)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static int getNextBrotherIndex(int start, List<Node> root) {
+        Node me = root.get(start), node;
+        for (int i = start+1; i < root.size(); i++) {
+            node = root.get(i);
+            if (me.getNodeHelper().isBrother(node)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+
     public int getNodeType() {
         return mNodeLevel;
+    }
+
+    public boolean havaChilds() {
+        return mChilds != null;
     }
 
     @Override

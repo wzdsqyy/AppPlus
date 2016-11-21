@@ -103,7 +103,7 @@ public class NodeList implements List<Node> {
 
     @Override
     public boolean add(Node node) {
-        boolean expands = mExpands.get(node.getNodeType(), mDefaultExpands);
+        boolean expands = mExpands.get(node.getNodeHelper().getNodeType(), mDefaultExpands);
         node.getNodeHelper().setExpand(expands);
         return node.getNodeHelper().addSelf(mNodes);
     }
@@ -173,14 +173,14 @@ public class NodeList implements List<Node> {
 
     @Override
     public Node set(int index, Node node) {
-        boolean expands = mExpands.get(node.getNodeType(), mDefaultExpands);
+        boolean expands = mExpands.get(node.getNodeHelper().getNodeType(), mDefaultExpands);
         node.getNodeHelper().setExpand(expands);
         return node.getNodeHelper().setSelf(index, mNodes);
     }
 
     @Override
     public void add(int index, Node node) {
-        boolean expands = mExpands.get(node.getNodeType(), mDefaultExpands);
+        boolean expands = mExpands.get(node.getNodeHelper().getNodeType(), mDefaultExpands);
         node.getNodeHelper().setExpand(expands);
         node.getNodeHelper().addSelf(index, mNodes);
     }
@@ -215,5 +215,17 @@ public class NodeList implements List<Node> {
     @Override
     public List<Node> subList(int fromIndex, int toIndex) {
         return mNodes.subList(fromIndex, toIndex);
+    }
+
+    public int setExpand(Node node, boolean expand) {
+        return node.getNodeHelper().setExpand(expand, this);
+    }
+
+    public int toggleExpand(int position) {
+        return get(position).getNodeHelper().toggleExpand(this);
+    }
+
+    public int toggleExpand(Node model) {
+        return model.getNodeHelper().toggleExpand(this);
     }
 }

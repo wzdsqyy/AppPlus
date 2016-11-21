@@ -68,15 +68,16 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
     }
 
     /**
-     * 在集合头部添加新的数据集合（下拉从服务器获取最新的数据集合，例如新浪微博加载最新的几条微博数据）
-     *
+     * 添加到顶部
      * @param data
+     * @return 数量
      */
-    public void addNewData(L data) {
+    public int addNewData(L data) {
         if (data != null) {
             mData.addAll(0, data);
-            notifyItemRangeInserted(0, data.size());
+            return data.size();
         }
+        return 0;
     }
 
     /**
@@ -84,15 +85,16 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      *
      * @param data
      */
-    public void addMoreData(L data) {
-        addData(data,mData.size()-1);
+    public int addMoreData(L data) {
+        return addData(data,mData.size()-1);
     }
 
-    public void addData(L data, int position) {
+    public int addData(L data, int position) {
         if (data != null) {
             mData.addAll(position+1, data);
-            notifyItemRangeInserted(position+1, data.size());
+            return data.size();
         }
+        return 0;
     }
 
     /**
@@ -122,9 +124,8 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      *
      * @param position
      */
-    public void removeItem(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
+    public M removeItem(int position) {
+        return mData.remove(position);
     }
 
     /**
@@ -132,8 +133,8 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      *
      * @param model
      */
-    public void removeItem(M model) {
-        removeItem(mData.indexOf(model));
+    public boolean removeItem(M model) {
+        return (mData.remove(model));
     }
 
     /**
@@ -142,9 +143,9 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      * @param position
      * @param model
      */
-    public void addItem(int position, M model) {
+    public int addItem(int position, M model) {
         mData.add(position, model);
-        notifyItemInserted(position);
+        return 1;
     }
 
     /**
@@ -152,8 +153,8 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      *
      * @param model
      */
-    public void addFirstItem(M model) {
-        addItem(0, model);
+    public int addFirstItem(M model) {
+        return addItem(0, model);
     }
 
     /**
@@ -161,8 +162,8 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      *
      * @param model
      */
-    public void addLastItem(M model) {
-        addItem(mData.size(), model);
+    public int addLastItem(M model) {
+        return addItem(mData.size(), model);
     }
 
     /**
@@ -173,7 +174,6 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      */
     public void setItem(int location, M newModel) {
         mData.set(location, newModel);
-        notifyItemChanged(location);
     }
 
     /**
@@ -194,6 +194,5 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M,L exte
      */
     public void moveItem(int fromPosition, int toPosition) {
         mData.add(toPosition, mData.remove(fromPosition));
-        notifyItemMoved(fromPosition, toPosition);
     }
 }

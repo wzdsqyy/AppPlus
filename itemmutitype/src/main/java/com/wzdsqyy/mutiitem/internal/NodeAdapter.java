@@ -1,11 +1,7 @@
 package com.wzdsqyy.mutiitem.internal;
 
-import android.support.annotation.NonNull;
-
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.mutiitem.Node;
-
-import java.util.List;
 
 /**
  * 无限层级列表
@@ -16,15 +12,15 @@ public class NodeAdapter extends AbsMutiItemAdapter<Node, NodeList> {
     }
 
     public int setExpand(Node node, boolean expand) {
-        return node.getNodeHelper().setExpand(expand, getData());
+        return getData().setExpand(node, expand);
     }
 
-    public int toggleExpand(int position){
-      return toggleExpand(getData().get(position));
+    public int toggleExpand(int position) {
+        return getData().toggleExpand(position);
     }
 
-    public int toggleExpand(Node model){
-       return model.getNodeHelper().toggleExpand(getData());
+    public int toggleExpand(Node model) {
+        return getData().toggleExpand(model);
     }
 
     @Override
