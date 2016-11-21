@@ -187,7 +187,11 @@ public class NodeList implements List<Node> {
 
     @Override
     public Node remove(int index) {
-        return get(index).getNodeHelper().removeSelf(mNodes);
+        Node node = get(index);
+        if(node!=null){
+            node.getNodeHelper().removeSelf(mNodes);
+        }
+        return node;
     }
 
     @Override

@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.internal.NodeAdapter;
-import com.wzdsqyy.mutiitem.internal.SectionAdapter;
+//import com.wzdsqyy.mutiitem.internal.SectionAdapter;
 
 /**
  * Created by Administrator on 2016/11/16.
@@ -48,17 +48,15 @@ public class SessionItemBinder implements MutiItemBinder<SessionItem>, View.OnCl
         }
         toast=Toast.makeText(v.getContext(), "第" + adapterPosition, Toast.LENGTH_SHORT);
         toast.show();
-//        int count = ((NodeAdapter) adapter).toggleExpand(bean);
-
-        ((NodeAdapter) adapter).removeItem(adapterPosition);
-//        Log.d(TAG, "onClick: "+count+"  expand"+bean.getNodeHelper().isExpand());
-
-
-
-//        if(bean.getNodeHelper().isExpand()){
-//            adapter.notifyItemRangeInserted(adapterPosition+1,count);
-//        }else {
-//            adapter.notifyItemRangeRemoved(adapterPosition+1,count);
-//        }
+        if(bean.getNodeHelper().havaChilds()){
+            int count = ((NodeAdapter) adapter).toggleExpand(bean);
+            if(bean.getNodeHelper().isExpand()){
+                adapter.notifyItemRangeInserted(adapterPosition+1,count);
+            }else {
+                adapter.notifyItemRangeRemoved(adapterPosition+1,count);
+            }
+        }else {
+            ((NodeAdapter) adapter).removeItem(adapterPosition);
+        }
     }
 }

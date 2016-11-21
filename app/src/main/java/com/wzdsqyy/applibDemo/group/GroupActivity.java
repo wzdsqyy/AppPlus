@@ -39,12 +39,18 @@ public class GroupActivity extends AppCompatActivity implements MutiItemBinderFa
         adapter.addMoreData(data);
     }
     private NodeList initData(int start) {
-        NodeList list=NodeList.getNodeList(false,new ArrayList());
+        NodeList list=NodeList.getNodeList(true,new ArrayList());
         for (int i=start;i<start+20;i++){
             SessionItem item = new SessionItem(i);
             ArrayList<Node> subs=new ArrayList(5);
             for (int j = 0; j < 5; j++) {
                 Item node = new Item(j);
+                ArrayList<Node> twos=new ArrayList(3);
+                for (int k = 0; k < 4; k++) {
+                    SessionItem three = new SessionItem(k);
+                    twos.add(three);
+                }
+                node.setChilds(twos);
                 node.setSection(i);
                 subs.add(node);
             }

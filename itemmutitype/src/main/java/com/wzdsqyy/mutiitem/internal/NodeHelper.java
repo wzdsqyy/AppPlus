@@ -2,6 +2,7 @@ package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.wzdsqyy.mutiitem.Node;
 
@@ -99,28 +100,32 @@ public class NodeHelper implements Node {
         return index;
     }
 
-    Node removeSelf(@NonNull List<Node> root) {
+    private static final String TAG = "NodeHelper";
+    int removeSelf(@NonNull List<Node> root) {
+        int count=0;
         boolean result = root.remove(this);
+        count++;
+        Log.d(TAG, "removeSelf() called with: root = [" + root + "]");
         if (result) {
-            removeChilds(root);
-            return this;
+            count=count+removeChilds(root);
+            return count;
         }
-        return null;
+        return count;
     }
 
-    private boolean removeChilds(@NonNull List<Node> root) {
+    private int removeChilds(@NonNull List<Node> root) {
         if (mChilds == null || root.size() == 0) {
-            return false;
+            return 0;
         }
+        int count=0;
         int start = root.indexOf(this) + 1;
         mChilds.clear();
-        boolean result = false;
         findChilds(root, start);
         for (int i = 0; i < mChilds.size(); i++) {
             Node node = mChilds.get(i);
-            result = node.getNodeHelper().removeSelf(root) != null;
+            count=node.getNodeHelper().removeSelf(root)+count;
         }
-        return result;
+        return count;
     }
 
     /**
@@ -209,19 +214,8 @@ public class NodeHelper implements Node {
         return list;
     }
 
-    public static int getNextBrotherIndex(Node model, List<Node> root) {
-        int start = root.indexOf(model);
-        if (start == -1) {
-            return -1;
-        }
-        Node node;
-        for (int i = start; i < root.size(); i++) {
-            node = root.get(i);
-            if (model.getNodeHelper().isBrother(node)) {
-                return i;
-            }
-        }
-        return -1;
+    public static int removeChilds(Node model, List<Node> root) {
+        return model.getNodeHelper().removeSelf(root);
     }
 
     public static int getNextBrotherIndex(int start, List<Node> root) {

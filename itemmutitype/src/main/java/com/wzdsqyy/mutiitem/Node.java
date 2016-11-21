@@ -9,6 +9,5 @@ import com.wzdsqyy.mutiitem.internal.NodeHelper;
  */
 
 public interface Node extends MutiItem{
-    int getNodeType();//用于设置默认展开状态的时候用的；
     @NonNull NodeHelper getNodeHelper();
 }
