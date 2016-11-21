@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 
 import com.wzdsqyy.mutiitem.Node;
 
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -17,6 +16,7 @@ public class NodeHelper implements Node {
     private boolean mExpand;
     private List<Node> mChilds = null;
     private MutiItemHelper helper = new MutiItemHelper();
+    private int mChildType=-1;
 
     public NodeHelper(int mNodeType) {
         this(mNodeType, true);
@@ -34,6 +34,18 @@ public class NodeHelper implements Node {
      */
     public void setChilds(@Nullable List<Node> childs) {
         this.mChilds = childs;
+        if(childs==null){
+            return;
+        }
+        for (int i = 0; i < childs.size(); i++) {
+            if(mChildType==-1){
+                mChildType=childs.get(i).getNodeType();
+                continue;
+            }
+            if(mChildType!=childs.get(i).getNodeType()){
+                throw new IllegalArgumentException("所有的孩子类型必须一致");
+            }
+        }
     }
 
     public boolean isExpand() {
@@ -123,10 +135,11 @@ public class NodeHelper implements Node {
     private void findChilds(@NonNull List<Node> root, int start) {//找出要结束的位置
         for (int i = start; i < root.size(); i++) {//记录要删除的项
             Node node = root.get(i);
-            if(node.getNodeType()==getNodeType()){
+            if(node.getNodeType()==mChildType){
+                mChilds.add(node);
+            }else if(node.getNodeType()==getNodeType()){
                return;
             }
-            mChilds.add(node);
         }
     }
 
