@@ -1,8 +1,10 @@
 package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.LayoutRes;
+import android.support.annotation.NonNull;
 
 import com.wzdsqyy.mutiitem.MutiItem;
+import com.wzdsqyy.mutiitem.Node;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,11 +53,31 @@ public class MutiItemHelper implements MutiItem {
         return -1;
     }
 
-    public static ArrayList<MutiItem> getMutiItems(int start, List<MutiItem> mutiItems) {
+    public static ArrayList<MutiItem> getMutiItems(int start, List<MutiItem> rootList) {
         ArrayList<MutiItem> items = new ArrayList<>();
-        MutiItem item = mutiItems.get(start);
-        for (int i = start + 1; i < mutiItems.size(); i++) {
-            MutiItem node = mutiItems.get(i);
+        MutiItem item = rootList.get(start);
+        for (int i = start; i < rootList.size(); i++) {
+            MutiItem node = rootList.get(i);
+            if (!item.getMutiItem().isSameType(node)) {
+                items.add(node);
+                continue;
+            }
+            if (item.getMutiItem().isSameType(node)) {
+                return items;
+            }
+        }
+        return items;
+    }
+
+    public static ArrayList<MutiItem> getMutiItems(MutiItem item, List<MutiItem> rootList) {
+        int start=rootList.indexOf(item);
+        ArrayList<MutiItem> items = new ArrayList<>();
+        if(start==-1){
+            return items;
+        }
+        start++;
+        for (int i = start; i < rootList.size(); i++) {
+            MutiItem node = rootList.get(i);
             if (!item.getMutiItem().isSameType(node)) {
                 items.add(node);
                 continue;
