@@ -1,5 +1,6 @@
 package com.wzdsqyy.mutiitem.internal;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.NonNull;
 import android.util.SparseArray;
 
@@ -54,6 +55,16 @@ public class SectionHelper {
         return addItems(index, null, childs.get(index, null), items);
     }
 
+    public int deleteChilds(@IntRange(from = 0) int index, @NonNull List<MutiItem> items) {
+        if(index>items.size()){
+            return 0;
+        }
+        List dels = getListItemss(index, items.get(index), items);
+        childs.remove(index);
+        items.removeAll(dels);
+        return dels.size();
+    }
+
     public int hideChilds(@NonNull MutiItem self, @NonNull List<MutiItem> items) {
         int start = items.indexOf(self);
         if (start < 0) {
@@ -67,6 +78,7 @@ public class SectionHelper {
 
     public int addItems(int index, MutiItem section, List<MutiItem> childs, @NonNull List<MutiItem> items) {
         int count = 0;
+        this.childs.put(index,childs);
         if (section != null) {
             items.add(index, section);
             count++;
