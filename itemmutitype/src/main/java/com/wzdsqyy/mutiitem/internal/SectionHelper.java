@@ -1,6 +1,7 @@
 package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.NonNull;
+import android.util.SparseArray;
 
 import com.wzdsqyy.mutiitem.MutiItem;
 
@@ -12,7 +13,9 @@ import java.util.List;
  */
 
 public class SectionHelper {
-    public static List getListItemss(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
+    private SparseArray<List<MutiItem>> childs = new SparseArray<>();
+
+    public List getListItemss(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
         ArrayList list = new ArrayList<>();
         for (int i = start; i < items.size(); i++) {
             MutiItem node = items.get(i);
@@ -24,24 +27,13 @@ public class SectionHelper {
         return list;
     }
 
-    public static int delItemss(@NonNull MutiItem self, @NonNull List<MutiItem> items) {
-        int start = items.indexOf(self);
-        if (start < 0) {
-            return 0;
-        }
-        List dels = getListItemss(start, self, items);
-        items.removeAll(dels);
-        return dels.size();
-    }
-
-
-    public static int nextItem(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
+    public int nextItem(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
         List itemss = getListItemss(start, self, items);
         items.removeAll(itemss);
         return itemss.size();
     }
 
-    public static int preItem(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
+    public int preItem(int start, @NonNull MutiItem self, @NonNull List<MutiItem> items) {
         for (int i = start; i > 0; i--) {
             if (self.getMutiItem().isBrotherType(items.get(i))) {
                 return i;
@@ -50,23 +42,30 @@ public class SectionHelper {
         return -1;
     }
 
-    public static int addItemss(int index, MutiItem section, @NonNull List<MutiItem> items) {
-        return addItemss(index, section, null, items);
+    public int addItem(int index, MutiItem section, @NonNull List<MutiItem> items) {
+        return addItems(index, section, null, items);
     }
 
-    /**
-     * 指定位置之后显示
-     *
-     * @param section
-     * @param childs
-     * @param items
-     * @return
-     */
-    public static int showItemss(MutiItem section, @NonNull List<MutiItem> childs, @NonNull List<MutiItem> items) {
-        return addItemss(items.indexOf(section) + 1, null, childs, items);
+    public int addItems(int index, @NonNull List<MutiItem> childs, @NonNull List<MutiItem> items) {
+        return addItems(index, null, childs, items);
     }
 
-    public static int addItemss(int index, MutiItem section, List<MutiItem> childs, @NonNull List<MutiItem> items) {
+    public int showChilds(int index, @NonNull List<MutiItem> items) {
+        return addItems(index, null, childs.get(index, null), items);
+    }
+
+    public int hideChilds(@NonNull MutiItem self, @NonNull List<MutiItem> items) {
+        int start = items.indexOf(self);
+        if (start < 0) {
+            return 0;
+        }
+        List dels = getListItemss(start, self, items);
+        childs.put(start, dels);
+        items.removeAll(dels);
+        return dels.size();
+    }
+
+    public int addItems(int index, MutiItem section, List<MutiItem> childs, @NonNull List<MutiItem> items) {
         int count = 0;
         if (section != null) {
             items.add(index, section);
