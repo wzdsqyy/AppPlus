@@ -48,15 +48,6 @@ public class EasyPermissions {
     private static final String DIALOG_TAG = "RationaleDialogFragmentCompat";
 
 
-    public interface PermissionCallbacks extends
-            ActivityCompat.OnRequestPermissionsResultCallback {
-
-        void onPermissionsGranted(int requestCode, List<String> perms);
-
-        void onPermissionsDenied(int requestCode, List<String> perms);
-
-    }
-
     /**
      * Check if the calling context has a set of permissions.
      *

@@ -1,20 +1,17 @@
 package com.wzdsqyy.weiman.bean;
 
-import android.os.Parcelable;
-import android.support.annotation.LayoutRes;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.wzdsqyy.mutiitem.MutiItemSuport;
+import com.wzdsqyy.mutiitem.MutiItem;
+import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/11/9.
  */
 
-public class ComicsItem implements MutiItemSuport{
+public class ComicsItem implements MutiItem {
     @Expose
     @SerializedName("id")
     public String itemid;
@@ -38,15 +35,9 @@ public class ComicsItem implements MutiItemSuport{
 
     private int layout = -1;
 
+    MutiItemHelper helper=new MutiItemHelper();
     @Override
-    public int getMutiItemViewType() {
-        return layout;
+    public MutiItemHelper getMutiItem() {
+        return helper;
     }
-
-    @Override
-    public void setMutiItemViewType(@LayoutRes int viewType) {
-        this.layout = viewType;
-    }
-
-
 }

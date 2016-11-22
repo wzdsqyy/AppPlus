@@ -71,3 +71,11 @@
                 }
             }
         }
+
+
+            //当用户勾选`不再询问`时, 进入设置界面
+        //    public static void ent(Activity activity,int requestCode){
+        //        Uri uri = Uri.fromParts("package", activity.getPackageName(), null);
+        //        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, uri);
+        //        activity.startActivityForResult(intent, requestCode);
+        //    }

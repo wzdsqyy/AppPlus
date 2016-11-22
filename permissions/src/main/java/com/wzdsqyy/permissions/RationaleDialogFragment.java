@@ -17,7 +17,7 @@ import android.support.annotation.StringRes;
 @RequiresApi(Build.VERSION_CODES.HONEYCOMB)
 public class RationaleDialogFragment extends DialogFragment {
 
-    private EasyPermissions.PermissionCallbacks permissionCallbacks;
+    private PermissionCallbacks permissionCallbacks;
     private RationaleDialogConfig config;
     private RationaleDialogClickListener clickListener;
 
@@ -46,10 +46,10 @@ public class RationaleDialogFragment extends DialogFragment {
 
         if (isAtLeastJellyBeanMR1
                 && getParentFragment() != null
-                && getParentFragment() instanceof EasyPermissions.PermissionCallbacks) {
-            permissionCallbacks = (EasyPermissions.PermissionCallbacks) getParentFragment();
-        } else if (context instanceof EasyPermissions.PermissionCallbacks) {
-            permissionCallbacks = (EasyPermissions.PermissionCallbacks) context;
+                && getParentFragment() instanceof PermissionCallbacks) {
+            permissionCallbacks = (PermissionCallbacks) getParentFragment();
+        } else if (context instanceof PermissionCallbacks) {
+            permissionCallbacks = (PermissionCallbacks) context;
         }
     }
 
@@ -72,5 +72,4 @@ public class RationaleDialogFragment extends DialogFragment {
         // Create an AlertDialog
         return config.createDialog(getActivity(), clickListener);
     }
-
 }

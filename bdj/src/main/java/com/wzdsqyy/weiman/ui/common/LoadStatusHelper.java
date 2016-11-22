@@ -16,7 +16,10 @@ import java.lang.annotation.RetentionPolicy;
 
 public class LoadStatusHelper {
     public static final int SUCCESS = 1, LOADING = 2, EMPTY = 3, ERROR = 4;
-
+    public static int retry_btn=R.id.common_retry;
+    public static int emptyRes=R.id.common_empty;
+    public static int errorRes=R.id.common_failtrue;
+    public static int loadRes=R.id.common_loading;
     public void release() {
         mStatus = LOADING;
         mLoading = null;
@@ -76,8 +79,11 @@ public class LoadStatusHelper {
     }
 
     public void toStatus(@Status int status) {
+        if (this.mStatus==status) {
+            return;
+        }
         mStatus = status;
-        if (!init) {
+        if(!init){
             return;
         }
         switch (status) {
@@ -98,10 +104,10 @@ public class LoadStatusHelper {
     }
 
     public void init(View view) {
-        mLoading = view.findViewById(R.id.common_loading);
-        mEmpty = view.findViewById(R.id.common_empty);
-        mError = view.findViewById(R.id.common_failtrue);
-        mError.findViewById(R.id.common_retry).setOnClickListener(new View.OnClickListener() {
+        mLoading = view.findViewById(loadRes);
+        mEmpty = view.findViewById(emptyRes);
+        mError = view.findViewById(errorRes);
+        mError.findViewById(retry_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mlistener != null) {
@@ -114,10 +120,10 @@ public class LoadStatusHelper {
     }
 
     public void init(Activity activity) {
-        mLoading = activity.findViewById(R.id.common_loading);
-        mEmpty = activity.findViewById(R.id.common_empty);
-        mError = activity.findViewById(R.id.common_failtrue);
-        mError.findViewById(R.id.common_retry).setOnClickListener(new View.OnClickListener() {
+        mLoading = activity.findViewById(loadRes);
+        mEmpty = activity.findViewById(emptyRes);
+        mError = activity.findViewById(errorRes);
+        mError.findViewById(retry_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 mStatus = LOADING;

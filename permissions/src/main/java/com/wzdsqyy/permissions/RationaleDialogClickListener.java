@@ -14,11 +14,11 @@ class RationaleDialogClickListener implements Dialog.OnClickListener {
 
     private Object mHost;
     private RationaleDialogConfig mConfig;
-    private EasyPermissions.PermissionCallbacks mCallbacks;
+    private PermissionCallbacks mCallbacks;
 
     RationaleDialogClickListener(RationaleDialogFragmentCompat compatDialogFragment,
                                  RationaleDialogConfig config,
-                                 EasyPermissions.PermissionCallbacks callbacks) {
+                                 PermissionCallbacks callbacks) {
 
         mHost = compatDialogFragment.getParentFragment() != null
                 ? compatDialogFragment.getParentFragment()
@@ -31,7 +31,7 @@ class RationaleDialogClickListener implements Dialog.OnClickListener {
     @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     RationaleDialogClickListener(RationaleDialogFragment dialogFragment,
                                  RationaleDialogConfig config,
-                                 EasyPermissions.PermissionCallbacks callbacks) {
+                                 PermissionCallbacks callbacks) {
 
         mHost = dialogFragment.getActivity();
         mConfig = config;

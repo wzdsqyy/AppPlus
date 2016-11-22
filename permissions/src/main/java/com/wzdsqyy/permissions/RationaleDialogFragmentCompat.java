@@ -16,7 +16,7 @@ import android.support.v7.app.AppCompatDialogFragment;
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
 public class RationaleDialogFragmentCompat extends AppCompatDialogFragment {
     
-    private EasyPermissions.PermissionCallbacks permissionCallbacks;
+    private PermissionCallbacks permissionCallbacks;
     private RationaleDialogConfig config;
     private RationaleDialogClickListener clickListener;
 
@@ -38,10 +38,10 @@ public class RationaleDialogFragmentCompat extends AppCompatDialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (getParentFragment() != null && getParentFragment() instanceof EasyPermissions.PermissionCallbacks) {
-            permissionCallbacks = (EasyPermissions.PermissionCallbacks) getParentFragment();
-        } else if (context instanceof EasyPermissions.PermissionCallbacks) {
-            permissionCallbacks = (EasyPermissions.PermissionCallbacks) context;
+        if (getParentFragment() != null && getParentFragment() instanceof PermissionCallbacks) {
+            permissionCallbacks = (PermissionCallbacks) getParentFragment();
+        } else if (context instanceof PermissionCallbacks) {
+            permissionCallbacks = (PermissionCallbacks) context;
         }
     }
 

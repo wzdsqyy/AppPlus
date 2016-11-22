@@ -1,1 +1,1 @@
-include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':permissions', ':test'
+include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':permissions', ':videoplayer'

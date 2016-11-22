@@ -14,7 +14,6 @@ import com.wzdsqyy.applibDemo.fragment.OneActivity;
 import com.wzdsqyy.applibDemo.group.GroupActivity;
 import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
-import com.wzdsqyy.applibDemo.recreate.ReCreateActivity;
 import com.wzdsqyy.applibDemo.shapview.RoundAngleActivity;
 import com.wzdsqyy.applibDemo.swapadapter.SwapAdapterActivity;
 import com.wzdsqyy.applibDemo.text.TextLineHelperActivity;
@@ -43,7 +42,6 @@ public class MainHelper {
         list.add(new Bean("图片选择", ImageSelectorActivity.class));
         list.add(new Bean("任意View圆角", RoundAngleActivity.class));
         list.add(new Bean("Dialog", DialogActivity.class));
-        list.add(new Bean("创建Activity", ReCreateActivity.class));
         list.add(new Bean("Blur", BlurActivity.class));
         list.add(new Bean("pull", PullRefershActivity.class));
         list.add(new Bean("单Activity应用", OneActivity.class));
