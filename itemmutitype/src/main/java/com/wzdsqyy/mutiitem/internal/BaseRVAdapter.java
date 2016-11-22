@@ -51,11 +51,11 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
 
     @Override
     public int getItemCount() {
-        return mData == null ? 0 : mData.size();
+        return getData() == null ? 0 : getData().size();
     }
 
     public M getItem(int position) {
-        return mData.get(position);
+        return getData().get(position);
     }
 
     public List<M> getData() {
@@ -64,47 +64,43 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
 
     public int addNewData(List<M> data) {
         if (data != null) {
-            mData.addAll(0, data);
+            getData().addAll(0, data);
             return data.size();
         }
         return 0;
     }
 
     public int addMoreData(List<M> data) {
-        return addData(data, mData.size() - 1);
+        return addData(data, getData().size() - 1);
     }
 
     public int addData(List<M> data, int position) {
         if (data != null) {
-            mData.addAll(position + 1, data);
+            getData().addAll(position + 1, data);
             return data.size();
         }
         return 0;
     }
 
     public void setData(List<M> data) {
-        if (data != null) {
-            mData = data;
-        } else {
-            mData.clear();
-        }
+        mData=data;
     }
 
     public void clear() {
-        mData.clear();
+        getData().clear();
         notifyDataSetChanged();
     }
 
     public M removeItem(int position) {
-        return mData.remove(position);
+        return getData().remove(position);
     }
 
     public boolean removeItem(M model) {
-        return (mData.remove(model));
+        return (getData().remove(model));
     }
 
     public int addItem(int position, M model) {
-        mData.add(position, model);
+        getData().add(position, model);
         return 1;
     }
 
@@ -113,18 +109,18 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
     }
 
     public int addLastItem(M model) {
-        return addItem(mData.size(), model);
+        return addItem(getData().size(), model);
     }
 
     public void setItem(int location, M newModel) {
-        mData.set(location, newModel);
+        getData().set(location, newModel);
     }
 
     public void setItem(M oldModel, M newModel) {
-        setItem(mData.indexOf(oldModel), newModel);
+        setItem(getData().indexOf(oldModel), newModel);
     }
 
     public void moveItem(int fromPosition, int toPosition) {
-        mData.add(toPosition, mData.remove(fromPosition));
+        getData().add(toPosition, getData().remove(fromPosition));
     }
 }
