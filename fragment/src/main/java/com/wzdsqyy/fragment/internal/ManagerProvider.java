@@ -43,17 +43,22 @@ public final class ManagerProvider{
         return new NavManagerImpl(page, this);
     }
 
-    public ArrayList<Runnable> getTasks() {
+    ArrayList<Runnable> getTasks() {
         if (tasks == null) {
             tasks = new ArrayList<>();
         }
         return tasks;
     }
-
+    /**
+     * @link Activity#onSaveInstanceState()在调用
+     */
     public void onSaveInstanceState() {
         commit = false;
     }
 
+    /**
+     * @link Activity#onResume()在调用
+     */
     public void onPostResume() {
         commit = true;
         if (tasks == null || tasks.size() == 0) {
