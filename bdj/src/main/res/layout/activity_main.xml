@@ -4,30 +4,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-
-
-
-
-    <TextView
-        android:text="@android:string/selectAll"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-
-
-
-
-
-
-
-
-
-
     <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
     <include android:visibility="gone" layout="@layout/include_tab_main" />
+    <Button
+        android:layout_width="match_parent"
+        android:onClick="button"
+        android:layout_height="wrap_content" />
 </LinearLayout>

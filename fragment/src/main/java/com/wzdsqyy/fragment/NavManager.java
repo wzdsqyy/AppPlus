@@ -20,9 +20,6 @@ public interface NavManager extends Manager {
      */
     NavManager popPage();
 
-
-    SaveState getSaveState();
-
     /**
      * 清空栈
      */

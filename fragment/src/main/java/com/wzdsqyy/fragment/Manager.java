@@ -2,11 +2,14 @@ package com.wzdsqyy.fragment;
 
 import android.support.annotation.AnimRes;
 
+import com.wzdsqyy.fragment.internal.ManagerProvider;
+
 /**
  * Created by Administrator on 2016/11/3.
  */
 
 public interface Manager {
+    ManagerProvider getManagerProvider();
 
     boolean onBackPressed();
 

@@ -2,6 +2,8 @@ package com.wzdsqyy.fragment;
 
 import android.support.v4.app.Fragment;
 
+import com.wzdsqyy.fragment.internal.ManagerProvider;
+
 /**
  * Created by Qiuyy on 2016/8/25.
  */
@@ -22,7 +24,7 @@ public interface TabbarManager extends Manager {
     TabbarManager showPage(int index,boolean anim);
 
 
-    SaveState getSaveState();
+    ManagerProvider getManagerProvider();
 
     /**
      * 添加页面

@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 
 import com.wzdsqyy.fragment.ContentPage;
-import com.wzdsqyy.fragment.SaveState;
 import com.wzdsqyy.fragment.TabbarManager;
 
 import java.util.List;
@@ -13,12 +12,10 @@ import java.util.List;
  * Created by Administrator on 2016/11/3.
  */
 class TabbarManagerImpl extends BaseManager implements TabbarManager {
-    private SaveState saveState;
     private FragmentTransaction transaction;
 
-    TabbarManagerImpl(ContentPage contentPage, SaveState saveState) {
-        super(contentPage);
-        this.saveState = saveState;
+    TabbarManagerImpl(ContentPage contentPage, ManagerProvider provider) {
+        super(contentPage,provider);
     }
 
     @Override
@@ -42,13 +39,8 @@ class TabbarManagerImpl extends BaseManager implements TabbarManager {
                 transaction.show(fragment);
             }
         }
-        getSaveState().commitNow(transaction);
+        getManagerProvider().commitNow(transaction);
         return this;
-    }
-
-    @Override
-    public SaveState getSaveState() {
-        return saveState;
     }
 
     @Override

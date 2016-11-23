@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentTransaction;
 
 import com.wzdsqyy.fragment.ContentPage;
 import com.wzdsqyy.fragment.Manager;
-import com.wzdsqyy.fragment.SaveState;
 
 /**
  * Created by Administrator on 2016/11/3.
@@ -16,18 +15,22 @@ import com.wzdsqyy.fragment.SaveState;
     private int exit = 0;
     private int popEnter = 0;
     private int popExit = 0;
-//    private FragmentTransaction transaction;
-    private SaveState mSaveState;
+    private ManagerProvider provider;
 
-    public BaseManager(ContentPage contentPage) {
+    public BaseManager(ContentPage contentPage, ManagerProvider provider) {
         this.contentPage = contentPage;
+        this.provider = provider;
+    }
+
+    @Override
+    public ManagerProvider getManagerProvider() {
+        return provider;
     }
 
     @Override
     public void setAnimations(@AnimRes int enter, @AnimRes int exit) {
         setAnimations(enter, exit, 0, 0);
     }
-
     @Override
     public void setAnimations(@AnimRes int enter, @AnimRes int exit, @AnimRes int popEnter, @AnimRes int popExit) {
         this.enter = enter;
