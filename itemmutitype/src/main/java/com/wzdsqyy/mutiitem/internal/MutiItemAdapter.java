@@ -1,5 +1,6 @@
 package com.wzdsqyy.mutiitem.internal;
 
+import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
@@ -24,6 +25,7 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs;
     private ArrayList<Integer> itemTypes;
+    private DiffSpanSize spanSize;
 
     public MutiItemAdapter(MutiItemBinderFactory factory) {
         this.factory = factory;
@@ -50,22 +52,43 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
         return this;
     }
 
-    public boolean isRegister(@LayoutRes int layoutRes) {
-        return itemTypes.indexOf(layoutRes) != -1;
+    /**
+     * @param clazz     实体类型
+     * @param layoutRes 对应的布局Id
+     * @return
+     */
+    public MutiItemAdapter register(Class<MutiItem> clazz, @LayoutRes int layoutRes, @IntRange(from = 1,to = 10)int count) {
+        register(clazz,layoutRes);
+        if(spanSize==null){
+            spanSize=new DiffSpanSize(this);
+        }
+        spanSize.addItemCount(layoutRes,count);
+        return this;
+    }
+
+
+    @Override
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView) {
+        setViewLayoutManager(recyclerView,true);
     }
 
     /**
-     * 将会替换你设置的布局管理器
-     *
+     * 自动设置 LinearLayoutManager 或者 GridLayoutManager 以及Adapter
      * @param recyclerView
-     * @param spanSize
+     * @param isVertical
      */
-    public void diffSpanSizItem(@NonNull RecyclerView recyclerView, @NonNull SpanSize spanSize) {
-        GridLayoutManager manager = new GridLayoutManager(recyclerView.getContext(), spanSize.getSpanCount());
-        DiffSpanSize span = new DiffSpanSize(this, spanSize);
-        manager.setSpanSizeLookup(span);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setAdapter(this);
+    @Override
+    public void setViewLayoutManager(@NonNull RecyclerView recyclerView, boolean isVertical) {
+        if(spanSize==null){
+            super.setViewLayoutManager(recyclerView, isVertical);
+        }else {
+            spanSize.setLayoutManager(recyclerView,isVertical?RecyclerView.VERTICAL:RecyclerView.HORIZONTAL);
+            recyclerView.setAdapter(this);
+        }
+    }
+
+    public boolean isRegister(@LayoutRes int layoutRes) {
+        return itemTypes.indexOf(layoutRes) != -1;
     }
 
     @Override
@@ -118,14 +141,14 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
     }
 
     public int getItemViewType(MutiItem item) {
-        int type = item.getMutiItem().getMutiItemViewType();
+        int type = item.getMutiItem().layoutRes;
         if (type > 0) {
             return type;
         }
         int index = clazzs.indexOf(item.getClass());
         if (index != -1) {
             type = itemTypes.get(index);
-            item.getMutiItem().setMutiItemViewType(type);
+            item.getMutiItem().layoutRes=type;
             return type;
         }
         return 0;

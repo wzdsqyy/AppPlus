@@ -27,12 +27,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
     }
 
     public void setViewLayoutManager(@NonNull RecyclerView recyclerView, boolean isVertical) {
-        LinearLayoutManager manager;
-        if (isVertical) {
-            manager = new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.VERTICAL, false);
-        } else {
-            manager = new LinearLayoutManager(recyclerView.getContext(), LinearLayoutManager.HORIZONTAL, false);
-        }
+        LinearLayoutManager manager=new LinearLayoutManager(recyclerView.getContext(), isVertical?LinearLayoutManager.VERTICAL:LinearLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(this);
     }

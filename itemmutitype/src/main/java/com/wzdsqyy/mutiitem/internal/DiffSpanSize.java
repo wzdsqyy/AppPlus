@@ -1,33 +1,80 @@
 package com.wzdsqyy.mutiitem.internal;
 
+import android.support.annotation.IntRange;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseIntArray;
 
 import com.wzdsqyy.mutiitem.SpanSize;
+
+import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2016/10/12.
  */
 
 class DiffSpanSize extends GridLayoutManager.SpanSizeLookup {
-    RecyclerView.Adapter adapter;
-    SpanSize spanSize;
+    MutiItemAdapter adapter;
+    private int maxCount=1;//记录一行里最大的
+    private ArrayList<Integer> counts = new ArrayList<>();
+    private SparseIntArray mCounts = new SparseIntArray();
+    private boolean calculated=false;
+    private int spanCount=1;
 
-    public DiffSpanSize(@NonNull RecyclerView.Adapter adapter, @NonNull SpanSize spanSize) {
+    DiffSpanSize(@NonNull MutiItemAdapter adapter) {
         this.adapter = adapter;
-        this.spanSize = spanSize;
         setSpanIndexCacheEnabled(true);
+    }
+    /**
+     * 指定布局每一行有多少个
+     *
+     * @param layoutRes
+     * @param count
+     */
+    void addItemCount(@LayoutRes int layoutRes, @IntRange(from = 1,to = 10) int count) {
+        if (maxCount < count) {
+            maxCount = count;
+        }
+        int index = counts.indexOf(count);
+        if (index < 0) {
+            counts.add(count);
+        }
+        mCounts.put(layoutRes, count);
+        calculated=false;
+    }
+
+    void setLayoutManager(RecyclerView recyclerView) {
+        setLayoutManager(recyclerView, RecyclerView.VERTICAL);
+    }
+
+    GridLayoutManager setLayoutManager(RecyclerView recyclerView, int orientation) {
+        GridLayoutManager manager = new GridLayoutManager(recyclerView.getContext(), getSpanCount(), orientation,false);
+        manager.setSpanSizeLookup(this);
+        setSpanIndexCacheEnabled(true);
+        recyclerView.setLayoutManager(manager);
+        return manager;
     }
 
     @Override
     public int getSpanSize(int position) {
-        int type = adapter.getItemViewType(position);
-        int size = spanSize.getSpanSize(type);
-        if (size < 0 || size > spanSize.getSpanCount()) {
-            return 1;
-        }else {
-            return size;
+        return spanCount/(mCounts.get(adapter.getItemViewType(position),spanCount));
+    }
+
+    int getSpanCount() {
+        if(calculated){
+            return spanCount;
         }
+        int result;
+        for (int i = 0; i < counts.size(); i++) {
+            result=maxCount%counts.get(i);
+            if(result!=0){
+                maxCount=maxCount*counts.get(i);
+            }
+        }
+        spanCount=maxCount;
+        calculated=true;
+        return spanCount;
     }
 }
