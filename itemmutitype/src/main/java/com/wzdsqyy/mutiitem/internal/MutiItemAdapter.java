@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 多种视图适配器
  */
-public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiItem> {
+public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerView.ViewHolder,T> {
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs;
     private ArrayList<Integer> itemTypes;
@@ -41,7 +41,7 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiItemAdapter register(Class<MutiItem> clazz, @LayoutRes int layoutRes) {
+    public MutiItemAdapter register(Class<T> clazz, @LayoutRes int layoutRes) {
         int index = clazzs.indexOf(clazz);
         if (index == -1) {
             clazzs.add(clazz);
@@ -55,7 +55,7 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiItemAdapter register(Class<MutiItem> clazz, @LayoutRes int layoutRes, @IntRange(from = 1,to = 10)int count) {
+    public MutiItemAdapter register(Class<T> clazz, @LayoutRes int layoutRes, @IntRange(from = 1,to = 10)int count) {
         register(clazz,layoutRes);
         if(spanSize==null){
             spanSize=new DiffSpanSize(this);

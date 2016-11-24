@@ -7,8 +7,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseIntArray;
 
-import com.wzdsqyy.mutiitem.SpanSize;
-
 import java.util.ArrayList;
 
 /**
@@ -33,7 +31,7 @@ class DiffSpanSize extends GridLayoutManager.SpanSizeLookup {
      * @param layoutRes
      * @param count
      */
-    void addItemCount(@LayoutRes int layoutRes, @IntRange(from = 1,to = 10) int count) {
+    void addItemCount(@LayoutRes int layoutRes, @IntRange(from = 1,to = 5) int count) {
         if (maxCount < count) {
             maxCount = count;
         }
@@ -59,7 +57,7 @@ class DiffSpanSize extends GridLayoutManager.SpanSizeLookup {
 
     @Override
     public int getSpanSize(int position) {
-        return spanCount/(mCounts.get(adapter.getItemViewType(position),spanCount));
+        return spanCount/(mCounts.get(adapter.getItemViewType(position),1));
     }
 
     int getSpanCount() {
