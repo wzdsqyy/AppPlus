@@ -79,7 +79,7 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
             holder = (RecyclerView.ViewHolder) mutiItemBinder;
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            holder = new DefaultMutiItemHolder(view).setMutiItemBinder(mutiItemBinder);
+            holder = new DefaultMutiItemHolder(view).setBinder(mutiItemBinder);
         }
         mutiItemBinder.init(holder, this);
         return holder;

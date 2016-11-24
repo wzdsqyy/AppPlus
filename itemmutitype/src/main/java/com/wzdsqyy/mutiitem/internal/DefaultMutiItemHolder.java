@@ -19,18 +19,16 @@ class DefaultMutiItemHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    DefaultMutiItemHolder setMutiItemBinder(MutiItemBinder itemHolder) {
+    DefaultMutiItemHolder setBinder(MutiItemBinder itemHolder) {
         this.itemHolder = itemHolder;
+        if (itemHolder instanceof PayLoadBinder) {
+            payLoadBinder = (PayLoadBinder) itemHolder;
+        }
         return this;
     }
 
     PayLoadBinder getPayLoadBinder() {
         return payLoadBinder;
-    }
-
-    DefaultMutiItemHolder setPayLoadBinder(PayLoadBinder payLoadBinder) {
-        this.payLoadBinder = payLoadBinder;
-        return this;
     }
 
     public MutiItemBinder getMutiItemBinder() {
