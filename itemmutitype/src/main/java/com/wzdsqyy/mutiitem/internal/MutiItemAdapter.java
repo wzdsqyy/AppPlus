@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
+import com.wzdsqyy.mutiitem.MutiItemPayLoadBinder;
 import com.wzdsqyy.mutiitem.SpanSize;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 /**
  * 多种视图适配器
  */
-public class MutiItemAdapter<M extends MutiItem> extends BaseRVAdapter<RecyclerView.ViewHolder,M> {
+public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiItem> {
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs;
     private ArrayList<Integer> itemTypes;
@@ -40,7 +41,7 @@ public class MutiItemAdapter<M extends MutiItem> extends BaseRVAdapter<RecyclerV
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiItemAdapter register(Class<? extends MutiItem> clazz, @LayoutRes int layoutRes) {
+    public MutiItemAdapter register(Class<MutiItem> clazz, @LayoutRes int layoutRes) {
         int index = clazzs.indexOf(clazz);
         if (index == -1) {
             clazzs.add(clazz);
@@ -88,7 +89,22 @@ public class MutiItemAdapter<M extends MutiItem> extends BaseRVAdapter<RecyclerV
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         boolean isBinder = holder instanceof DefaultMutiItemHolder;
         MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
-        binder.onBindViewHolder(getItem(position), position);
+        binder.onBindViewHolder(getItem(position),position);
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
+        if(payloads.isEmpty()){
+            onBindViewHolder(holder,position);
+        }else {
+            boolean isBinder = holder instanceof DefaultMutiItemHolder;
+            MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
+            if(binder instanceof MutiItemPayLoadBinder){
+                ((MutiItemPayLoadBinder) binder).onBindViewHolder(position,payloads.get(0));
+            }else {
+                binder.onBindViewHolder(getItem(position),position);
+            }
+        }
     }
 
     public int getItemViewType(MutiItem item) {

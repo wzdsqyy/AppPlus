@@ -2,11 +2,10 @@ package com.wzdsqyy.mutiitem.internal;
 
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
-
-import com.wzdsqyy.mutiitem.MutiItemBinderIntercepter;
 
 import java.util.List;
 
@@ -16,19 +15,10 @@ import java.util.List;
 
 public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<VH> {
     protected List<M> mData;
-    private MutiItemBinderIntercepter intercepter;
-
-    public BaseRVAdapter setViewHolderIntercepter(MutiItemBinderIntercepter intercepter) {
-        this.intercepter = intercepter;
-        return this;
-    }
 
     @Override
     public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
         VH holder = newViewHolder(parent, viewType);
-        if (intercepter != null) {
-            intercepter.afterIntercepter(holder, viewType);
-        }
         return holder;
     }
 
