@@ -1,0 +1,24 @@
+MutiItemAdapter 的使用
+    1.对应的实体类型实现MutiItem接口，添加如下内容
+        private MutiItemHelper helper=new MutiItemHelper();
+        @Override
+        public MutiItemHelper getMutiItem() {
+            return helper;
+        }
+    2.(1)用任意一个类实现 MutiItemBinder<T> 接口 T实现MutiItem接口的实体类，
+        (或者继承 RecyclerView.ViewHolder 且实现 MutiItemBinder<T> 接口 )
+        称此类为"视图数据绑定者".
+            进行数据绑定
+            void onBindViewHolder(T bean, int possion);
+            只调用一次，仅当第一次初始化的时候
+            void init(@NonNull RecyclerView.ViewHolder holder,@NonNull RecyclerView.Adapter adapter);
+
+    3.实现MutiItemBinderFactory接口返回对应的"视图数据绑定者"。实例化MutiItemAdapter，并注册视图类型与实体类型
+            参数1，为注册时的视图类型，
+            MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes,@NonNull ViewGroup parent);
+        例如：
+            adapter.register(Teacher.class, R.layout.item_teacher,4);//参数1为第一步的实体类，参数而为布局文件的id，参数3为每一行中显示多少个这种类型的视图。
+            adapter.register(StudentModel.class, R.layout.item_student,3);
+            adapter.register(StickyModel.class, R.layout.item_sticky);
+    4.设置布局
+            adapter.setViewLayoutManager(recyclerView);
