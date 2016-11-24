@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.wzdsqyy.mutiitem.MutiItemBinder;
-import com.wzdsqyy.mutiitem.MutiItemPayLoadBinder;
+import com.wzdsqyy.mutiitem.PayLoadBinder;
 
 /**
  * Created by Administrator on 2016/10/13.
@@ -13,18 +13,24 @@ import com.wzdsqyy.mutiitem.MutiItemPayLoadBinder;
 
 class DefaultMutiItemHolder extends RecyclerView.ViewHolder {
     MutiItemBinder itemHolder;
+    PayLoadBinder payLoadBinder;
 
     DefaultMutiItemHolder(@NonNull View itemView) {
         super(itemView);
     }
 
-    public DefaultMutiItemHolder setMutiItemBinder(MutiItemBinder itemHolder) {
+    DefaultMutiItemHolder setMutiItemBinder(MutiItemBinder itemHolder) {
         this.itemHolder = itemHolder;
         return this;
     }
 
-    public MutiItemPayLoadBinder getMutiItemPayLoadBinder() {
-        return itemHolder instanceof MutiItemPayLoadBinder? (MutiItemPayLoadBinder) itemHolder :null;
+    PayLoadBinder getPayLoadBinder() {
+        return payLoadBinder;
+    }
+
+    DefaultMutiItemHolder setPayLoadBinder(PayLoadBinder payLoadBinder) {
+        this.payLoadBinder = payLoadBinder;
+        return this;
     }
 
     public MutiItemBinder getMutiItemBinder() {

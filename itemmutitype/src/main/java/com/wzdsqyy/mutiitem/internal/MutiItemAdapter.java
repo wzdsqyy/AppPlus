@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
-import com.wzdsqyy.mutiitem.MutiItemPayLoadBinder;
+import com.wzdsqyy.mutiitem.PayLoadBinder;
 import com.wzdsqyy.mutiitem.SpanSize;
 
 import java.util.ArrayList;
@@ -98,9 +98,19 @@ public class MutiItemAdapter extends BaseRVAdapter<RecyclerView.ViewHolder,MutiI
             onBindViewHolder(holder,position);
         }else {
             boolean isBinder = holder instanceof DefaultMutiItemHolder;
-            MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
-            if(binder instanceof MutiItemPayLoadBinder){
-                ((MutiItemPayLoadBinder) binder).onBindViewHolder(position,payloads.get(0));
+            MutiItemBinder binder;
+            PayLoadBinder payLoadBinder = null;
+            if(isBinder){
+                binder= ((DefaultMutiItemHolder) holder).getMutiItemBinder();
+                payLoadBinder=((DefaultMutiItemHolder) holder).getPayLoadBinder();
+            }else {
+                binder= (MutiItemBinder) holder;
+                if(holder instanceof PayLoadBinder){
+                    payLoadBinder= (PayLoadBinder) holder;
+                }
+            }
+            if(payLoadBinder==null){
+                payLoadBinder.onBindViewHolder(position,payloads.get(0));
             }else {
                 binder.onBindViewHolder(getItem(position),position);
             }

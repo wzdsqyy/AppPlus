@@ -1,5 +1,5 @@
 package com.wzdsqyy.mutiitem;
 
-public interface MutiItemPayLoadBinder<D> extends MutiItemBinder<D>{
+public interface PayLoadBinder{
     void onBindViewHolder(int possion,Object payload);
 }
