@@ -52,7 +52,7 @@ public class OneActivity extends AppCompatActivity implements ContentPage{
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        navManager.getSaveState().onSaveInstanceState();
+        managerProvider.onSaveInstanceState();
     }
 
     @Override
@@ -66,7 +66,7 @@ public class OneActivity extends AppCompatActivity implements ContentPage{
     @Override
     protected void onPostResume() {
         super.onPostResume();
-        managerProvider.getSaveState().onPostResume();
+        managerProvider.onPostResume();
     }
 
     @Override

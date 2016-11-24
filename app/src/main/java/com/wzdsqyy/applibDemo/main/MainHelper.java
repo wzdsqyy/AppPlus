@@ -3,9 +3,6 @@ package com.wzdsqyy.applibDemo.main;
 import com.wzdsqyy.applibDemo.ExpandActivity;
 import com.wzdsqyy.applibDemo.ImageSelector.ImageSelectorActivity;
 import com.wzdsqyy.applibDemo.MutiItemList.MutiTypeActivity;
-import com.wzdsqyy.applibDemo.MutiItemList.PullRefershActivity;
-import com.wzdsqyy.applibDemo.MutiItemList.ScrollingActivity;
-import com.wzdsqyy.applibDemo.TabTestActivity;
 import com.wzdsqyy.applibDemo.banner.ui.activity.BannerActivity;
 import com.wzdsqyy.applibDemo.blur.BlurActivity;
 import com.wzdsqyy.applibDemo.countdown.CountDownActivity;
@@ -43,7 +40,6 @@ public class MainHelper {
         list.add(new Bean("任意View圆角", RoundAngleActivity.class));
         list.add(new Bean("Dialog", DialogActivity.class));
         list.add(new Bean("Blur", BlurActivity.class));
-        list.add(new Bean("pull", PullRefershActivity.class));
         list.add(new Bean("单Activity应用", OneActivity.class));
         list.add(new Bean("无限滚动", SwapAdapterActivity.class));
         list.add(new Bean("LruList", LruListActivity.class));
@@ -54,10 +50,7 @@ public class MainHelper {
         list.add(new Bean("NestedListInPager", NestedListViewActivity.class));
         list.add(new Bean("NestedPagerInList", ListViewActivity.class));
         list.add(new Bean("NestedTwoListViewActivity", NestedTwoListViewActivity.class));
-        list.add(new Bean("PullRefershActivity", PullRefershActivity.class));
-        list.add(new Bean("ScrollingActivity", ScrollingActivity.class));
         list.add(new Bean("可展开的视图", ExpandActivity.class));
-        list.add(new Bean("Tab", TabTestActivity.class));
         return list;
     }
 }

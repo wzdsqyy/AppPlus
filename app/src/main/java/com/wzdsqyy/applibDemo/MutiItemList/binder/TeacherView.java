@@ -1,7 +1,8 @@
-package com.wzdsqyy.applibDemo.MutiItemList;
+package com.wzdsqyy.applibDemo.MutiItemList.binder;
 
 import android.support.v7.widget.RecyclerView;
 
+import com.wzdsqyy.applibDemo.MutiItemList.bean.Teacher;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 /**

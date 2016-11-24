@@ -1,8 +1,10 @@
-package com.wzdsqyy.applibDemo.MutiItemList;
+package com.wzdsqyy.applibDemo.MutiItemList.binder;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.wzdsqyy.applibDemo.MutiItemList.bean.StudentModel;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 
 
@@ -33,7 +35,7 @@ public class StudentView implements MutiItemBinder<StudentModel>, View.OnClickLi
     }
 
     @Override
-    public void init(RecyclerView.ViewHolder holder, android.support.v7.widget.RecyclerView.Adapter adapter) {
+    public void init(RecyclerView.ViewHolder holder,RecyclerView.Adapter adapter) {
         this.holder=holder;
     }
 }

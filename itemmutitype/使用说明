@@ -1,4 +1,4 @@
-MutiItemAdapter 的使用
+MutiItemAdapter 的使用，Demo 查看AppLibDemo下的MutiItemList包下内容
     1.对应的实体类型实现MutiItem接口，添加如下内容
         private MutiItemHelper helper=new MutiItemHelper();
         @Override

@@ -6,21 +6,26 @@ import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.wzdsqyy.applibDemo.MutiItemList.bean.StickyModel;
+import com.wzdsqyy.applibDemo.MutiItemList.bean.StudentModel;
+import com.wzdsqyy.applibDemo.MutiItemList.bean.Teacher;
+import com.wzdsqyy.applibDemo.MutiItemList.binder.StickyView;
+import com.wzdsqyy.applibDemo.MutiItemList.binder.StudentView;
+import com.wzdsqyy.applibDemo.MutiItemList.binder.TeacherView;
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.commonview.IndexBar;
 import com.wzdsqyy.commonview.OnIndexTouchListener;
 import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
-import com.wzdsqyy.mutiitem.SpanSize;
 import com.wzdsqyy.mutiitem.internal.MutiItemAdapter;
-import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
 import com.wzdsqyy.stickyheader.StickyLayout;
 
 import java.util.ArrayList;
@@ -28,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinderFactory, SpanSize, OnIndexTouchListener, ClipboardManager.OnPrimaryClipChangedListener {
+public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinderFactory, OnIndexTouchListener, ClipboardManager.OnPrimaryClipChangedListener {
     MutiItemAdapter adapter = new MutiItemAdapter(this);
     RecyclerView recyclerView;
     IndexBar indexview;
@@ -43,10 +48,15 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
         setContentView(R.layout.activity_muti_type);
         indexview = (IndexBar) findViewById(R.id.indexview);
         recyclerView = (RecyclerView) findViewById(R.id.list_item);
-        adapter.diffSpanSizItem(recyclerView, this);
-        adapter.register(Teacher.class, R.layout.item_teacher);
-        adapter.register(StudentModel.class, R.layout.item_student);
+
+
+        adapter.register(Teacher.class, R.layout.item_teacher,4);
+        adapter.register(StudentModel.class, R.layout.item_student,3);
         adapter.register(StickyModel.class, R.layout.item_sticky);
+        adapter.setViewLayoutManager(recyclerView);
+
+
+
         indexview.setIndexList(initIndexList());
         indexview.setOnIndexTouchListener(this);
         index_notice= (TextView) findViewById(R.id.index_notice);
@@ -91,16 +101,6 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
             default:
                 return new StudentView();
         }
-    }
-
-    @Override
-    public int getSpanCount() {
-        return 1;
-    }
-
-    @Override
-    public int getSpanSize(@LayoutRes int type) {
-        return getSpanCount();
     }
 
     @Override

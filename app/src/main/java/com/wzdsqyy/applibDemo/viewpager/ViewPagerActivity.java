@@ -8,7 +8,6 @@ import android.view.View;
 
 import com.wzdsqyy.applibDemo.R;
 import com.wzdsqyy.applibDemo.viewpager.fragment.MyAdapter;
-import com.wzdsqyy.utils.ElasticTouchListener;
 
 public class ViewPagerActivity extends AppCompatActivity {
 
@@ -21,7 +20,6 @@ public class ViewPagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_pager);
         pager= (ViewPager) findViewById(R.id.main_viewpager);
         pager.setAdapter(adapter);
-        pager.setOnTouchListener(new ElasticTouchListener());
     }
 
     public void chuizhi(View view){

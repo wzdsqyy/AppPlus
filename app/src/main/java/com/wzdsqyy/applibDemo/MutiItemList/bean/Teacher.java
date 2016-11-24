@@ -1,4 +1,4 @@
-package com.wzdsqyy.applibDemo.MutiItemList;
+package com.wzdsqyy.applibDemo.MutiItemList.bean;
 
 import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
@@ -7,7 +7,7 @@ import com.wzdsqyy.mutiitem.internal.MutiItemHelper;
  * Created by Administrator on 2016/10/12.
  */
 
-public class StudentModel implements MutiItem {
+public class Teacher implements MutiItem {
     private MutiItemHelper helper=new MutiItemHelper();
     @Override
     public MutiItemHelper getMutiItem() {

@@ -12,14 +12,11 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal">
-        <com.wzdsqyy.commonview.refresh.SpringLayout
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/list_item"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <com.wzdsqyy.applibDemo.MutiItemList.RecyclerView
-                android:id="@+id/list_item"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </com.wzdsqyy.commonview.refresh.SpringLayout>
+            android:layout_height="match_parent" />
 
         <com.wzdsqyy.commonview.IndexBar
             android:id="@+id/indexview"
