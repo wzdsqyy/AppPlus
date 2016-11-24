@@ -19,17 +19,11 @@ import java.util.List;
 /**
  * 多种视图适配器
  */
-public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerView.ViewHolder,T> {
+public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerView.ViewHolder, T> {
     private MutiItemBinderFactory factory;
-    private ArrayList<Class> clazzs;
-    private ArrayList<Integer> itemTypes;
+    private ArrayList<Class> clazzs = new ArrayList<>();
+    private ArrayList<Integer> itemTypes = new ArrayList<>();
     private DiffSpanSize spanSize;
-
-    public MutiItemAdapter(MutiItemBinderFactory factory) {
-        this.factory = factory;
-        clazzs = new ArrayList<>();
-        itemTypes = new ArrayList<>();
-    }
 
     public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
@@ -55,32 +49,33 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
      * @param layoutRes 对应的布局Id
      * @return
      */
-    public MutiItemAdapter register(Class<T> clazz, @LayoutRes int layoutRes, @IntRange(from = 1,to = 10)int count) {
-        register(clazz,layoutRes);
-        if(spanSize==null){
-            spanSize=new DiffSpanSize(this);
+    public MutiItemAdapter register(Class<T> clazz, @LayoutRes int layoutRes, @IntRange(from = 1, to = 10) int count) {
+        register(clazz, layoutRes);
+        if (spanSize == null) {
+            spanSize = new DiffSpanSize(this);
         }
-        spanSize.addItemCount(layoutRes,count);
+        spanSize.addItemCount(layoutRes, count);
         return this;
     }
 
 
     @Override
     public void setViewLayoutManager(@NonNull RecyclerView recyclerView) {
-        setViewLayoutManager(recyclerView,true);
+        setViewLayoutManager(recyclerView, true);
     }
 
     /**
      * 自动设置 LinearLayoutManager 或者 GridLayoutManager 以及Adapter
+     *
      * @param recyclerView
      * @param isVertical
      */
     @Override
     public void setViewLayoutManager(@NonNull RecyclerView recyclerView, boolean isVertical) {
-        if(spanSize==null){
+        if (spanSize == null) {
             super.setViewLayoutManager(recyclerView, isVertical);
-        }else {
-            spanSize.setLayoutManager(recyclerView,isVertical?RecyclerView.VERTICAL:RecyclerView.HORIZONTAL);
+        } else {
+            spanSize.setLayoutManager(recyclerView, isVertical ? RecyclerView.VERTICAL : RecyclerView.HORIZONTAL);
             recyclerView.setAdapter(this);
         }
     }
@@ -92,7 +87,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
     @Override
     public RecyclerView.ViewHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
         if (factory == null) {
-            throw new RuntimeException("必须提前设置 MutiItemBinderFactory");
+            throw new NullPointerException("没有设置 MutiItemBinderFactory");
         }
         MutiItemBinder mutiItemBinder = factory.getMutiItemBinder(viewType, parent);
         RecyclerView.ViewHolder holder;
@@ -110,30 +105,30 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         boolean isBinder = holder instanceof DefaultMutiItemHolder;
         MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
-        binder.onBindViewHolder(getItem(position),position);
+        binder.onBindViewHolder(getItem(position), position);
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if(payloads.isEmpty()){
-            onBindViewHolder(holder,position);
-        }else {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+        } else {
             boolean isBinder = holder instanceof DefaultMutiItemHolder;
             MutiItemBinder binder;
             PayLoadBinder payLoadBinder = null;
-            if(isBinder){
-                binder= ((DefaultMutiItemHolder) holder).getMutiItemBinder();
-                payLoadBinder=((DefaultMutiItemHolder) holder).getPayLoadBinder();
-            }else {
-                binder= (MutiItemBinder) holder;
-                if(holder instanceof PayLoadBinder){
-                    payLoadBinder= (PayLoadBinder) holder;
+            if (isBinder) {
+                binder = ((DefaultMutiItemHolder) holder).getMutiItemBinder();
+                payLoadBinder = ((DefaultMutiItemHolder) holder).getPayLoadBinder();
+            } else {
+                binder = (MutiItemBinder) holder;
+                if (holder instanceof PayLoadBinder) {
+                    payLoadBinder = (PayLoadBinder) holder;
                 }
             }
-            if(payLoadBinder==null){
-                payLoadBinder.onBindViewHolder(position,payloads.get(0));
-            }else {
-                binder.onBindViewHolder(getItem(position),position);
+            if (payLoadBinder == null) {
+                payLoadBinder.onBindViewHolder(position, payloads.get(0));
+            } else {
+                binder.onBindViewHolder(getItem(position), position);
             }
         }
     }
@@ -146,7 +141,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         int index = clazzs.indexOf(item.getClass());
         if (index != -1) {
             type = itemTypes.get(index);
-            item.getMutiItem().layoutRes=type;
+            item.getMutiItem().layoutRes = type;
             return type;
         }
         return 0;

@@ -34,7 +34,7 @@ import java.util.List;
 import java.util.Random;
 
 public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinderFactory, OnIndexTouchListener, ClipboardManager.OnPrimaryClipChangedListener {
-    MutiItemAdapter adapter = new MutiItemAdapter(this);
+    MutiItemAdapter adapter = new MutiItemAdapter();
     RecyclerView recyclerView;
     IndexBar indexview;
     private static final String TAG = "MutiTypeActivity";
@@ -53,6 +53,7 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
         adapter.register(Teacher.class, R.layout.item_teacher,4);
         adapter.register(StudentModel.class, R.layout.item_student,3);
         adapter.register(StickyModel.class, R.layout.item_sticky);
+        adapter.setMutiItemBinderFactory(this);
         adapter.setViewLayoutManager(recyclerView);
 
 

@@ -13,12 +13,16 @@ MutiItemAdapter 的使用，Demo 查看AppLibDemo下的MutiItemList包下内容
             只调用一次，仅当第一次初始化的时候
             void init(@NonNull RecyclerView.ViewHolder holder,@NonNull RecyclerView.Adapter adapter);
 
-    3.实现MutiItemBinderFactory接口返回对应的"视图数据绑定者"。实例化MutiItemAdapter，并注册视图类型与实体类型
-            参数1，为注册时的视图类型，
-            MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes,@NonNull ViewGroup parent);
+    3.实例化MutiItemAdapter，注册视图类型与实体类型
         例如：
             adapter.register(Teacher.class, R.layout.item_teacher,4);//参数1为第一步的实体类，参数而为布局文件的id，参数3为每一行中显示多少个这种类型的视图。
             adapter.register(StudentModel.class, R.layout.item_student,3);
             adapter.register(StickyModel.class, R.layout.item_sticky);
-    4.设置布局
+
+    4.设置"视图数据绑定者"的工厂接口
+        参数1，为注册时的视图类型，
+        MutiItemBinder getMutiItemBinder(@LayoutRes int layoutRes,@NonNull ViewGroup parent);
+
+         adapter.setMutiItemBinderFactory(this);
+    5.设置布局
             adapter.setViewLayoutManager(recyclerView);
