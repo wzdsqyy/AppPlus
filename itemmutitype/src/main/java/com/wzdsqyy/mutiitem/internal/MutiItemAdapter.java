@@ -3,7 +3,6 @@ package com.wzdsqyy.mutiitem.internal;
 import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import com.wzdsqyy.mutiitem.MutiItem;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.mutiitem.PayLoadBinder;
-import com.wzdsqyy.mutiitem.SpanSize;
 
 import java.util.ArrayList;
 import java.util.List;
