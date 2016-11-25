@@ -98,6 +98,7 @@ public class SimpleJavaJsBridge {
      static int sUniqueCallbackId = 1;
 
 
+    JsonParser mParser;
     /**
      * 保证发送给js数据时在ui线程中执行
      */
@@ -139,6 +140,7 @@ public class SimpleJavaJsBridge {
         RequestResponseBuilder.init(builder.mResponseIdName, builder.mResponseName, builder.mResponseValuesName, builder.mRequestInterfaceName, builder.mRequestCallbackIdName, builder.mRequestValuesName);
         mJSMethod4SendData2JS = builder.mJSMethodName4Java;
         mProtocol = builder.mProtocol;
+        mParser=builder.mParser;
     }
 
 

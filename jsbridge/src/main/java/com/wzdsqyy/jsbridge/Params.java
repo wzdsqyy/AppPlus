@@ -100,13 +100,13 @@ class Params {
             return params;
         }
         if (annotations == null || annotations.length != parameters.length) {
-            throwIllegalError();
+            Utils.throwAnnotationError();
         }
         params.mParamItems = new BaseParamItem[annotations.length];
         Annotation annotation;
         for (int i = 0; i < annotations.length; i++) {
             if (annotations[i].length == 0) {
-                return throwIllegalError();
+                return Utils.throwAnnotationError();
             }
             for (int j = 0; j < annotations[i].length; j++) {
                 annotation = annotations[i][j];
@@ -120,9 +120,5 @@ class Params {
             }
         }
         return params;
-    }
-
-    private static Params throwIllegalError() {
-        throw new IllegalArgumentException("方法的所有参数必须都得用" + Param.class.getSimpleName() + "," + ParamCallback.class.getSimpleName() + "," + ParamResponseStatus.class.getSimpleName() + " 中的任意一个注解进行标注");
     }
 }

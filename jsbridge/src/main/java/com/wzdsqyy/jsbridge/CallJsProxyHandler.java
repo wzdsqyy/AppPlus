@@ -4,7 +4,11 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.wzdsqyy.jsbridge.annotation.InvokeJSInterface;
+import com.wzdsqyy.jsbridge.annotation.Param;
+import com.wzdsqyy.jsbridge.annotation.ParamCallback;
+import com.wzdsqyy.jsbridge.annotation.ParamResponseStatus;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -14,15 +18,9 @@ import java.lang.reflect.Method;
 
 class CallJsProxyHandler implements InvocationHandler {
     private SimpleJavaJsBridge bridge;
-    private JsonParser parser;
 
     public CallJsProxyHandler(@NonNull SimpleJavaJsBridge bridge) {
-        this(bridge,null);
-    }
-
-    public CallJsProxyHandler(SimpleJavaJsBridge bridge, JsonParser parser) {
         this.bridge = bridge;
-        this.parser = parser;
     }
 
     @Override
@@ -34,26 +32,41 @@ class CallJsProxyHandler implements InvocationHandler {
         String jsMethodName = annotation.value();
         RequestResponseBuilder requstBuild = new RequestResponseBuilder(true);
         requstBuild.setInterfaceName(jsMethodName);
-        Params params = Params.createParams(method);
+        Params params = createParams(method);
         params.convertParamValues2Json(requstBuild, args);
         sendData2JS(requstBuild);
         return new Object();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    private Params createParams(Method method) throws Throwable {
+        Annotation[][] annotations = method.getParameterAnnotations();
+        Class[] parameters = method.getParameterTypes();
+        Params params = new Params();
+        if (parameters == null) {
+            return params;
+        }
+        if (annotations == null || annotations.length != parameters.length) {
+            Utils.throwAnnotationError();
+        }
+        params.mParamItems = new BaseParamItem[annotations.length];
+        Annotation annotation;
+        for (int i = 0; i < annotations.length; i++) {
+            if (annotations[i].length == 0) {
+                Utils.throwAnnotationError();
+            }
+            for (int j = 0; j < annotations[i].length; j++) {
+                annotation = annotations[i][j];
+                if (annotation != null && annotation instanceof Param) {
+                    params.mParamItems[i] = new ParamItem(((Param) annotation).value(), parameters[i]);
+                } else if (annotation instanceof ParamCallback) {
+                    params.mParamItems[i] = new ParamCallbackItem(parameters[i], null);
+                } else if (annotation instanceof ParamResponseStatus) {
+                    params.mParamItems[i] = new ParamResponseStatusItem(parameters[i], ((ParamResponseStatus) annotation).value());
+                }
+            }
+        }
+        return params;
+    }
     /**
      * 发送数据给js
      */

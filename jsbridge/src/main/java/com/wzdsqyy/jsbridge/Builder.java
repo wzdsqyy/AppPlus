@@ -13,35 +13,42 @@ import java.util.ArrayList;
  */
 public class Builder {
 
-     String mResponseName;
-     String mResponseValuesName;
-     String mResponseIdName;
+    String mResponseName;
+    String mResponseValuesName;
+    String mResponseIdName;
 
 
-     String mRequestInterfaceName;
-     String mRequestCallbackIdName;
-     String mRequestValuesName;
+    String mRequestInterfaceName;
+    String mRequestCallbackIdName;
+    String mRequestValuesName;
 
     /*js为java敞开的唯一的一个可调用的方法，该方法接收一个字符串，字符串是json格式*/
-     String mJSMethodName4Java;
-     String mProtocol;
+    String mJSMethodName4Java;
+    String mProtocol;
 
 
-     WebChromeClient mWebChromeClient;
-     ArrayList mJavaMethod4JS;
-     WebView mWebView;
+    WebChromeClient mWebChromeClient;
+    ArrayList mJavaMethod4JS;
+    WebView mWebView;
+    JsonParser mParser;
 
     /**
      * 是否是debug模式
      */
-     boolean mIsDebug = true;
+    boolean mIsDebug = true;
 
     public Builder() {
 
     }
 
+    public Builder setParser(JsonParser mParser) {
+        this.mParser = mParser;
+        return this;
+    }
+
     /**
      * debug模式下，可以把交互信息打印出来
+     *
      * @param debug
      * @return
      */
@@ -51,7 +58,6 @@ public class Builder {
     }
 
     /**
-     *
      * <pre>
      *  response格式：
      *  {
@@ -70,8 +76,8 @@ public class Builder {
      *  msg        代表响应状态对应的消息
      *  values     代表响应数据包含的值
      *  </pre>
-     *
-     *  <pre>
+     * <p>
+     * <pre>
      *      responseName的默认名字是"data"，可以对这个名字进行设置
      *  </pre>
      *
@@ -84,7 +90,7 @@ public class Builder {
     }
 
     /**
-     *   responseValuesName的默认名字是"values"，可以对这个名字进行设置
+     * responseValuesName的默认名字是"values"，可以对这个名字进行设置
      *
      * @param responseValuesName
      * @return
@@ -97,6 +103,7 @@ public class Builder {
 
     /**
      * response中responseIdName的默认名字是"responseId"，可以对起进行设置
+     *
      * @param responseIdName
      * @return
      * @see #setResponseName(String)
@@ -120,7 +127,7 @@ public class Builder {
      *    callbackId 代表对方在发起请求时，会为回调方法生产一个唯一的id值，它就代表这个唯一的id值
      *    params     代表传递的数据
      *  </pre>
-     *  <pre>
+     * <pre>
      *      requestInterfaceName的默认值是"handlerName",可以进行设置它
      *  </pre>
      *
@@ -133,7 +140,6 @@ public class Builder {
     }
 
     /**
-     *
      * 同理requestCallbackIdName的默认值是"callbackId",可以对它进行设置
      *
      * @param requestCallbackIdName
@@ -151,7 +157,6 @@ public class Builder {
      * @param requestValuesName
      * @return
      * @see #setRequestInterfaceName(String)
-
      */
     public Builder setRequestValuesName(String requestValuesName) {
         mRequestValuesName = requestValuesName;
@@ -167,8 +172,8 @@ public class Builder {
     public Builder setJSMethodName4Java(String JSMethodName) {
         mJSMethodName4Java = JSMethodName;
         if (!TextUtils.isEmpty(mJSMethodName4Java) && !mJSMethodName4Java.startsWith(SimpleJavaJsBridge.JAVASCRIPT)) {
-            mJSMethodName4Java = SimpleJavaJsBridge.JAVASCRIPT + mJSMethodName4Java ;
-            if(!mJSMethodName4Java.contains("%s")){
+            mJSMethodName4Java = SimpleJavaJsBridge.JAVASCRIPT + mJSMethodName4Java;
+            if (!mJSMethodName4Java.contains("%s")) {
                 mJSMethodName4Java = mJSMethodName4Java + "(%s)";
             }
         }
@@ -183,10 +188,10 @@ public class Builder {
      * @return
      */
     public Builder setProtocol(String scheme, String host) {
-        if(TextUtils.isEmpty(scheme) || TextUtils.isEmpty(host)){
+        if (TextUtils.isEmpty(scheme) || TextUtils.isEmpty(host)) {
             return this;
         }
-        mProtocol = scheme+"://"+host+"?";
+        mProtocol = scheme + "://" + host + "?";
         return this;
     }
 
@@ -197,6 +202,7 @@ public class Builder {
 
     /**
      * 添加java提供给js的接口
+     *
      * @param javaMethod4JS
      * @return
      */
@@ -225,7 +231,7 @@ public class Builder {
      * @return
      * @throws JSBridgeException
      */
-     void checkProtocol()  {
+    void checkProtocol() {
         if (TextUtils.isEmpty(mProtocol)) {
             throw new JSBridgeException("必须调用setProtocol(String)设置协议");
         }
@@ -235,14 +241,14 @@ public class Builder {
         }
     }
 
-     void checkJSMethod()  {
+    void checkJSMethod() {
         if (TextUtils.isEmpty(mJSMethodName4Java)) {
             throw new IllegalArgumentException("必须调用 setJSMethodName4Java(String) 方法对给js发送消息的方法进行设置");
         }
 
     }
 
-    public SimpleJavaJsBridge create()  {
+    public SimpleJavaJsBridge create() {
         /*检查协议是否设置，并设置正确了*/
         checkProtocol();
         checkJSMethod();
