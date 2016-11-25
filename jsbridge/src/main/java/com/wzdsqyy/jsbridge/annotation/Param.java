@@ -1,7 +1,5 @@
 package com.wzdsqyy.jsbridge.annotation;
 
-import org.json.JSONArray;
-
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;
