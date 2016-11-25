@@ -1,1 +1,1 @@
-include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':permissions', ':videoplayer', ':sharelite'
+include ':app', ':applib', ':itemmutitype', ':stickyheader', ':fragment', ':commonview', ':utils', ':bdj', ':permissions', ':videoplayer', ':sharelite', ':jsbridge', ':jsbridgedemo'
