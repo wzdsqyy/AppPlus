@@ -33,7 +33,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinderFactory, OnIndexTouchListener, ClipboardManager.OnPrimaryClipChangedListener {
+public class MutiTypeActivity extends AppCompatActivity implements OnIndexTouchListener, ClipboardManager.OnPrimaryClipChangedListener {
     MutiItemAdapter adapter = new MutiItemAdapter();
     RecyclerView recyclerView;
     IndexBar indexview;
@@ -53,7 +53,10 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
         adapter.register(Teacher.class, R.layout.item_teacher,4);
         adapter.register(StudentModel.class, R.layout.item_student,3);
         adapter.register(StickyModel.class, R.layout.item_sticky);
-        adapter.setMutiItemBinderFactory(this);
+        adapter.registerBinder(R.layout.item_teacher,TeacherView.class);
+        adapter.registerBinder(R.layout.item_student,StickyView.class);
+        adapter.registerBinder(R.layout.item_teacher,StickyModel.class);
+//        adapter.setMutiItemBinderFactory(this);
         adapter.setViewLayoutManager(recyclerView);
 
 
@@ -86,22 +89,6 @@ public class MutiTypeActivity extends AppCompatActivity implements MutiItemBinde
         }
         adapter.setData(datas);
         adapter.notifyDataSetChanged();
-    }
-
-    @NonNull
-    @Override
-    public MutiItemBinder getMutiItemBinder(@LayoutRes int viewtype, ViewGroup parent) {
-        switch (viewtype) {
-            case R.layout.item_teacher:
-                return new TeacherView();
-            case R.layout.item_student:
-                return new StudentView();
-            case R.layout.item_sticky:
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sticky, parent, false);
-                return new StickyView(view);
-            default:
-                return new StudentView();
-        }
     }
 
     @Override

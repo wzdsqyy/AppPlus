@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.wzdsqyy.applibDemo.MutiItemList.bean.StickyModel;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
+import com.wzdsqyy.mutiitem.internal.MutiItemAdapter;
 
 
 /**
@@ -35,7 +36,7 @@ public class StickyView extends RecyclerView.ViewHolder implements MutiItemBinde
     }
 
     @Override
-    public void init(RecyclerView.ViewHolder holder, RecyclerView.Adapter adapter) {
+    public void init(RecyclerView.ViewHolder holder, MutiItemAdapter adapter) {
         this.holder=holder;
     }
 }

@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.wzdsqyy.bdj.R;
 import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.internal.BaseRVAdapter;
+import com.wzdsqyy.mutiitem.internal.MutiItemAdapter;
 import com.wzdsqyy.weiman.bean.ComicsItem;
 import com.wzdsqyy.weiman.ui.comics.ComicsDetailActivity;
 import com.wzdsqyy.weiman.ui.comics.adapter.ImageViewAdapter;
@@ -39,7 +40,7 @@ public class ComicsItemBinder implements MutiItemBinder<ComicsItem>,View.OnClick
     }
 
     @Override
-    public void init(@NonNull RecyclerView.ViewHolder holder, @NonNull RecyclerView.Adapter adapter) {
+    public void init(@NonNull RecyclerView.ViewHolder holder, @NonNull MutiItemAdapter adapter) {
         tvTitle= (TextView) holder.itemView.findViewById(R.id.comics_title);
         tvTime= (TextView) holder.itemView.findViewById(R.id.comics_title);
         rvlist= (RecyclerView) holder.itemView.findViewById(R.id.thumbnailList);

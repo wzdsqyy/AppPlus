@@ -4,6 +4,7 @@ import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,11 +24,19 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
+    private SparseArray<Class<? extends MutiItemBinder>> mBinders;
     private DiffSpanSize spanSize;
 
     public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
         return this;
+    }
+
+    SparseArray getBinders() {
+        if(mBinders==null){
+            mBinders=new SparseArray();
+        }
+        return mBinders;
     }
 
     /**
@@ -41,6 +50,17 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
             clazzs.add(clazz);
             itemTypes.add(layoutRes);
         }
+        return this;
+    }
+
+    /**
+     *
+     * @param layoutRes
+     * @param binderClass
+     * @return
+     */
+    public MutiItemAdapter registerBinder(@LayoutRes int layoutRes,Class<MutiItemBinder<T>> binderClass) {
+        getBinders().put(layoutRes,binderClass);
         return this;
     }
 
@@ -86,10 +106,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
 
     @Override
     public RecyclerView.ViewHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
-        if (factory == null) {
-            throw new NullPointerException("没有设置 MutiItemBinderFactory");
-        }
-        MutiItemBinder mutiItemBinder = factory.getMutiItemBinder(viewType, parent);
+        MutiItemBinder mutiItemBinder = getMutiItemBinder(parent, viewType);
         RecyclerView.ViewHolder holder;
         if (mutiItemBinder instanceof RecyclerView.ViewHolder) {
             holder = (RecyclerView.ViewHolder) mutiItemBinder;
@@ -99,6 +116,32 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         }
         mutiItemBinder.init(holder, this);
         return holder;
+    }
+
+    @NonNull
+    private MutiItemBinder getMutiItemBinder(ViewGroup parent, @LayoutRes int layoutRes) {
+        if(factory==null&&mBinders==null){
+            throw new IllegalArgumentException("必须设置MutiItemBinderFactory，或者注册MutiItemBinder");
+        }
+        MutiItemBinder binder;
+        if (factory != null) {
+            binder=factory.getMutiItemBinder(layoutRes, parent);
+            if(binder!=null){
+                return binder;
+            }
+        }
+        if(mBinders==null){
+            throw new RuntimeException("该种视图没有对应的MutiItemBinder");
+        }
+        Class clazz = mBinders.get(layoutRes, null);
+        if(clazz==null){
+            throw new RuntimeException("该种视图没有注册过对应的MutiItemBinder");
+        }
+        try {
+            return(MutiItemBinder) clazz.newInstance();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("必须含有公共的，空的构造器方法");
+        }
     }
 
     @Override
