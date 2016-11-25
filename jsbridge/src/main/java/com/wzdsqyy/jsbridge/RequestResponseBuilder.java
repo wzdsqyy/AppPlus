@@ -202,7 +202,7 @@ class RequestResponseBuilder {
      * @return
      */
      static RequestResponseBuilder create(@NonNull JSONObject json) {
-        if (json.has(Response.sResponseIdName)) {///响应数据
+        if (json.has(Utils.sResponseIdName)) {///响应数据
             return new RequestResponseBuilder(false, json);
         } else {
             return new RequestResponseBuilder(true, json);
