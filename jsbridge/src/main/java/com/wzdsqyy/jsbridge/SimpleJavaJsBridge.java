@@ -132,7 +132,7 @@ public class SimpleJavaJsBridge {
         mSimpleJavaJSWebChromeClient = new SimpleJavaJSWebChromeClient(builder.mWebChromeClient, this);
         mWebView.setWebChromeClient(mSimpleJavaJSWebChromeClient);
         saveJavaMethods4JS(builder.mJavaMethod4JS);
-        RequestResponseBuilder.init(builder.mResponseIdName, builder.mResponseName, builder.mResponseValuesName, builder.mRequestInterfaceName, builder.mRequestCallbackIdName, builder.mRequestValuesName);
+        Utils.init(builder.mResponseIdName, builder.mResponseName, builder.mResponseValuesName, builder.mRequestInterfaceName, builder.mRequestCallbackIdName, builder.mRequestValuesName);
         mJSMethod4SendData2JS = builder.mJSMethodName4Java;
         mProtocol = builder.mProtocol;
         mParser=builder.mParser;
@@ -155,7 +155,7 @@ public class SimpleJavaJsBridge {
      * @param javaMethods4JSes
      */
      void saveJavaMethods4JS(ArrayList javaMethods4JSes) {
-        if(javaMethods4JSes==null){
+        if(javaMethods4JSes==null||javaMethods4JSes.size()==0){
             return;
         }
         for (int i = 0; i < javaMethods4JSes.size(); i++) {
@@ -172,9 +172,6 @@ public class SimpleJavaJsBridge {
                     continue;
                 }
                 MethodHandler methodHandler = MethodHandler.createMethodHandler(instance, method);//说明这是提供给js的接口
-                if(methodHandler==null){
-                    continue;
-                }
                 mJavaInterfaces4JSCache.put(annotation.value(), methodHandler);
             }
         }

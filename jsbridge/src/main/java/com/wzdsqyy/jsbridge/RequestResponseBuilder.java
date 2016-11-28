@@ -144,17 +144,6 @@ class RequestResponseBuilder {
         return mRequest == null ? null : mRequest.callback;
     }
 
-    /**
-     * @param responseIdName
-     * @param responseName
-     * @param responseValuesName
-     */
-    public static void init(String responseIdName, String responseName, String responseValuesName, String requestInterfaceName, String requestCallbackIdName, String requestValuesName) {
-        Response.init(responseIdName, responseName, responseValuesName);
-        Request.init(requestInterfaceName, requestCallbackIdName, requestValuesName);
-    }
-
-
      void initResponse() {
         if (mResponse == null) {
             mResponse = new Response();

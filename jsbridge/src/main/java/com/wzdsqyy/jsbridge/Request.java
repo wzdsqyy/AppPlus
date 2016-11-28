@@ -30,19 +30,6 @@ class Request {
     JSONObject requestValues;
     Object callback;
 
-    static void init(String requestInterfaceName, String requestCallbackIdName, String requestValuesName) {
-        if (!TextUtils.isEmpty(requestCallbackIdName)) {
-            Utils.sRequestCallbackIdName = requestCallbackIdName;
-        }
-
-        if (!TextUtils.isEmpty(requestValuesName)) {
-            Utils.sRequestValuesName = requestValuesName;
-        }
-        if (!TextUtils.isEmpty(requestInterfaceName)) {
-            Utils.sRequestInterfaceName = requestInterfaceName;
-        }
-    }
-
     void parseRequest(JSONObject json) {
         if (json != null) {
             callbackId = json.optString(Utils.sRequestCallbackIdName);

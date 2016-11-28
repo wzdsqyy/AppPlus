@@ -33,18 +33,6 @@ class Response {
     JSONObject response = new JSONObject();
     JSONObject responseValues;
 
-    static void init(String responseIdName, String responseName, String responseValuesName) {
-        if (!TextUtils.isEmpty(responseValuesName)) {
-            Utils.sResponseValuesName = responseValuesName;
-        }
-        if (!TextUtils.isEmpty(responseIdName)) {
-            Utils.sResponseIdName = responseIdName;
-        }
-        if (!TextUtils.isEmpty(responseName)) {
-            Utils.sResponseName = responseName;
-        }
-    }
-
     void parseResponse(JSONObject json) {
         if (json != null) {
             responseId = json.optString(Utils.sResponseIdName);

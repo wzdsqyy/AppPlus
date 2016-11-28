@@ -1,5 +1,7 @@
 package com.wzdsqyy.jsbridge;
 
+import android.text.TextUtils;
+
 import com.wzdsqyy.jsbridge.annotation.Param;
 import com.wzdsqyy.jsbridge.annotation.ParamCallback;
 import com.wzdsqyy.jsbridge.annotation.ParamResponseStatus;
@@ -12,11 +14,15 @@ import org.json.JSONObject;
  */
 
 class Utils {
-    /********************Request****************/
+    /********************
+     * Request
+     ****************/
     static String sRequestInterfaceName = "handlerName";
     static String sRequestCallbackIdName = "callbackId";
     static String sRequestValuesName = "params";
-    /********************Response****************/
+    /********************
+     * Response
+     ****************/
     static String sResponseIdName = "responseId";
     static String sResponseValuesName = "values";
     static String sResponseName = "data";
@@ -25,6 +31,37 @@ class Utils {
      * 所以为回调函数提供一个唯一的id，
      */
     static int sUniqueCallbackId = 1;
+
+    static void init(String responseIdName, String responseName, String responseValuesName, String requestInterfaceName, String requestCallbackIdName, String requestValuesName) {
+        Utils.initResponse(responseIdName, responseName, responseValuesName);
+        Utils.initRequest(requestInterfaceName, requestCallbackIdName, requestValuesName);
+    }
+
+    static void initResponse(String responseIdName, String responseName, String responseValuesName) {
+        if (!TextUtils.isEmpty(responseValuesName)) {
+            Utils.sResponseValuesName = responseValuesName;
+        }
+        if (!TextUtils.isEmpty(responseIdName)) {
+            Utils.sResponseIdName = responseIdName;
+        }
+        if (!TextUtils.isEmpty(responseName)) {
+            Utils.sResponseName = responseName;
+        }
+    }
+
+    static void initRequest(String requestInterfaceName, String requestCallbackIdName, String requestValuesName) {
+        if (!TextUtils.isEmpty(requestCallbackIdName)) {
+            Utils.sRequestCallbackIdName = requestCallbackIdName;
+        }
+
+        if (!TextUtils.isEmpty(requestValuesName)) {
+            Utils.sRequestValuesName = requestValuesName;
+        }
+        if (!TextUtils.isEmpty(requestInterfaceName)) {
+            Utils.sRequestInterfaceName = requestInterfaceName;
+        }
+    }
+
     static Params throwAnnotationError() {
         throw new IllegalArgumentException("方法的所有参数必须都得用" + Param.class.getSimpleName() + "," + ParamCallback.class.getSimpleName() + "," + ParamResponseStatus.class.getSimpleName() + " 中的任意一个注解进行标注");
     }

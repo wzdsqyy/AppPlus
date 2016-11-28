@@ -38,6 +38,7 @@ class MethodHandler {
      * @param method
      * @return
      */
+    @NonNull
     public static MethodHandler createMethodHandler(@NonNull Object instance, @NonNull Method method) {
         Params params = Params.createParams(method,instance);
         return new MethodHandler(instance, method, params);
