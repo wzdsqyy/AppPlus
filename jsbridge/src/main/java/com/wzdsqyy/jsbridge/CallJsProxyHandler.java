@@ -23,9 +23,6 @@ class CallJsProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object o, Method method, Object[] args) throws Throwable {
         InvokeJSInterface annotation = method.getAnnotation(InvokeJSInterface.class);
-        if (annotation == null) {
-            return new JSBridgeException("没有进行 InvokeJSInterface 注解的方法，不可运行");
-        }
         String jsMethodName = annotation.value();//Js提供给本地调用的方法名
         RequestResponseBuilder requstBuild = new RequestResponseBuilder(true);
         requstBuild.setInterfaceName(jsMethodName);
@@ -37,10 +34,7 @@ class CallJsProxyHandler implements InvocationHandler {
     /**
      * 发送数据给js
      */
-    public void sendData2JS(RequestResponseBuilder requestResponseBuilder) {
-        if (requestResponseBuilder == null) {
-            return;
-        }
+    public void sendData2JS(@NonNull RequestResponseBuilder requestResponseBuilder) {
         if (requestResponseBuilder.isBuildRequest()) {
             bridge.sendRequest2JS(requestResponseBuilder);
         } else {

@@ -3,6 +3,7 @@ package com.wzdsqyy.jsbridge;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import com.wzdsqyy.jsbridge.annotation.JavaInterface4JS;
 import com.wzdsqyy.jsbridge.annotation.Param;
 import com.wzdsqyy.jsbridge.annotation.ParamCallback;
 import com.wzdsqyy.jsbridge.annotation.ParamResponseStatus;
@@ -82,6 +83,10 @@ class Utils {
 
     static Params throwAnnotationError() {
         throw new IllegalArgumentException("方法的所有参数必须都得用" + Param.class.getSimpleName() + "," + ParamCallback.class.getSimpleName() + "," + ParamResponseStatus.class.getSimpleName() + " 中的任意一个注解进行标注");
+    }
+
+    public static void throwJavaInterface4JS() {
+        throw new IllegalArgumentException("所有方法必须都得用" + JavaInterface4JS.class.getSimpleName() + "注解进行标注");
     }
 
     /**
