@@ -1,32 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_updata"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
-    tools:context="com.wzdsqyy.applibDemo.updata.UpdataActivity">
+    android:paddingTop="20dp">
 
-    <Button
-        android:text="updata"
-        android:onClick="updata"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/check_update"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="检查更新"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
 
-    <Button
-        android:text="stop"
-        android:onClick="stop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/check_update_cant_ignore"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="检查更新 - 不可忽略"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
 
-    <ProgressBar
-        android:id="@+id/ProgressBar"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <TextView
+        android:id="@+id/check_update_force"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="检查更新 - 强制更新"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
 
+    <TextView
+        android:id="@+id/check_update_silent"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="不提示直接下载新版本"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/check_update_no_newer"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="检查更新 - 没有新版本"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/clean"
+        android:layout_width="250dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:text="清除缓存"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
 </LinearLayout>

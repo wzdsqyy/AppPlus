@@ -31,7 +31,7 @@ public class Md5 {
         return hex.toString();
     }
 
-    public static String md5(File file) throws IOException {
+    public static String md5(File file){
         MessageDigest messagedigest = null;
         FileInputStream in = null;
         FileChannel ch = null;
@@ -43,8 +43,7 @@ public class Md5 {
             MappedByteBuffer byteBuffer = ch.map(FileChannel.MapMode.READ_ONLY, 0, file.length());
             messagedigest.update(byteBuffer);
             encodeBytes = messagedigest.digest();
-        } catch (NoSuchAlgorithmException neverHappened) {
-            throw new RuntimeException(neverHappened);
+        } catch (Exception neverHappened) {
         } finally {
             IOUtil.closeQuietly(in);
             IOUtil.closeQuietly(ch);
