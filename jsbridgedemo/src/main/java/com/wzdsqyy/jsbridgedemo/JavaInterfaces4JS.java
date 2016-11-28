@@ -99,6 +99,4 @@ public class JavaInterfaces4JS {
         mWebViewFragment.setResult("native的test4无参接口被调用");
         jsCallback.callbackResponse(ResponseStatus.OK);
     }
-
-
 }

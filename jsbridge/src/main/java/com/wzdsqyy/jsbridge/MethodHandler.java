@@ -2,6 +2,7 @@ package com.wzdsqyy.jsbridge;
 
 
 import android.support.annotation.NonNull;
+import android.view.View;
 
 import java.lang.reflect.Method;
 

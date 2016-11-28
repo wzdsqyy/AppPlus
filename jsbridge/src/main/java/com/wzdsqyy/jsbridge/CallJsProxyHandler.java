@@ -3,6 +3,7 @@ package com.wzdsqyy.jsbridge;
 import android.support.annotation.NonNull;
 
 import com.wzdsqyy.jsbridge.annotation.InvokeJSInterface;
+import com.wzdsqyy.jsbridge.annotation.JavaInterface4JS;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -21,6 +22,9 @@ class CallJsProxyHandler implements InvocationHandler {
     @Override
     public Object invoke(Object o, Method method, Object[] args) throws Throwable {
         InvokeJSInterface annotation = method.getAnnotation(InvokeJSInterface.class);
+        if (annotation == null) {
+            Utils.throwInvokeJSInterface();
+        }
         String jsMethodName = annotation.value();//Js提供给本地调用的方法名
         RequestResponseBuilder requstBuild = new RequestResponseBuilder(true);
         requstBuild.setInterfaceName(jsMethodName);

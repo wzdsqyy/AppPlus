@@ -167,7 +167,7 @@ public class SimpleJavaJsBridge {
             for (Method method : allMethod) {
                 annotation = method.getAnnotation(JavaInterface4JS.class);
                 if (annotation == null) {
-                    Utils.throwJavaInterface4JS();
+                    continue;
                 }
                 MethodHandler methodHandler = MethodHandler.createMethodHandler(instance, method);//说明这是提供给js的接口
                 mJavaInterfaces4JSCache.put(annotation.value(), methodHandler);
