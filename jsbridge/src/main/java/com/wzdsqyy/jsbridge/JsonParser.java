@@ -5,6 +5,6 @@ package com.wzdsqyy.jsbridge;
  */
 
 public interface JsonParser {
-    String toJsonString(Object obj);
-    Object toObject(String json,Class clazz);
+    String toJsonString(Object obj) throws Exception;
+    Object toObject(String json,Class clazz) throws Exception;
 }

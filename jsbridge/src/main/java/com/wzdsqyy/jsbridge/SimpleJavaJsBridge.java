@@ -91,11 +91,6 @@ public class SimpleJavaJsBridge {
      static final String TAG = SimpleJavaJsBridge.class.getSimpleName();
 
      static final String JAVASCRIPT = "javascript:";
-    /**
-     * java调用js的功能时，java会为js提供回调函数，但是不可能把回调函数传递给js，
-     * 所以为回调函数提供一个唯一的id，
-     */
-     static int sUniqueCallbackId = 1;
 
 
     JsonParser mParser;
@@ -185,33 +180,20 @@ public class SimpleJavaJsBridge {
         }
     }
 
-    /**
-     * 生成唯一的回调id
-     *
-     * @return
-     */
-     static String generaUniqueCallbackId() {
-        return ++sUniqueCallbackId + "_" + System.currentTimeMillis();
-    }
-
-     void sendRequest2JS(RequestResponseBuilder requst) {
-        if(requst==null){
-            return;
-        }
-        String callbackId = generaUniqueCallbackId();
+     void sendRequest2JS(@NonNull RequestResponseBuilder requst) {
+        String callbackId = Utils.generaUniqueCallbackId();
         requst.setCallbackId(callbackId);
-        if(requst.getCallback()==null){/*处理提供给js的回调方法*/
-            return;
-        }
-        Class bridgeClass = requst.getCallback().getClass();
-        Method[] allMethod = bridgeClass.getMethods();
-        JavaCallback4JS javaCallback4JS;
-        for (Method method : allMethod) {
-            javaCallback4JS = method.getAnnotation(JavaCallback4JS.class);
-            if(javaCallback4JS==null){
-                continue;
+        if(requst.getCallback()!=null){/*处理提供给js的回调方法*/
+            Class bridgeClass = requst.getCallback().getClass();
+            Method[] allMethod = bridgeClass.getMethods();
+            JavaCallback4JS javaCallback4JS;
+            for (Method method : allMethod) {
+                javaCallback4JS = method.getAnnotation(JavaCallback4JS.class);
+                if(javaCallback4JS==null){
+                    continue;
+                }
+                mJavaCallbackMethods4JSCache.put(callbackId, MethodHandler.createMethodHandler(requst.getCallback(), method));
             }
-            mJavaCallbackMethods4JSCache.put(callbackId, MethodHandler.createMethodHandler(requst.getCallback(), method));
         }
         startSendData2JS(requst.toString());
     }
@@ -241,7 +223,7 @@ public class SimpleJavaJsBridge {
      *
      * @param data
      */
-     void startSendData2JS(String data) {
+     void startSendData2JS(@NonNull String data) {
         if (TextUtils.isEmpty(data)) {
             return;
         }
@@ -289,7 +271,7 @@ public class SimpleJavaJsBridge {
      *
      * @param requestResponseBuilder
      */
-     void invokeJavaMethod(@NonNull RequestResponseBuilder requestResponseBuilder) {
+     void invokeJavaMethod(@NonNull RequestResponseBuilder requestResponseBuilder) throws Exception {
         /*说明这是响应数据*/
         if (!requestResponseBuilder.isBuildRequest()) {
             MethodHandler methodHandler = mJavaCallbackMethods4JSCache.remove(requestResponseBuilder.getResponseId());
@@ -305,13 +287,11 @@ public class SimpleJavaJsBridge {
                 methodHandler.invoke(requestResponseBuilder);
             } else {
                 Log.e(TAG, "所调用的接口不存在");
-
                 RequestResponseBuilder errorResponse = new RequestResponseBuilder(false);
                 errorResponse.setResponseId(requestResponseBuilder.getCallbackId());
                 errorResponse.putResponseStatus("errmsg","所调用的接口不存在");
                 sendResponse2JS(errorResponse);
             }
-
         }
     }
 }

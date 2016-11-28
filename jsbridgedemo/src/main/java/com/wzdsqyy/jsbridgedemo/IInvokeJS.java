@@ -1,6 +1,7 @@
 package com.wzdsqyy.jsbridgedemo;
 
 
+import com.wzdsqyy.jsbridge.JavaCallback;
 import com.wzdsqyy.jsbridge.annotation.InvokeJSInterface;
 import com.wzdsqyy.jsbridge.annotation.Param;
 import com.wzdsqyy.jsbridge.annotation.ParamCallback;
@@ -19,22 +20,20 @@ public interface IInvokeJS {
         public String cityProvince;
 
         public int cityId;
-
-
     }
 
     @InvokeJSInterface("exam")
-    void exam(@Param("test") String testContent, @Param("id") int id, @ParamCallback Object iJavaCallback2JS);
+    void exam(@Param("test") String testContent, @Param("id") int id, @ParamCallback JavaCallback iJavaCallback2JS);
 
     @InvokeJSInterface("exam1")
-    void exam1(@Param City city, @ParamCallback Object iJavaCallback2JS);
+    void exam1(@Param City city, @ParamCallback JavaCallback iJavaCallback2JS);
 
     @InvokeJSInterface("exam2")
-    void exam2(@Param City city, @Param("contry") String contry, @ParamCallback Object iJavaCallback2JS);
+    void exam2(@Param City city, @Param("contry") String contry, @ParamCallback JavaCallback iJavaCallback2JS);
 
     @InvokeJSInterface("exam3")
-    void exam3(@Param(value = "city") City city, @Param("contry") String contry, @ParamCallback Object iJavaCallback2JS);
+    void exam3(@Param(value = "city") City city, @Param("contry") String contry, @ParamCallback JavaCallback iJavaCallback2JS);
 
     @InvokeJSInterface("exam4")
-    void exam4(@ParamCallback Object iJavaCallback2JS);
+    void exam4(@ParamCallback JavaCallback iJavaCallback2JS);
 }

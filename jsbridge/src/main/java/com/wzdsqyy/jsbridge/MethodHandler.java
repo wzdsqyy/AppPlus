@@ -3,7 +3,6 @@ package com.wzdsqyy.jsbridge;
 
 import android.support.annotation.NonNull;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -34,28 +33,24 @@ class MethodHandler {
 
     /**
      * 构造一个{@link MethodHandler}
+     *
      * @param instance
      * @param method
      * @return
      */
-    public static MethodHandler createMethodHandler(@NonNull Object instance,@NonNull Method method){
-        Params params = Params.createParams(method);
-        return new MethodHandler(instance,method,params);
+    public static MethodHandler createMethodHandler(@NonNull Object instance, @NonNull Method method) {
+        Params params = Params.createParams(method,instance);
+        return new MethodHandler(instance, method, params);
     }
 
 
     /**
      * 开始执行方法
+     *
      * @param requestResponseBuilder 包含了方法的参数所对应的参数值，会把参数值依次解析出来，供方法调用
      */
-    public void invoke(@NonNull RequestResponseBuilder requestResponseBuilder){
+    public void invoke(@NonNull RequestResponseBuilder requestResponseBuilder) throws Exception{
         Object[] values = mParams.convertJson2ParamValues(requestResponseBuilder);
-        try {
-            mMethod.invoke(mInstance,values);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
+        mMethod.invoke(mInstance, values);
     }
 }

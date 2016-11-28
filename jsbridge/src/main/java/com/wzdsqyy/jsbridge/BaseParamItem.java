@@ -28,12 +28,12 @@ abstract class BaseParamItem {
      * @param requestResponseBuilder
      * @return
      */
-    public abstract Object convertJson2ParamValue(RequestResponseBuilder requestResponseBuilder);
+    public abstract Object convertJson2ParamValue(RequestResponseBuilder requestResponseBuilder) throws Exception;
 
     /**
      * 该方法会把参数值以{key:value}的格式存入json中
      * @param requestResponseBuilder
      * @param obj
      */
-    public abstract void convertParamValue2Json(RequestResponseBuilder requestResponseBuilder, Object obj);
+    public abstract void convertParamValue2Json(RequestResponseBuilder requestResponseBuilder, Object obj) throws Exception;
 }

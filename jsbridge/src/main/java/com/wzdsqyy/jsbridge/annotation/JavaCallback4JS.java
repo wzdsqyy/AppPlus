@@ -22,12 +22,11 @@ import java.lang.annotation.Target;
  *  上面的例子表明{@code callback4JS}方法是提供给js的回调方法
  *
  * </pre>
- *
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 public @interface JavaCallback4JS {
-
+    String name();
 }

@@ -27,7 +27,7 @@ class Params {
     static SimpleJavaJsBridge sSimpleJavaJsBridge;
     private JsonParser jsonParser;
 
-    public Params(JsonParser jsonParser) {
+    Params(JsonParser jsonParser) {
         this.jsonParser = jsonParser;
     }
 
@@ -49,7 +49,7 @@ class Params {
      * @param requestResponseBuilder 包含了一系列的json数据，json数据是request或者response
      * @return
      */
-    public Object[] convertJson2ParamValues(RequestResponseBuilder requestResponseBuilder) {
+    public Object[] convertJson2ParamValues(RequestResponseBuilder requestResponseBuilder) throws Exception{
         if (requestResponseBuilder == null || mParamItems == null) {
             return null;
         }
@@ -72,11 +72,11 @@ class Params {
      * @param requestResponseBuilder
      * @param paramValues            参数值
      */
-    public void convertParamValues2Json(RequestResponseBuilder requestResponseBuilder, Object[] paramValues) {
+    public void convertParamValues2Json(RequestResponseBuilder requestResponseBuilder, Object[] paramValues) throws Exception{
         if (requestResponseBuilder == null || paramValues == null) {
             return;
         }
-        BaseParamItem paramItem = null;
+        BaseParamItem paramItem;
         for (int i = 0; i < mParamItems.length; i++) {
             paramItem = mParamItems[i];
             if (paramItem != null) {
@@ -92,7 +92,7 @@ class Params {
      * @param method
      * @return
      */
-    public static Params createParams(@NonNull Method method) {
+    static Params createParams(@NonNull Method method, @NonNull Object proxy) {
         Annotation[][] annotations = method.getParameterAnnotations();
         Class[] parameters = method.getParameterTypes();
         Params params = new Params();
@@ -110,7 +110,10 @@ class Params {
             }
             for (int j = 0; j < annotations[i].length; j++) {
                 annotation = annotations[i][j];
-                if (annotation != null && annotation instanceof Param) {
+                if(annotation==null){
+                    continue;
+                }
+                if (annotation instanceof Param) {
                     params.mParamItems[i] = new ParamItem(((Param) annotation).value(), parameters[i]);
                 } else if (annotation instanceof ParamCallback) {
                     params.mParamItems[i] = new ParamCallbackItem(parameters[i], null);

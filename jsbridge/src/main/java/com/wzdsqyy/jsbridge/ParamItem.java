@@ -32,7 +32,7 @@ class ParamItem extends BaseParamItem {
     }
 
     @Override
-    public Object convertJson2ParamValue(RequestResponseBuilder requestResponseBuilder) {
+    public Object convertJson2ParamValue(RequestResponseBuilder requestResponseBuilder) throws Exception {
         if (requestResponseBuilder == null || requestResponseBuilder.getValues() == null) {
             return null;
         }
@@ -40,47 +40,34 @@ class ParamItem extends BaseParamItem {
         if(jsonObject==null){
             return null;
         }
-        if (!isObjectDirectPut2Json(paramType)) {
-
-
-
-
-
-            try {
-                JSONObject value = !TextUtils.isEmpty(paramKey) ? (JSONObject) jsonObject.opt(paramKey) : jsonObject;
-                if (value == null) {
-                    return null;
-                }
-                Object instance = paramType.newInstance();
-                Field[] fields = paramType.getDeclaredFields();
-                for (Field field : fields
-                        ) {
-                    Param p = field.getAnnotation(Param.class);
-                    if (p != null) {
-                            /*可以访问不可以访问的变量*/
-                        field.setAccessible(true);
-                        field.set(instance, value.opt(p.value()));
-                    }
-                }
-                return instance;
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
+        if (!Utils.isObjectDirectPut2Json(paramType)) {
+            JSONObject value = !TextUtils.isEmpty(paramKey) ? (JSONObject) jsonObject.opt(paramKey) : jsonObject;
+            if (value == null) {
+                return null;
             }
+            Object instance = paramType.newInstance();
+            Field[] fields = paramType.getDeclaredFields();
+            for (Field field : fields) {
+                Param p = field.getAnnotation(Param.class);
+                if (p != null) {
+                            /*可以访问不可以访问的变量*/
+                    field.setAccessible(true);
+                    field.set(instance, value.opt(p.value()));
+                }
+            }
+            return instance;
         } else {
             return jsonObject.opt(paramKey);
         }
-        return null;
     }
 
     @Override
-    public void convertParamValue2Json(RequestResponseBuilder requestResponseBuilder, Object obj) {
+    public void convertParamValue2Json(RequestResponseBuilder requestResponseBuilder, Object obj) throws Exception{
 
         if (requestResponseBuilder == null || obj == null) {
             return;
         }
-        if (!isObjectDirectPut2Json(obj)) {
+        if (!Utils.isObjectDirectPut2Json(obj)) {
             JSONObject json = convertObjectFileds2Json(obj);
             if (json == null) {
                 return;
@@ -101,7 +88,7 @@ class ParamItem extends BaseParamItem {
         }
     }
 
-    private JSONObject convertObjectFileds2Json(@NonNull Object obj) {
+    private JSONObject convertObjectFileds2Json(@NonNull Object obj) throws Exception{
         Class cl = obj.getClass();
         Field[] fields = cl.getDeclaredFields();
         if (fields.length == 0) {
@@ -123,52 +110,24 @@ class ParamItem extends BaseParamItem {
                 jsonName = field.getName();
             }
             field.setAccessible(true);
-            try {
-                inst = field.get(obj);
-                if(inst==null){
+            inst = field.get(obj);
+            if(inst==null){
+                continue;
+            }
+            if (objectParamJson == null) {
+                objectParamJson = new JSONObject();
+            }
+            if (Utils.isObjectDirectPut2Json(inst)) {
+                objectParamJson.put(jsonName, inst);
+            } else {
+                JSONObject filedJson = convertObjectFileds2Json(inst); /*检查当前的属性是否还包含着属性*/
+                if(filedJson==null){
                     continue;
                 }
-                if (objectParamJson == null) {
-                    objectParamJson = new JSONObject();
-                }
-                if (isObjectDirectPut2Json(inst)) {
-                    objectParamJson.put(jsonName, inst);
-                } else {
-                    JSONObject filedJson = convertObjectFileds2Json(inst); /*检查当前的属性是否还包含着属性*/
-                    if(filedJson==null){
-                        continue;
-                    }
-                    objectParamJson.put(jsonName, filedJson);
-                }
-            } catch (Exception e) {
-               throw new JSBridgeException("参数转化json中发生错误!");
+                objectParamJson.put(jsonName, filedJson);
             }
         }
         return objectParamJson==null?null:objectParamJson.length() == 0 ? null : objectParamJson;
 
-    }
-
-    /**
-     * 该对象是否可以直接往json中放
-     *
-     * @param type
-     * @return
-     */
-    private boolean isObjectDirectPut2Json(Class type) {
-        return (type == String.class || type.isPrimitive() || type == JSONArray.class || type == JSONObject.class);
-    }
-
-    /**
-     * 该对象是否可以直接往json中放
-     *
-     * @param object
-     * @return
-     */
-    private boolean isObjectDirectPut2Json(Object object) {
-        if (object instanceof String || object instanceof Integer || object instanceof Double || object instanceof Long ||
-                object instanceof Boolean || object instanceof JSONArray || object instanceof JSONObject) {
-            return true;
-        }
-        return false;
     }
 }

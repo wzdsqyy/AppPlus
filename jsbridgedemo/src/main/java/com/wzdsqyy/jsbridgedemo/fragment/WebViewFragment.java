@@ -16,6 +16,7 @@ import android.webkit.WebViewClient;
 import android.widget.TextView;
 
 import com.wzdsqyy.jsbridge.Builder;
+import com.wzdsqyy.jsbridge.JavaCallback;
 import com.wzdsqyy.jsbridge.SimpleJavaJsBridge;
 import com.wzdsqyy.jsbridge.annotation.JavaCallback4JS;
 import com.wzdsqyy.jsbridge.annotation.Param;
@@ -108,9 +109,9 @@ public class WebViewFragment extends Fragment {
             public void onClick(View v) {
                 showLoading();
                 IInvokeJS invokeJS = mSimpleJavaJsBridge.createInvokJSCommand(IInvokeJS.class);
-                invokeJS.exam("你好啊js", 7,new Object() {
+                invokeJS.exam("你好啊js", 7,new JavaCallback() {
 
-                    @JavaCallback4JS
+                    @JavaCallback4JS(name = "test")
                     public void test(@ParamResponseStatus("msg")String statusMsg, @Param("msg") String msg) {
                         mResultView.setText(" 状态信息="+statusMsg+"  msg="+msg);
                     }
@@ -128,9 +129,9 @@ public class WebViewFragment extends Fragment {
                 city.cityId = 10;
                 city.cityName = "长治";
                 city.cityProvince="山西";
-                invokeJS.exam1(city, new Object() {
+                invokeJS.exam1(city, new JavaCallback() {
 
-                    @JavaCallback4JS
+                    @JavaCallback4JS(name = "test")
                     public void test(@Param IInvokeJS.City city1) {
                         mResultView.setText("js返回信息： cityName="+city1.cityName+"  cityProvince="+city1.cityProvince);
                     }
@@ -147,9 +148,9 @@ public class WebViewFragment extends Fragment {
                 city.cityId = 10;
                 city.cityName = "长治";
                 city.cityProvince="山西";
-                invokeJS.exam2(city,"中国", new Object() {
+                invokeJS.exam2(city,"中国", new JavaCallback() {
 
-                    @JavaCallback4JS
+                    @JavaCallback4JS(name = "test")
                     public void test(@Param(value = "city") IInvokeJS.City city1) {
                         mResultView.setText("js返回信息： cityName="+city1.cityName+"  cityProvince="+city1.cityProvince);
                     }
@@ -166,9 +167,9 @@ public class WebViewFragment extends Fragment {
                 city.cityId = 10;
                 city.cityName = "长治";
                 city.cityProvince="山西";
-                invokeJS.exam3(city,"中国", new Object() {
+                invokeJS.exam3(city,"中国", new JavaCallback() {
 
-                    @JavaCallback4JS
+                    @JavaCallback4JS(name = "test")
                     public void test(@Param IInvokeJS.City city1) {
                         mResultView.setText("js返回信息： cityName="+city1.cityName+"  cityProvince="+city1.cityProvince);
                     }
@@ -183,9 +184,9 @@ public class WebViewFragment extends Fragment {
                 showLoading();
                 IInvokeJS invokeJS = mSimpleJavaJsBridge.createInvokJSCommand(IInvokeJS.class);
 
-                invokeJS.exam4( new Object() {
+                invokeJS.exam4( new JavaCallback() {
 
-                    @JavaCallback4JS
+                    @JavaCallback4JS(name = "test")
                     public void test(@ParamResponseStatus("status") String status, @ParamResponseStatus("msg") String statusMsg) {
                         mResultView.setText("js返回信息： status="+status+"  statusMsg="+statusMsg);
                     }
