@@ -204,7 +204,7 @@ public class SimpleJavaJsBridge {
     /**
      * 发送数据给js
      */
-    public void sendData2JS(final RequestResponseBuilder requestResponseBuilder) {
+    void sendData2JS(final RequestResponseBuilder requestResponseBuilder) {
         if (requestResponseBuilder == null) {
             return;
         }

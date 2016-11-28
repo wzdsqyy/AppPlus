@@ -48,6 +48,13 @@ class Utils {
         }
     }
 
+    static void checkJSMethod(String mJSMethodName4Java) {
+        if (TextUtils.isEmpty(mJSMethodName4Java)) {
+            throw new IllegalArgumentException("必须调用 setJSMethodName4Java(String) 方法对给js发送消息的方法进行设置");
+        }
+
+    }
+
     static void initResponse(String responseIdName, String responseName, String responseValuesName) {
         if (!TextUtils.isEmpty(responseValuesName)) {
             Utils.sResponseValuesName = responseValuesName;

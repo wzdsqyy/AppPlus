@@ -1,6 +1,5 @@
 package com.wzdsqyy.jsbridge;
 
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.webkit.WebChromeClient;
@@ -225,33 +224,10 @@ public class Builder {
         return this;
     }
 
-    /**
-     * 检测协议是否符合要求
-     *
-     * @return
-     * @throws JSBridgeException
-     */
-    void checkProtocol() {
-        if (TextUtils.isEmpty(mProtocol)) {
-            throw new JSBridgeException("必须调用setProtocol(String)设置协议");
-        }
-        Uri uri = Uri.parse(mProtocol);
-        if (TextUtils.isEmpty(uri.getScheme()) || TextUtils.isEmpty(uri.getHost()) || !mProtocol.endsWith("?")) {
-            throw new IllegalArgumentException("协议的格式必须是 scheme://host? 这种格式");
-        }
-    }
-
-    void checkJSMethod() {
-        if (TextUtils.isEmpty(mJSMethodName4Java)) {
-            throw new IllegalArgumentException("必须调用 setJSMethodName4Java(String) 方法对给js发送消息的方法进行设置");
-        }
-
-    }
-
     public SimpleJavaJsBridge create() {
         /*检查协议是否设置，并设置正确了*/
-        checkProtocol();
-        checkJSMethod();
+        Utils.checkProtocol(mProtocol);
+        Utils.checkJSMethod(mJSMethodName4Java);
         if (mWebView == null) {
             throw new IllegalArgumentException("必须调用 setWebView(WebView) 方法设置Webview");
         }
