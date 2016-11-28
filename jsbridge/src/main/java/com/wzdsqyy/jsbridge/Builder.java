@@ -29,7 +29,6 @@ public class Builder {
     WebChromeClient mWebChromeClient;
     ArrayList mJavaMethod4JS;
     WebView mWebView;
-    JsonParser mParser;
 
     /**
      * 是否是debug模式
@@ -38,11 +37,6 @@ public class Builder {
 
     public Builder() {
 
-    }
-
-    public Builder setParser(JsonParser mParser) {
-        this.mParser = mParser;
-        return this;
     }
 
     /**

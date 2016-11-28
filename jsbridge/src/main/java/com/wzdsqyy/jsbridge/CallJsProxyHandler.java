@@ -3,9 +3,7 @@ package com.wzdsqyy.jsbridge;
 import android.support.annotation.NonNull;
 
 import com.wzdsqyy.jsbridge.annotation.InvokeJSInterface;
-import com.wzdsqyy.jsbridge.annotation.Param;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 

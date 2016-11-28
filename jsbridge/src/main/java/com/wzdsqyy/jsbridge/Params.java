@@ -25,11 +25,6 @@ class Params {
      */
     BaseParamItem[] mParamItems;
     static SimpleJavaJsBridge sSimpleJavaJsBridge;
-    private JsonParser jsonParser;
-
-    Params(JsonParser jsonParser) {
-        this.jsonParser = jsonParser;
-    }
 
     Params() {
     }

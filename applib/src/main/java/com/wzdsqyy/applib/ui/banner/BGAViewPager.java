@@ -161,7 +161,7 @@ public class BGAViewPager extends ViewPager {
         void handleAutoPlayActionUpOrCancel(float xVelocity);
     }
 
-    public void invoke(Object obj,Method method,Object... objs){
+    void invoke(Object obj,Method method,Object... objs){
         try {
             if(!method.isAccessible()){
                 method.setAccessible(true);
@@ -171,7 +171,7 @@ public class BGAViewPager extends ViewPager {
         }
     }
 
-    public void set(Object obj,Field filed,Object value){
+    void set(Object obj,Field filed,Object value){
         try {
             if(!filed.isAccessible()){
                 filed.setAccessible(true);
@@ -181,7 +181,7 @@ public class BGAViewPager extends ViewPager {
         }
     }
 
-    public <T> T get(Object obj,Field filed,Class<T> clazz){
+    <T> T get(Object obj,Field filed,Class<T> clazz){
         try {
             if(!filed.isAccessible()){
                 filed.setAccessible(true);
