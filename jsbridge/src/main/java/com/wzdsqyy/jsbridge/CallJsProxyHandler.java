@@ -3,7 +3,9 @@ package com.wzdsqyy.jsbridge;
 import android.support.annotation.NonNull;
 
 import com.wzdsqyy.jsbridge.annotation.InvokeJSInterface;
+import com.wzdsqyy.jsbridge.annotation.Param;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
@@ -27,7 +29,6 @@ class CallJsProxyHandler implements InvocationHandler {
         String jsMethodName = annotation.value();//Js提供给本地调用的方法名
         RequestResponseBuilder requstBuild = new RequestResponseBuilder(true);
         requstBuild.setInterfaceName(jsMethodName);
-
         Params params = Params.createParams(method,o);
         params.convertParamValues2Json(requstBuild, args);
         sendData2JS(requstBuild);

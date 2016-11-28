@@ -28,5 +28,4 @@ import java.lang.annotation.Target;
 @Documented
 @Inherited
 public @interface JavaCallback4JS {
-    String name();
 }

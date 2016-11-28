@@ -1,5 +1,6 @@
 package com.wzdsqyy.jsbridge;
 
+import android.net.Uri;
 import android.text.TextUtils;
 
 import com.wzdsqyy.jsbridge.annotation.Param;
@@ -35,6 +36,16 @@ class Utils {
     static void init(String responseIdName, String responseName, String responseValuesName, String requestInterfaceName, String requestCallbackIdName, String requestValuesName) {
         Utils.initResponse(responseIdName, responseName, responseValuesName);
         Utils.initRequest(requestInterfaceName, requestCallbackIdName, requestValuesName);
+    }
+
+    static void checkProtocol(String protocol ) {
+        if (TextUtils.isEmpty(protocol)) {
+            throw new JSBridgeException("必须调用setProtocol(String)设置协议");
+        }
+        Uri uri = Uri.parse(protocol);
+        if (TextUtils.isEmpty(uri.getScheme()) || TextUtils.isEmpty(uri.getHost()) || !protocol.endsWith("?")) {
+            throw new IllegalArgumentException("协议的格式必须是 scheme://host? 这种格式");
+        }
     }
 
     static void initResponse(String responseIdName, String responseName, String responseValuesName) {
