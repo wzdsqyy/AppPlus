@@ -1,5 +1,6 @@
 package com.wzdsqyy.applibDemo.updata;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -11,6 +12,11 @@ import com.wzdsqyy.utils.updata.UpdateAgent;
 import com.wzdsqyy.utils.updata.UpdateInfo;
 import com.wzdsqyy.utils.updata.UpdateManager;
 import com.wzdsqyy.utils.updata.UpdateUtil;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
+
+import dalvik.system.PathClassLoader;
 
 public class UpdataActivity extends AppCompatActivity implements ProgressListener,View.OnClickListener{
     @Override
@@ -43,6 +49,22 @@ public class UpdataActivity extends AppCompatActivity implements ProgressListene
         findViewById(R.id.check_update_no_newer).setOnClickListener(this);
         findViewById(R.id.check_update_silent).setOnClickListener(this);
         findViewById(R.id.clean).setOnClickListener(this);
+
+
+        Resources resources;
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
     void check(boolean isManual, final boolean hasUpdate, final boolean isForce, final boolean isSilent, final boolean isIgnorable, final int notifyId) {
