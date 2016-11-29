@@ -36,28 +36,20 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 checkAccessibility();
-                Intent intent = new Intent(MainActivity.this, FloatBallService.class);
-                Bundle data = new Bundle();
-                data.putInt("type", FloatBallService.TYPE_ADD);
-                intent.putExtras(data);
-                startService(intent);
+                FloatBallService.start(v.getContext());
             }
         });
         mBtnQuit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, FloatBallService.class);
-                Bundle data = new Bundle();
-                data.putInt("type", FloatBallService.TYPE_DEL);
-                intent.putExtras(data);
-                startService(intent);
+                FloatBallService.stop(v.getContext());
             }
         });
     }
 
     private void checkAccessibility() {
         // 判断辅助功能是否开启
-        if (!AccessibilityUtil.isAccessibilitySettingsOn(this)) {
+        if (!FloatBallService.isAccessibilitySettingsOn(this)) {
             // 引导至辅助功能设置页面
             startActivity(new Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS));
             Toast.makeText(this, "请先开启FloatBall辅助功能", Toast.LENGTH_SHORT).show();
