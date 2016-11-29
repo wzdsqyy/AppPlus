@@ -14,6 +14,8 @@ import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.mutiitem.PayLoadBinder;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,19 +26,15 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
-    private SparseArray<Class<? extends MutiItemBinder>> mBinders;
     private DiffSpanSize spanSize;
+
+    public MutiItemAdapter(MutiItemBinderFactory factory) {
+        this.factory = factory;
+    }
 
     public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
         return this;
-    }
-
-    SparseArray getBinders() {
-        if(mBinders==null){
-            mBinders=new SparseArray();
-        }
-        return mBinders;
     }
 
     /**
@@ -50,17 +48,6 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
             clazzs.add(clazz);
             itemTypes.add(layoutRes);
         }
-        return this;
-    }
-
-    /**
-     *
-     * @param layoutRes
-     * @param binderClass
-     * @return
-     */
-    public MutiItemAdapter registerBinder(@LayoutRes int layoutRes,Class<MutiItemBinder<T>> binderClass) {
-        getBinders().put(layoutRes,binderClass);
         return this;
     }
 
@@ -120,28 +107,10 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
 
     @NonNull
     private MutiItemBinder getMutiItemBinder(ViewGroup parent, @LayoutRes int layoutRes) {
-        if(factory==null&&mBinders==null){
+        if (factory == null) {
             throw new IllegalArgumentException("必须设置MutiItemBinderFactory，或者注册MutiItemBinder");
         }
-        MutiItemBinder binder;
-        if (factory != null) {
-            binder=factory.getMutiItemBinder(layoutRes, parent);
-            if(binder!=null){
-                return binder;
-            }
-        }
-        if(mBinders==null){
-            throw new RuntimeException("该种视图没有对应的MutiItemBinder");
-        }
-        Class clazz = mBinders.get(layoutRes, null);
-        if(clazz==null){
-            throw new RuntimeException("该种视图没有注册过对应的MutiItemBinder");
-        }
-        try {
-            return(MutiItemBinder) clazz.newInstance();
-        } catch (Exception e) {
-            throw new IllegalArgumentException("必须含有公共的，空的构造器方法");
-        }
+        return factory.getMutiItemBinder(layoutRes, parent);
     }
 
     @Override

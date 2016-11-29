@@ -12,7 +12,6 @@ import com.wzdsqyy.applibDemo.group.GroupActivity;
 import com.wzdsqyy.applibDemo.loop.LooperActivity;
 import com.wzdsqyy.applibDemo.lrulist.LruListActivity;
 import com.wzdsqyy.applibDemo.shapview.RoundAngleActivity;
-import com.wzdsqyy.applibDemo.swapadapter.SwapAdapterActivity;
 import com.wzdsqyy.applibDemo.text.TextLineHelperActivity;
 import com.wzdsqyy.applibDemo.updata.UpdataActivity;
 import com.wzdsqyy.applibDemo.viewpager.ListViewActivity;
@@ -41,7 +40,6 @@ public class MainHelper {
         list.add(new Bean("Dialog", DialogActivity.class));
         list.add(new Bean("Blur", BlurActivity.class));
         list.add(new Bean("单Activity应用", OneActivity.class));
-        list.add(new Bean("无限滚动", SwapAdapterActivity.class));
         list.add(new Bean("LruList", LruListActivity.class));
         list.add(new Bean("Mutitype", MutiTypeActivity.class));
         list.add(new Bean("ViewPager", ViewPagerActivity.class));

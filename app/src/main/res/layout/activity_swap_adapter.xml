@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_swap_adapter"
+<com.wzdsqyy.applibDemo.swapadapter.StickyItem xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.wzdsqyy.applibDemo.swapadapter.SwapAdapterActivity">
-    <com.wzdsqyy.commonview.Banner
-        android:id="@+id/banner"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
+    android:layout_height="match_parent">
 
-    <Button
-        android:text="next"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:onClick="showNext"
-        android:layout_height="wrap_content" />
-    <Button
-        android:text="pre"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="1500dp"
+                android:background="#f00" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:onClick="showPrevious"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#0f0"
+                android:layout_weight="1" />
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</com.wzdsqyy.applibDemo.swapadapter.StickyItem>
