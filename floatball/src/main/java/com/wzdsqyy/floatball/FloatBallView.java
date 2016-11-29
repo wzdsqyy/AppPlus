@@ -6,6 +6,7 @@ import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Vibrator;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
@@ -15,7 +16,7 @@ import android.view.WindowManager;
  * Created by wangxiandeng on 2016/11/25.
  */
 
-public class FloatBallView extends View {
+public class FloatBallView extends View implements GestureDetector.OnGestureListener {
     private WindowManager mWindowManager;
     private WindowManager.LayoutParams mLayoutParams;
     private float mTouchSlop;
@@ -38,6 +39,10 @@ public class FloatBallView extends View {
         }
         return this;
     }
+
+
+    private GestureDetector detector;
+
 
     private int mDownX, mDownY;
     @Override
@@ -105,6 +110,7 @@ public class FloatBallView extends View {
         mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         setBackgroundResource(R.drawable.bg_ball);
+        detector=new GestureDetector(context,this);
     }
 
     public WindowManager getWindowManager() {
@@ -273,6 +279,36 @@ public class FloatBallView extends View {
                 break;
 
         }
+    }
+
+    @Override
+    public boolean onDown(MotionEvent motionEvent) {
+        return true;
+    }
+
+    @Override
+    public void onShowPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onSingleTapUp(MotionEvent motionEvent) {
+        return false;
+    }
+
+    @Override
+    public boolean onScroll(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
+    }
+
+    @Override
+    public void onLongPress(MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public boolean onFling(MotionEvent motionEvent, MotionEvent motionEvent1, float v, float v1) {
+        return false;
     }
 
 //    /**
