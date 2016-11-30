@@ -123,26 +123,11 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position, List<Object> payloads) {
-        if (payloads.isEmpty()) {
+        if (payloads.isEmpty()||!(holder instanceof PayLoadBinder)) {
             onBindViewHolder(holder, position);
         } else {
-            boolean isBinder = holder instanceof DefaultMutiItemHolder;
-            MutiItemBinder binder;
-            PayLoadBinder payLoadBinder = null;
-            if (isBinder) {
-                binder = ((DefaultMutiItemHolder) holder).getMutiItemBinder();
-                payLoadBinder = ((DefaultMutiItemHolder) holder).getPayLoadBinder();
-            } else {
-                binder = (MutiItemBinder) holder;
-                if (holder instanceof PayLoadBinder) {
-                    payLoadBinder = (PayLoadBinder) holder;
-                }
-            }
-            if (payLoadBinder == null) {
-                payLoadBinder.onBindViewHolder(position, payloads.get(0));
-            } else {
-                binder.onBindViewHolder(getItem(position), position);
-            }
+            PayLoadBinder binder = (PayLoadBinder) holder;
+            binder.onBindViewHolder(position, payloads.get(0));
         }
     }
 
