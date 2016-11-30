@@ -1,6 +1,5 @@
 package com.wzdsqyy.weiman.ui.comics.adapter;
 
-import android.support.annotation.LayoutRes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +24,7 @@ public class ImageViewAdapter extends BaseRVAdapter<ImageViewAdapter.ImageHolder
     }
 
     @Override
-    public ImageHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
+    public ImageHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         ImageView imageView=new ImageView(parent.getContext());
         if(!isV){
             imageView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT));

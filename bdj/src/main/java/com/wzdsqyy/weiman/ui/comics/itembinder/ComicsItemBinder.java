@@ -17,36 +17,36 @@ import com.wzdsqyy.weiman.ui.comics.adapter.ImageViewAdapter;
  * Created by Administrator on 2016/11/10.
  */
 
-public class ComicsItemBinder implements MutiItemBinder<ComicsItem>,View.OnClickListener {
-    private TextView tvTitle,tvTime;
+public class ComicsItemBinder implements MutiItemBinder<ComicsItem>, View.OnClickListener {
+    private TextView tvTitle, tvTime;
     private RecyclerView rvlist;
-    private ImageViewAdapter adapter;
+    private ImageViewAdapter madapter;
     private ComicsItem bean;
 
     @Override
     public void onClick(View v) {
-        if(bean==null){
+        if (bean == null) {
             return;
         }
-        ComicsDetailActivity.start(v.getContext(),bean.itemid,bean.title);
+        ComicsDetailActivity.start(v.getContext(), bean.itemid, bean.title);
     }
 
     @Override
     public void onBindViewHolder(ComicsItem bean, int possion) {
-        this.bean=bean;
+        this.bean = bean;
         tvTime.setText(bean.time);
         tvTitle.setText(bean.title);
-        adapter.setData(bean.list);
+        madapter.setData(bean.list);
     }
 
     @Override
     public void init(@NonNull RecyclerView.ViewHolder holder, @NonNull MutiItemAdapter adapter) {
-        tvTitle= (TextView) holder.itemView.findViewById(R.id.comics_title);
-        tvTime= (TextView) holder.itemView.findViewById(R.id.comics_title);
-        rvlist= (RecyclerView) holder.itemView.findViewById(R.id.thumbnailList);
+        tvTitle = (TextView) holder.itemView.findViewById(R.id.comics_title);
+        tvTime = (TextView) holder.itemView.findViewById(R.id.comics_title);
+        rvlist = (RecyclerView) holder.itemView.findViewById(R.id.thumbnailList);
         rvlist.setHasFixedSize(true);
-        adapter=new ImageViewAdapter();
-        ((BaseRVAdapter)adapter).setViewLayoutManager(rvlist,false);
+        madapter = new ImageViewAdapter();
+        madapter.setViewLayoutManager(rvlist, false);
         holder.itemView.setOnClickListener(this);
     }
 }
