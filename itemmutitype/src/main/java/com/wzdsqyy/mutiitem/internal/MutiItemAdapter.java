@@ -32,6 +32,21 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         this.factory = factory;
     }
 
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        MutiItemBinder mutiItemBinder = getMutiItemBinder(parent, viewType);
+        RecyclerView.ViewHolder holder;
+        if (mutiItemBinder instanceof RecyclerView.ViewHolder) {
+            holder = (RecyclerView.ViewHolder) mutiItemBinder;
+        } else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
+            holder = new DefaultMutiItemHolder(view).setBinder(mutiItemBinder);
+        }
+        mutiItemBinder.init(holder, this);
+        return holder;
+    }
+
+
     public MutiItemAdapter setMutiItemBinderFactory(MutiItemBinderFactory factory) {
         this.factory = factory;
         return this;
@@ -89,20 +104,6 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
 
     public boolean isRegister(@LayoutRes int layoutRes) {
         return itemTypes.indexOf(layoutRes) != -1;
-    }
-
-    @Override
-    public RecyclerView.ViewHolder newViewHolder(ViewGroup parent, @LayoutRes int viewType) {
-        MutiItemBinder mutiItemBinder = getMutiItemBinder(parent, viewType);
-        RecyclerView.ViewHolder holder;
-        if (mutiItemBinder instanceof RecyclerView.ViewHolder) {
-            holder = (RecyclerView.ViewHolder) mutiItemBinder;
-        } else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-            holder = new DefaultMutiItemHolder(view).setBinder(mutiItemBinder);
-        }
-        mutiItemBinder.init(holder, this);
-        return holder;
     }
 
     @NonNull

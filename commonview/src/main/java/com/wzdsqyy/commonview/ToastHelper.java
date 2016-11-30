@@ -2,13 +2,11 @@ package com.wzdsqyy.commonview;
 
 
 import android.content.Context;
-import android.os.Bundle;
 import android.support.annotation.StringRes;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.Toast;
 
-//Toast统一管理类
 public class ToastHelper {
     private static ToastHelper helper;
     private Toast toast;
@@ -17,12 +15,7 @@ public class ToastHelper {
     }
 
     public static ToastHelper newInstance() {
-        for (; ; ) {
-            if (helper == null) {
-                helper = new ToastHelper();
-                return helper;
-            }
-        }
+        return new ToastHelper();
     }
 
     public boolean isShow = true;
@@ -37,8 +30,17 @@ public class ToastHelper {
             return;
         }
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.show();
+    }
+
+    private Toast getToast(Context context, CharSequence message) {
+        return Toast.makeText(context, message, Toast.LENGTH_SHORT);
+    }
+
+
+    private Toast getToast(Context context,@StringRes int message) {
+        return getToast(context,context.getResources().getString(message));
     }
 
     private void checkToast() {
@@ -54,7 +56,7 @@ public class ToastHelper {
      */
     public void showShort(Context context, @StringRes int message) {
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.show();
     }
 
@@ -95,7 +97,7 @@ public class ToastHelper {
             return;
         }
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setDuration(duration);
         toast.show();
     }
@@ -109,7 +111,7 @@ public class ToastHelper {
      */
     public void show(Context context, int message, int duration) {
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setDuration(duration);
         toast.show();
     }
@@ -122,7 +124,7 @@ public class ToastHelper {
      */
     public void showShortTOP(Context context, int message) {
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setGravity(Gravity.TOP, 0, 0);
         toast.show();
     }
@@ -138,7 +140,7 @@ public class ToastHelper {
             return;
         }
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setGravity(Gravity.TOP, 0, 0);
         toast.show();
     }
@@ -151,7 +153,7 @@ public class ToastHelper {
      */
     public void showShortGravity(Context context, int message, int gravity) {
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setGravity(gravity, 0, 0);
         toast.show();
     }
@@ -166,7 +168,7 @@ public class ToastHelper {
             return;
         }
         checkToast();
-        toast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        toast = getToast(context, message);
         toast.setGravity(gravity, 0, 0);
         toast.show();
     }

@@ -35,9 +35,6 @@ public class ExecutorHelper implements RejectedExecutionHandler, ThreadFactory {
     private MainExecutor mainHandler;
 
     private ExecutorHelper() {
-
-
-
         executor =  (ThreadPoolExecutor) AsyncTask.THREAD_POOL_EXECUTOR;
         executor.setRejectedExecutionHandler(this);
         executor.setThreadFactory(this);

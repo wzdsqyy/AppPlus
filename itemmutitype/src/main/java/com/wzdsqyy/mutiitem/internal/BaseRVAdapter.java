@@ -1,11 +1,8 @@
 package com.wzdsqyy.mutiitem.internal;
 
-import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.ViewGroup;
 
 import java.util.List;
 
@@ -16,12 +13,6 @@ import java.util.List;
 public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> extends RecyclerView.Adapter<VH> {
     protected List<M> mData;
 
-    @Override
-    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-        VH holder = newViewHolder(parent, viewType);
-        return holder;
-    }
-
     public void setViewLayoutManager(@NonNull RecyclerView recyclerView) {
         setViewLayoutManager(recyclerView, true);
     }
@@ -31,8 +22,6 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
         recyclerView.setLayoutManager(manager);
         recyclerView.setAdapter(this);
     }
-
-    public abstract VH newViewHolder(ViewGroup parent, @LayoutRes int viewType);
 
     @Override
     public int getItemCount() {
