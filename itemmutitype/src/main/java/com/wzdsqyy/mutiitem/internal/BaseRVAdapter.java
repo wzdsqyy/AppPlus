@@ -17,7 +17,7 @@ public abstract class BaseRVAdapter<VH extends RecyclerView.ViewHolder, M> exten
     protected List<M> mData;
 
     @Override
-    public final VH onCreateViewHolder(ViewGroup parent, int viewType) {
+    public VH onCreateViewHolder(ViewGroup parent, int viewType) {
         VH holder = newViewHolder(parent, viewType);
         return holder;
     }
