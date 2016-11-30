@@ -34,7 +34,7 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
 
     public FloatBallView setMoveing(boolean moveing) {
         isMoveing = moveing;
-        if(isMoveing){
+        if (isMoveing) {
             setBackgroundResource(R.drawable.bg_ball_move);
         }
         return this;
@@ -45,54 +45,46 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
 
 
     private int mDownX, mDownY;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                offsetX=getWindowLayoutParams().x-event.getRawX();
-                offsetY=getWindowLayoutParams().y-event.getRawY();
+                offsetX = getWindowLayoutParams().x - event.getRawX();
+                offsetY = getWindowLayoutParams().y - event.getRawY();
                 mDownX = (int) event.getRawX();
                 mDownY = (int) event.getRawY();
                 setBackgroundResource(R.drawable.bg_ball_click);
                 break;
             case MotionEvent.ACTION_MOVE:
-                if(isTouchSlop(event)){
+                if (isTouchSlop(event)) {
                     return false;
-                }
-                if (isMoveing) {
-                    updataViewLocation(event);
-                    return true;
                 } else {
                     updataViewLocation(event);
                     doGesture(event);
+                    return true;
                 }
-                break;
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP:
-                if(isMoveing){
-                    isMoveing = false;
-                    return true;
-                }else {
-                    final int startX= (int) event.getRawX();
-                    final int startY = (int) event.getRawY();
-                    ValueAnimator animator = ValueAnimator.ofFloat(0, 1f);
-                    animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                        @Override
-                        public void onAnimationUpdate(ValueAnimator valueAnimator) {
-                            getWindowLayoutParams().x = (int) ((int) ((startX-mDownX)*valueAnimator.getAnimatedFraction()+mDownX)+offsetX);
-                            getWindowLayoutParams().y = (int) ((int) ((startY-mDownY)*valueAnimator.getAnimatedFraction()+mDownY)+offsetY);
-                            getWindowManager().updateViewLayout(FloatBallView.this, getWindowLayoutParams());
-                        }
-                    });
-                    animator.addListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            doUp();
-                        }
-                    });
-                    animator.start();
-                }
+                final int startX = (int) event.getRawX();
+                final int startY = (int) event.getRawY();
+                ValueAnimator animator = ValueAnimator.ofFloat(1f, 0);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                        getWindowLayoutParams().x = (int) ((int) ((startX - mDownX) * valueAnimator.getAnimatedFraction() + mDownX) + offsetX);
+                        getWindowLayoutParams().y = (int) ((int) ((startY - mDownY) * valueAnimator.getAnimatedFraction() + mDownY) + offsetY);
+                        getWindowManager().updateViewLayout(FloatBallView.this, getWindowLayoutParams());
+                    }
+                });
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        doUp();
+                    }
+                });
+                animator.start();
                 setBackgroundResource(R.drawable.bg_ball);
                 return true;
         }
@@ -100,8 +92,8 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
     }
 
     private void updataViewLocation(MotionEvent event) {
-        getWindowLayoutParams().x = (int) ((int) event.getRawX()+offsetX);
-        getWindowLayoutParams().y = (int) ((int) event.getRawY()+offsetY);
+        getWindowLayoutParams().x = (int) ((int) event.getRawX() + offsetX);
+        getWindowLayoutParams().y = (int) ((int) event.getRawY() + offsetY);
         getWindowManager().updateViewLayout(FloatBallView.this, getWindowLayoutParams());
     }
 
@@ -110,7 +102,7 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
         mVibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
         setBackgroundResource(R.drawable.bg_ball);
-        detector=new GestureDetector(context,this);
+        detector = new GestureDetector(context, this);
     }
 
     public WindowManager getWindowManager() {
@@ -127,80 +119,6 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
         return mLayoutParams;
     }
 
-//    private void initView() {
-//        inflate(getContext(), R.layout.layout_ball, this);
-//        mImgBall = findViewById(R.id.img_ball);
-//        mImgBigBall = findViewById(R.id.img_big_ball);
-//        mImgBg = findViewById(R.id.img_bg);
-//
-//        mCurrentMode = MODE_NONE;
-//
-//        mStatusBarHeight = getStatusBarHeight();
-//        mOffsetToParent = dip2px(25);
-//        mOffsetToParentY = mStatusBarHeight + mOffsetToParent;
-//
-//        mImgBigBall.post(new Runnable() {
-//            @Override
-//            public void run() {
-//                mBigBallX = mImgBigBall.getX();
-//                mBigBallY = mImgBigBall.getY();
-//            }
-//        });
-//
-//        mImgBg.setOnTouchListener(new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, final MotionEvent event) {
-//                switch (event.getAction()) {
-//                    case MotionEvent.ACTION_DOWN:
-//                        mIsTouching = true;
-//                        mImgBall.setVisibility(INVISIBLE);
-//                        mImgBigBall.setVisibility(VISIBLE);
-//                        mLastDownTime = System.currentTimeMillis();
-//                        mLastDownX = event.getX();
-//                        mLastDownY = event.getY();
-//                        postDelayed(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                if (!mIsLongTouch && mIsTouching && mCurrentMode == MODE_NONE) {
-//                                    mIsLongTouch = isLongClick(event);
-//                                }
-//                            }
-//                        }, LONG_CLICK_LIMIT);
-//                        break;
-//                    case MotionEvent.ACTION_MOVE:
-//                        if (!mIsLongTouch && isTouchSlop(event)) {
-//                            return true;
-//                        }
-//                        if (mIsLongTouch && (mCurrentMode == MODE_NONE || mCurrentMode == MODE_MOVE)) {
-//                            getWindowLayoutParams().x = (int) (event.getRawX() - mOffsetToParent);
-//                            getWindowLayoutParams().y = (int) (event.getRawY() - mOffsetToParentY);
-//                            getWindowManager().updateViewLayout(FloatBallView.this, getWindowLayoutParams());
-//                            mBigBallX = mImgBigBall.getX();
-//                            mBigBallY = mImgBigBall.getY();
-//                            mCurrentMode = MODE_MOVE;
-//                        } else {
-//                            doGesture(event);
-//                        }
-//                        break;
-//                    case MotionEvent.ACTION_CANCEL:
-//                    case MotionEvent.ACTION_UP:
-//                        mIsTouching = false;
-//                        if (mIsLongTouch) {
-//                            mIsLongTouch = false;
-//                        } else if (isClick(event)) {
-//                            FloatBallService.action(getContext(), FloatBallService.ACTION_BACK);
-//                        } else {
-//                            doUp();
-//                        }
-//                        mImgBall.setVisibility(VISIBLE);
-//                        mImgBigBall.setVisibility(INVISIBLE);
-//                        mCurrentMode = MODE_NONE;
-//                        break;
-//                }
-//                return true;
-//            }
-//        });
-//    }
 
     /**
      * 移除悬浮球
@@ -208,7 +126,6 @@ public class FloatBallView extends View implements GestureDetector.OnGestureList
     private void toRemove() {
         mVibrator.vibrate(mPattern, -1);
         getContext().stopService(new Intent(getContext(), FloatBallService.class));
-//        FloatWindowManager.removeBallView(getContext());
     }
 
     /**

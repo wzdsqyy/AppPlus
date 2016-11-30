@@ -18,6 +18,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        StatusBarUtil.compat(this,0x1fff0000);
+        View view = getWindow().getDecorView().findViewById(android.R.id.content);
+
+
         initView();
         if (Build.VERSION.SDK_INT >= 23) {
             if (!Settings.canDrawOverlays(this)) {

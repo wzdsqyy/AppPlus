@@ -16,26 +16,13 @@ import java.lang.annotation.RetentionPolicy;
  * Created by wangxiandeng on 2016/11/25.
  */
 
-public class FloatBallService extends AccessibilityService implements View.OnLongClickListener,View.OnClickListener{
+public class FloatBallService extends AccessibilityService{
     private static final String ACTION="FloatBallService_action";
     private FloatBallView floatBallView;
     public static final int ACTION_BACK = 1;
     public static final int ACTION_HOME = 2;
     public static final int ACTION_RECENTS = 3;
     public static final int ACTION_NOTIFICATIONS = 4;
-
-    @Override
-    public boolean onLongClick(View view) {
-        if(view==floatBallView){
-            floatBallView.setMoveing(true);
-        }
-        return true;
-    }
-
-    @Override
-    public void onClick(View view) {
-
-    }
 
     @IntDef({ACTION_BACK,ACTION_HOME,ACTION_RECENTS,ACTION_NOTIFICATIONS})
     @Retention(RetentionPolicy.SOURCE)
