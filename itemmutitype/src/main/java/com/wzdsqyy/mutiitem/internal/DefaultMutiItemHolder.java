@@ -11,7 +11,7 @@ import com.wzdsqyy.mutiitem.PayLoadBinder;
  * Created by Administrator on 2016/10/13.
  */
 
-class DefaultMutiItemHolder extends RecyclerView.ViewHolder {
+class DefaultMutiItemHolder extends RecyclerView.ViewHolder implements MutiItemBinder{
     MutiItemBinder itemHolder;
     PayLoadBinder payLoadBinder;
 
@@ -33,5 +33,15 @@ class DefaultMutiItemHolder extends RecyclerView.ViewHolder {
 
     public MutiItemBinder getMutiItemBinder() {
         return itemHolder;
+    }
+
+    @Override
+    public void onBindViewHolder(Object bean, int possion) {
+        itemHolder.onBindViewHolder(bean,possion);
+    }
+
+    @Override
+    public void init(@NonNull RecyclerView.ViewHolder holder, @NonNull MutiItemAdapter adapter) {
+        itemHolder.init(holder,adapter);
     }
 }

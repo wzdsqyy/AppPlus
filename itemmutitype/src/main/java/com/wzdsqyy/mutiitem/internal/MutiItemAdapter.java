@@ -41,6 +41,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         } else {
             View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
             holder = new DefaultMutiItemHolder(view).setBinder(mutiItemBinder);
+            mutiItemBinder= (MutiItemBinder) holder;
         }
         mutiItemBinder.init(holder, this);
         return holder;
@@ -116,8 +117,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        boolean isBinder = holder instanceof DefaultMutiItemHolder;
-        MutiItemBinder binder = isBinder ? ((DefaultMutiItemHolder) holder).getMutiItemBinder() : (MutiItemBinder) holder;
+        MutiItemBinder binder = (MutiItemBinder) holder;
         binder.onBindViewHolder(getItem(position), position);
     }
 
