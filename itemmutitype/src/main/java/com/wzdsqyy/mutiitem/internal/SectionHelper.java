@@ -32,6 +32,20 @@ public class SectionHelper {
         return this;
     }
 
+    boolean isSection(@IntRange(from = 0) int possion, @NonNull MutiItemAdapter<MutiItem> adapter) {
+        if (adapter.getItemViewType(possion) == startRes) {
+            return true;
+        }
+        return false;
+    }
+
+    boolean isFooter(@IntRange(from = 0) int possion, MutiItemAdapter<MutiItem> adapter) {
+        if (adapter.getItemViewType(possion) == endRes) {
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @param possion
      * @param adapter
@@ -45,13 +59,6 @@ public class SectionHelper {
             }
         }
         return -1;
-    }
-
-    boolean isSection(@IntRange(from = 0) int possion, @NonNull MutiItemAdapter<MutiItem> adapter) {
-        if (adapter.getItemViewType(possion) == startRes) {
-            return true;
-        }
-        return false;
     }
 
     public int findSectionFooterPossion(@IntRange(from = 0) int possion, @NonNull MutiItemAdapter<MutiItem> adapter) {
@@ -159,13 +166,6 @@ public class SectionHelper {
         } else {
             return isFooter(possion + 1, adapter);
         }
-    }
-
-    private boolean isFooter(@IntRange(from = 0) int possion, MutiItemAdapter<MutiItem> adapter) {
-        if (adapter.getItemViewType(possion) == endRes) {
-            return true;
-        }
-        return false;
     }
 
     public int hideContents(@IntRange(from = 0) int possion, @NonNull MutiItemAdapter<MutiItem> adapter) {
