@@ -33,6 +33,17 @@ public class AppAdapter extends CommonAdapter<Bean> implements AdapterView.OnIte
         } else {
             drawable = (BadgeDrawable) item.getBackground();
         }
+
+
+
+
+
+
+
+
+
+
+
         drawable.setBadgeCount(position);
         drawable.setShowNum(false);
         drawable.setLeft(35);

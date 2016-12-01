@@ -20,5 +20,17 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
         adapter.setBeans(MainHelper.getActivityList());
         listView.setOnItemClickListener(adapter);
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

@@ -24,7 +24,7 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
     private DiffSpanSize spanSize;
-
+    private boolean isAttached=false;
     public MutiItemAdapter(MutiItemBinderFactory factory) {
         this.factory = factory;
     }

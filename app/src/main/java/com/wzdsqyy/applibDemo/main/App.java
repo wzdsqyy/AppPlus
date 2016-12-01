@@ -21,7 +21,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
         sInstance = this;
         mEngine = new Retrofit.Builder()
                 .baseUrl("http://7xk9dj.com1.z0.glb.clouddn.com/banner/api/")

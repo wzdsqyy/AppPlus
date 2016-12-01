@@ -66,10 +66,10 @@ public class LoadStatusHelper {
 
     public LoadStatusHelper setStatus(@Status int mStatus) {
         if (this.mStatus != mStatus) {
-            this.mStatus = mStatus;
             if (init) {
                 toStatus(mStatus);
             }
+            this.mStatus = mStatus;
         }
         return this;
     }
@@ -79,10 +79,6 @@ public class LoadStatusHelper {
     }
 
     public void toStatus(@Status int status) {
-        if (this.mStatus==status) {
-            return;
-        }
-        mStatus = status;
         if(!init){
             return;
         }
@@ -100,7 +96,7 @@ public class LoadStatusHelper {
                 showLoading();
                 break;
         }
-
+        mStatus = status;
     }
 
     public void init(View view) {

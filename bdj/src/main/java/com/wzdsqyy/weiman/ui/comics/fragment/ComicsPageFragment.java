@@ -63,12 +63,11 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
         super.onActivityCreated(savedInstanceState);
         helper.init(getView());
         helper.setListener(this);
-        if(presenter.isSuccessLoad()){
+        if(presenter!=null&&presenter.isSuccessLoad()){
             helper.setStatus(LoadStatusHelper.SUCCESS);
+        }else {
+            helper.refresh();
         }
-
-
-
     }
 
     @Override
@@ -122,6 +121,8 @@ public class ComicsPageFragment extends Fragment implements Supplier<String>, Mu
         } else {
             if (!presenter.isSuccessLoad()) {
                 presenter.startLoading();
+            }else {
+                helper.setStatus(LoadStatusHelper.SUCCESS);
             }
         }
     }
