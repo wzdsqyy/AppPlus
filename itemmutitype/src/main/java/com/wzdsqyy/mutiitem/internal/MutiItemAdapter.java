@@ -4,7 +4,6 @@ import android.support.annotation.IntRange;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,18 @@ import com.wzdsqyy.mutiitem.MutiItemBinder;
 import com.wzdsqyy.mutiitem.MutiItemBinderFactory;
 import com.wzdsqyy.mutiitem.PayLoadBinder;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 多种视图适配器
  */
-public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerView.ViewHolder, T> {
+public class MutiItemAdapter<T> extends BaseRVAdapter<RecyclerView.ViewHolder, T> {
     private MutiItemBinderFactory factory;
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
     private DiffSpanSize spanSize;
+    private ItemType type=new NarmalPolicy(this);
 
     public MutiItemAdapter(MutiItemBinderFactory factory) {
         this.factory = factory;
@@ -65,6 +63,17 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         return this;
     }
 
+    /**
+     * @param isMuitiItem 当注册的类型全部实现MutiItem接口设为true，可以优化一点性能。
+     */
+
+    public void setPolicyType(boolean isMuitiItem) {
+        if(isMuitiItem){
+            type=new MutiItemPolicy((MutiItemAdapter<MutiItem>) this);
+        }else {
+            type=new NarmalPolicy(this);
+        }
+    }
 
     @Override
     public void setViewLayoutManager(@NonNull RecyclerView recyclerView) {
@@ -145,22 +154,21 @@ public class MutiItemAdapter<T extends MutiItem> extends BaseRVAdapter<RecyclerV
         }
     }
 
-    public int getItemViewType(MutiItem item) {
-        int type = item.getMutiItem().layoutRes;
-        if (type > 0) {
-            return type;
+    int getItemType(int position){
+        int index = clazzs.indexOf(getItem(position).getClass());
+        if(index==-1){
+            return -1;
         }
-        int index = clazzs.indexOf(item.getClass());
-        if (index != -1) {
-            type = itemTypes.get(index);
-            item.getMutiItem().layoutRes = type;
-            return type;
-        }
-        return 0;
+        return itemTypes.get(index);
     }
+
 
     @Override
     public int getItemViewType(int position) {
-        return getItemViewType(getItem(position));
+        if(type==null){
+            return 0;
+        }else {
+            return type.getItemViewType(position);
+        }
     }
 }
