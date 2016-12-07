@@ -7,11 +7,11 @@ import android.util.SparseIntArray;
 /**
  * Created by Quinta on 2016/12/7.
  */
-class NarmalPolicy extends RecyclerView.AdapterDataObserver implements ItemType{
+class NormalPolicy extends RecyclerView.AdapterDataObserver implements ItemTypePolicy {
     private SparseIntArray caches=new SparseIntArray();
     private MutiItemAdapter adapter;
 
-    public NarmalPolicy(@NonNull MutiItemAdapter adapter) {
+    public NormalPolicy(@NonNull MutiItemAdapter adapter) {
         this.adapter = adapter;
     }
 

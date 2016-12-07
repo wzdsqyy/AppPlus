@@ -7,7 +7,7 @@ import com.wzdsqyy.mutiitem.MutiItem;
 /**
  * Created by Quinta on 2016/12/7.
  */
-class MutiItemPolicy implements ItemType {
+class MutiItemPolicy implements ItemTypePolicy {
     private MutiItemAdapter<MutiItem> adapter;
 
     public MutiItemPolicy(@NonNull MutiItemAdapter<MutiItem> adapter) {

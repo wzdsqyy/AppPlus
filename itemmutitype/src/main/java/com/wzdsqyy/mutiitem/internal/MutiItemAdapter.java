@@ -24,7 +24,7 @@ public class MutiItemAdapter<T> extends BaseRVAdapter<RecyclerView.ViewHolder, T
     private ArrayList<Class> clazzs = new ArrayList<>();
     private ArrayList<Integer> itemTypes = new ArrayList<>();
     private DiffSpanSize spanSize;
-    private ItemType type=new NarmalPolicy(this);
+    private ItemTypePolicy type=new NormalPolicy(this);
 
     public MutiItemAdapter(MutiItemBinderFactory factory) {
         this.factory = factory;
@@ -71,7 +71,7 @@ public class MutiItemAdapter<T> extends BaseRVAdapter<RecyclerView.ViewHolder, T
         if(isMuitiItem){
             type=new MutiItemPolicy((MutiItemAdapter<MutiItem>) this);
         }else {
-            type=new NarmalPolicy(this);
+            type=new NormalPolicy(this);
         }
     }
 
