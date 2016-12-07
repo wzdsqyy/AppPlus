@@ -38,13 +38,11 @@
         <activity android:name=".updata.UpdataActivity" />
         <activity android:name=".ImageSelector.ImageSelectorActivity" />
         <activity android:name=".shapview.RoundAngleActivity" />
-        <activity android:name=".recreate.ReCreateActivity" />
         <activity android:name=".sticky.StickyActivity" />
         <activity android:name=".blur.BlurActivity" />
         <activity
             android:name=".lrulist.LruListActivity"
             android:theme="@style/AppTheme" />
-        <activity android:name=".swapadapter.SwapAdapterActivity" />
         <activity android:name=".login.NeedLoginActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".MutiItemList.MutiTypeActivity" />
@@ -61,26 +59,11 @@
             android:enabled="true"
             android:exported="true" />
 
-        <activity
-            android:name=".MutiItemList.PullRefershActivity"
-            android:label="@string/title_activity_pull_refersh"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".MutiItemList.ScrollingActivity"
-            android:label="@string/title_activity_scrolling"
-            android:theme="@style/Main" />
-        <activity android:name=".activity.FristActivity" />
-        <activity android:name=".activity.SecondActivity" />
+
         <activity android:name=".fragment.OneActivity" />
         <activity android:name=".fragment.SecondActivity" />
-        <activity android:name=".rfresh.PullRefreshActivity" />
-        <activity android:name=".ExpandActivity" />
-        <activity android:name=".TabTestActivity" />
-        <activity android:name=".group.GroupActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+              <activity android:name=".ExpandActivity" />
+             <activity android:name=".group.GroupActivity"></activity>
     </application>
 
 </manifest>
